@@ -80,6 +80,11 @@ TEST_CASE("display routines", "[CurrencyAmount]") {
         CurrencyAmount amount{5678950L};
         REQUIRE(amount.display_with_commas() == "567.90");
     }
+
+    SECTION("display_with_commas() formats with commas #4") {
+        CurrencyAmount amount{8950L};
+        REQUIRE(amount.display_with_commas() == "0.90");
+    }
 }
 
 TEST_CASE("relational operators", "[CurrencyAmount]") {

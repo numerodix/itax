@@ -1,18 +1,21 @@
+#include "cash_amount.h"
+
 #include <cerrno>
 #include <cstring>
 #include <sstream>
 #include <stdexcept>
 
-#include "cash_amount.h"
-
 namespace core {
 
 CashAmount CashAmount::from(std::string amount) {
-    double value_part_f = std::strtod(amount.c_str(), nullptr);
+    const char *buf = amount.c_str();
+    char *cursor = const_cast<char *>(buf);
 
-    // FIXME: also does not handle trailing junk :(
-    // NOTE: does not handle valid inputs with leading zeroes :/
-    if ((value_part_f == 0.0) && ((amount != "0") && (amount != "0.0"))) {
+    errno = 0;
+    double value_part_f = std::strtod(buf, &cursor);
+    auto num_read = static_cast<std::size_t>(cursor - buf);
+
+    if ((errno > 0) || (num_read < amount.size())) {
         throw std::invalid_argument("from() called with an input that could "
                                     "not be parsed as an amount");
     }
@@ -31,11 +34,11 @@ CashAmount::CashAmount(int64_t amount) {
 
 CashAmount::~CashAmount() = default;
 
-CashAmount::CashAmount(const CashAmount& other) = default;
-CashAmount& CashAmount::operator=(const CashAmount& other) = default;
+CashAmount::CashAmount(const CashAmount &other) = default;
+CashAmount &CashAmount::operator=(const CashAmount &other) = default;
 
-CashAmount::CashAmount(CashAmount&& other) = default;
-CashAmount& CashAmount::operator=(CashAmount&& other) = default;
+CashAmount::CashAmount(CashAmount &&other) = default;
+CashAmount &CashAmount::operator=(CashAmount &&other) = default;
 
 int64_t CashAmount::raw() const { return m_amount; }
 

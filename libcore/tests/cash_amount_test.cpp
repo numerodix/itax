@@ -63,9 +63,15 @@ TEST_CASE("special member functions", "[CashAmount]") {
 }
 
 TEST_CASE("non-trivial construction", "[CashAmount]") {
-    SECTION("invalid string input") {
+    SECTION("invalid string input #1") {
         REQUIRE_THROWS_MATCHES(CashAmount::from("forty seven"),
                                std::invalid_argument,
+                               Message("from() called with an input that could "
+                                       "not be parsed as an amount"));
+    }
+
+    SECTION("invalid string input #2") {
+        REQUIRE_THROWS_MATCHES(CashAmount::from("2.1f"), std::invalid_argument,
                                Message("from() called with an input that could "
                                        "not be parsed as an amount"));
     }
@@ -80,6 +86,11 @@ TEST_CASE("non-trivial construction", "[CashAmount]") {
         REQUIRE(amount.raw() == 1230000L);
     }
 
+    SECTION("constructed from string #3") {
+        CashAmount amount = CashAmount::from("123.4567");
+        REQUIRE(amount.raw() == 1234500L);
+    }
+
     SECTION("constructed from string when value is integer zero") {
         CashAmount amount = CashAmount::from("0");
         REQUIRE(amount.raw() == 0L);
@@ -88,6 +99,11 @@ TEST_CASE("non-trivial construction", "[CashAmount]") {
     SECTION("constructed from string when value is floating point zero") {
         CashAmount amount = CashAmount::from("0.0");
         REQUIRE(amount.raw() == 0L);
+    }
+
+    SECTION("constructed from string with leading zeroes") {
+        CashAmount amount = CashAmount::from("00045");
+        REQUIRE(amount.raw() == 450000L);
     }
 }
 

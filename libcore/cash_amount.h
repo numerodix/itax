@@ -24,11 +24,11 @@ class CashAmount {
     explicit CashAmount(int64_t amount);
     ~CashAmount();
 
-    CashAmount(const CashAmount& other);
-    CashAmount& operator=(const CashAmount& other);
+    CashAmount(const CashAmount &other);
+    CashAmount &operator=(const CashAmount &other);
 
-    CashAmount(CashAmount&& other);
-    CashAmount& operator=(CashAmount&& other);
+    CashAmount(CashAmount &&other);
+    CashAmount &operator=(CashAmount &&other);
 
     int64_t raw() const;
     int64_t value_part() const;

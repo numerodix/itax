@@ -1,9 +1,10 @@
-#include <cassert>
+#define CATCH_CONFIG_MAIN
+#include "catch.hpp"
 
 #include "currency_amount.h"
 
-int main() {
+TEST_CASE("first test", "[amt]") {
     core::CurrencyAmount amt{1234678900L};
 
-    assert(amt.m_amount == 1234678900L);
+    REQUIRE(amt.m_amount == 1234678900L);
 }

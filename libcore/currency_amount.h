@@ -26,11 +26,33 @@ class CurrencyAmount {
     int64_t raw() const;
     int64_t value_part() const;
     int64_t rounding_part() const;
-
     int64_t rounded_value_part() const;
 
     std::string display_plain() const;
     std::string display_with_commas() const;
+
+    friend bool operator==(const CurrencyAmount &left,
+                           const CurrencyAmount &right);
+    friend bool operator!=(const CurrencyAmount &left,
+                           const CurrencyAmount &right);
+    friend bool operator<(const CurrencyAmount &left,
+                          const CurrencyAmount &right);
+    friend bool operator>(const CurrencyAmount &left,
+                          const CurrencyAmount &right);
+    friend bool operator<=(const CurrencyAmount &left,
+                           const CurrencyAmount &right);
+    friend bool operator>=(const CurrencyAmount &left,
+                           const CurrencyAmount &right);
+
+    friend CurrencyAmount operator+(const CurrencyAmount &left,
+                                    const CurrencyAmount &right);
+    friend CurrencyAmount operator-(const CurrencyAmount &left,
+                                    const CurrencyAmount &right);
+    friend CurrencyAmount operator*(const CurrencyAmount &left,
+                                    double right);
+    friend CurrencyAmount operator*(double left, const CurrencyAmount& right);
+    friend CurrencyAmount operator/(const CurrencyAmount &left,
+                                    double right);
 
   private:
     int64_t m_amount{};

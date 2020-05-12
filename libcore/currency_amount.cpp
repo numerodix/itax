@@ -80,4 +80,61 @@ std::string CurrencyAmount::display_with_commas() const {
     return forwards;
 }
 
+bool operator==(const CurrencyAmount &left, const CurrencyAmount &right) {
+    return left.m_amount == right.m_amount;
+}
+
+bool operator!=(const CurrencyAmount &left, const CurrencyAmount &right) {
+    return left.m_amount != right.m_amount;
+}
+
+bool operator<(const CurrencyAmount &left, const CurrencyAmount &right) {
+    return left.m_amount < right.m_amount;
+}
+
+bool operator>(const CurrencyAmount &left, const CurrencyAmount &right) {
+    return left.m_amount > right.m_amount;
+}
+
+bool operator<=(const CurrencyAmount &left, const CurrencyAmount &right) {
+    return left.m_amount <= right.m_amount;
+}
+
+bool operator>=(const CurrencyAmount &left, const CurrencyAmount &right) {
+    return left.m_amount >= right.m_amount;
+}
+
+CurrencyAmount operator+(const CurrencyAmount &left,
+                         const CurrencyAmount &right) {
+    int64_t res = left.m_amount + right.m_amount;
+    return CurrencyAmount{res};
+}
+
+CurrencyAmount operator-(const CurrencyAmount &left,
+                         const CurrencyAmount &right) {
+    int64_t res = left.m_amount - right.m_amount;
+    return CurrencyAmount{res};
+}
+
+CurrencyAmount operator*(const CurrencyAmount &left, double right) {
+    double left_f = static_cast<double>(left.m_amount);
+    double res_f = left_f * right;
+    int64_t res = static_cast<int64_t>(res_f);
+    return CurrencyAmount{res};
+}
+
+CurrencyAmount operator*(double left, const CurrencyAmount& right) {
+    double right_f = static_cast<double>(right.m_amount);
+    double res_f = left * right_f;
+    int64_t res = static_cast<int64_t>(res_f);
+    return CurrencyAmount{res};
+}
+
+CurrencyAmount operator/(const CurrencyAmount &left, double right) {
+    double left_f = static_cast<double>(left.m_amount);
+    double res_f = left_f / right;
+    int64_t res = static_cast<int64_t>(res_f);
+    return CurrencyAmount{res};
+}
+
 } // namespace core

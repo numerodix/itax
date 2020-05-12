@@ -1,5 +1,5 @@
 set(libcore_SRC
-    currency_amount.cpp
+    cash_amount.cpp
 )
 
 add_library(core ${libcore_SRC})

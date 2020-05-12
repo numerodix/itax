@@ -6,19 +6,19 @@ target_include_directories(catch_main
     ${CMAKE_SOURCE_DIR}/vendor
 )
 
-# currency-amount-test
+# cash-amount
 
-set(currency_amount_test_SRC
-    currency_amount_test.cpp
+set(cash_amount_test_SRC
+    cash_amount_test.cpp
 )
 
-add_executable(currency_amount_test ${currency_amount_test_SRC})
-target_include_directories(currency_amount_test
+add_executable(cash_amount_test ${cash_amount_test_SRC})
+target_include_directories(cash_amount_test
     PUBLIC
     ${CMAKE_SOURCE_DIR}/libcore
     ${CMAKE_SOURCE_DIR}/vendor
 )
-target_link_libraries(currency_amount_test
+target_link_libraries(cash_amount_test
     PRIVATE
     catch_main
     core

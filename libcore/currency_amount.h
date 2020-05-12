@@ -1,5 +1,5 @@
-#ifndef LIBTAX_CURRENCY_AMOUNT
-#define LIBTAX_CURRENCY_AMOUNT
+#ifndef LIBCORE_CURRENCY_AMOUNT
+#define LIBCORE_CURRENCY_AMOUNT
 
 #include <cstdint>
 #include <string>
@@ -60,4 +60,4 @@ class CurrencyAmount {
 
 } // namespace core
 
-#endif // LIBTAX_CURRENCY_AMOUNT
+#endif // LIBCORE_CURRENCY_AMOUNT

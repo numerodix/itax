@@ -123,7 +123,7 @@ CurrencyAmount operator*(const CurrencyAmount &left, double right) {
     return CurrencyAmount{res};
 }
 
-CurrencyAmount operator*(double left, const CurrencyAmount& right) {
+CurrencyAmount operator*(double left, const CurrencyAmount &right) {
     double right_f = static_cast<double>(right.m_amount);
     double res_f = left * right_f;
     int64_t res = static_cast<int64_t>(res_f);

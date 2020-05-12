@@ -48,11 +48,9 @@ class CurrencyAmount {
                                     const CurrencyAmount &right);
     friend CurrencyAmount operator-(const CurrencyAmount &left,
                                     const CurrencyAmount &right);
-    friend CurrencyAmount operator*(const CurrencyAmount &left,
-                                    double right);
-    friend CurrencyAmount operator*(double left, const CurrencyAmount& right);
-    friend CurrencyAmount operator/(const CurrencyAmount &left,
-                                    double right);
+    friend CurrencyAmount operator*(const CurrencyAmount &left, double right);
+    friend CurrencyAmount operator*(double left, const CurrencyAmount &right);
+    friend CurrencyAmount operator/(const CurrencyAmount &left, double right);
 
   private:
     int64_t m_amount{};

@@ -1,11 +1,83 @@
+#include <cerrno>
+#include <cstring>
+#include <sstream>
+#include <stdexcept>
+
 #include "currency_amount.h"
 
 namespace core {
 
-CurrencyAmount::CurrencyAmount(int64_t amount) : m_amount{amount} {}
+CurrencyAmount CurrencyAmount::from(std::string amount) {
+    double value_part_f = std::strtod(amount.c_str(), nullptr);
 
-int64_t CurrencyAmount::raw() const {
-    return m_amount;
+    // NOTE: does not handle valid inputs with leading zeroes :/
+    if ((value_part_f == 0.0) && ((amount != "0") && (amount != "0.0"))) {
+        throw std::invalid_argument("from() called with an input that could "
+                                    "not be parsed as an amount");
+    }
+
+    int64_t value_part = static_cast<int64_t>(value_part_f * 100.0) * 100L;
+    return CurrencyAmount{value_part};
+}
+
+CurrencyAmount::CurrencyAmount(int64_t amount) : m_amount{amount} {
+    if (amount < 0L) {
+        throw std::out_of_range("constructor called with a negative number");
+    }
+}
+
+int64_t CurrencyAmount::raw() const { return m_amount; }
+
+int64_t CurrencyAmount::value_part() const { return m_amount / 100L; }
+
+int64_t CurrencyAmount::rounding_part() const {
+    return m_amount - (value_part() * 100L);
+}
+
+int64_t CurrencyAmount::rounded() const {
+    int64_t val_part = value_part();
+    return rounding_part() >= 50 ? val_part + 1L : val_part;
+}
+
+std::string CurrencyAmount::display_plain() const {
+    int64_t value_part = rounded();
+
+    int64_t int_part = value_part / 100;
+    int64_t dec_part = value_part - (int_part * 100);
+
+    std::stringstream ss{};
+    ss << int_part << '.' << dec_part;
+    return ss.str();
+}
+
+std::string CurrencyAmount::display_with_commas() const {
+    std::string plain = display_plain();
+
+    std::stringstream ss{};
+    int counter = 0;
+    bool past_decimal_point = false;
+
+    for (auto it = plain.rbegin(); it != plain.rend(); ++it) {
+        if (past_decimal_point) {
+            if ((counter > 0) && (counter % 3 == 0)) {
+                ss << ',';
+            }
+
+            ss << *it;
+            ++counter;
+
+        } else {
+            if (*it == '.') {
+                past_decimal_point = true;
+            }
+
+            ss << *it;
+        }
+    }
+
+    std::string backwards = ss.str();
+    std::string forwards(backwards.rbegin(), backwards.rend());
+    return forwards;
 }
 
 } // namespace core

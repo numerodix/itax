@@ -23,6 +23,12 @@ class CashAmount {
 
     explicit CashAmount(int64_t amount);
 
+    CashAmount(const CashAmount& other) = default;
+    CashAmount& operator=(const CashAmount& other) = default;
+
+    CashAmount(CashAmount&& other) = default;
+    CashAmount& operator=(CashAmount&& other) = default;
+
     int64_t raw() const;
     int64_t value_part() const;
     int64_t rounding_part() const;

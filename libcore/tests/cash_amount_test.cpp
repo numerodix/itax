@@ -36,6 +36,32 @@ TEST_CASE("basic properties", "[CashAmount]") {
     }
 }
 
+TEST_CASE("special member functions", "[CashAmount]") {
+    SECTION("copy constructor") {
+        CashAmount amount{1234L};
+        CashAmount other{amount};
+        REQUIRE(other.raw() == 1234L);
+    }
+
+    SECTION("copy assignment") {
+        CashAmount amount{1234L};
+        CashAmount other = amount;
+        REQUIRE(other.raw() == 1234L);
+    }
+
+    SECTION("move constructor") {
+        CashAmount amount{1234L};
+        CashAmount other{std::move(amount)};
+        REQUIRE(other.raw() == 1234L);
+    }
+
+    SECTION("move assignment") {
+        CashAmount amount{1234L};
+        CashAmount other = std::move(amount);
+        REQUIRE(other.raw() == 1234L);
+    }
+}
+
 TEST_CASE("non-trivial construction", "[CashAmount]") {
     SECTION("invalid string input") {
         REQUIRE_THROWS_MATCHES(CashAmount::from("forty seven"),

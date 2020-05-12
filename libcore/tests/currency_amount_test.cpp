@@ -27,12 +27,12 @@ TEST_CASE("basic properties", "[CurrencyAmount]") {
         REQUIRE(amount.rounding_part() == 50L);
     }
 
-    SECTION("rounded() returns the value part, rounded") {
+    SECTION("rounded_value_part() returns the value part, rounded") {
         CurrencyAmount round_down{12345678940L};
-        REQUIRE(round_down.rounded() == 123456789L);
+        REQUIRE(round_down.rounded_value_part() == 123456789L);
 
         CurrencyAmount round_up{12345678950L};
-        REQUIRE(round_up.rounded() == 123456790L);
+        REQUIRE(round_up.rounded_value_part() == 123456790L);
     }
 }
 

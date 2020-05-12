@@ -34,13 +34,13 @@ int64_t CurrencyAmount::rounding_part() const {
     return m_amount - (value_part() * 100L);
 }
 
-int64_t CurrencyAmount::rounded() const {
+int64_t CurrencyAmount::rounded_value_part() const {
     int64_t val_part = value_part();
     return rounding_part() >= 50 ? val_part + 1L : val_part;
 }
 
 std::string CurrencyAmount::display_plain() const {
-    int64_t value_part = rounded();
+    int64_t value_part = rounded_value_part();
 
     int64_t int_part = value_part / 100;
     int64_t dec_part = value_part - (int_part * 100);

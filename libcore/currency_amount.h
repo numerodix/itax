@@ -27,7 +27,7 @@ class CurrencyAmount {
     int64_t value_part() const;
     int64_t rounding_part() const;
 
-    int64_t rounded() const;
+    int64_t rounded_value_part() const;
 
     std::string display_plain() const;
     std::string display_with_commas() const;

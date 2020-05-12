@@ -20,10 +20,12 @@ CurrencyAmount CurrencyAmount::from(std::string amount) {
     return CurrencyAmount{value_part};
 }
 
-CurrencyAmount::CurrencyAmount(int64_t amount) : m_amount{amount} {
+CurrencyAmount::CurrencyAmount(int64_t amount) {
     if (amount < 0L) {
         throw std::out_of_range("constructor called with a negative number");
     }
+
+    m_amount = amount;
 }
 
 int64_t CurrencyAmount::raw() const { return m_amount; }

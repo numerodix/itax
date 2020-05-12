@@ -44,9 +44,14 @@ TEST_CASE("non-trivial construction", "[CurrencyAmount]") {
                                        "not be parsed as an amount"));
     }
 
-    SECTION("constructed from string") {
+    SECTION("constructed from string #1") {
         CurrencyAmount amount = CurrencyAmount::from("123.45");
         REQUIRE(amount.raw() == 1234500L);
+    }
+
+    SECTION("constructed from string #2") {
+        CurrencyAmount amount = CurrencyAmount::from("123");
+        REQUIRE(amount.raw() == 1230000L);
     }
 
     SECTION("constructed from string when value is integer zero") {

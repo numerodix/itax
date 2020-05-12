@@ -22,12 +22,13 @@ class CashAmount {
     static CashAmount from(std::string amount);
 
     explicit CashAmount(int64_t amount);
+    ~CashAmount();
 
-    CashAmount(const CashAmount& other) = default;
-    CashAmount& operator=(const CashAmount& other) = default;
+    CashAmount(const CashAmount& other);
+    CashAmount& operator=(const CashAmount& other);
 
-    CashAmount(CashAmount&& other) = default;
-    CashAmount& operator=(CashAmount&& other) = default;
+    CashAmount(CashAmount&& other);
+    CashAmount& operator=(CashAmount&& other);
 
     int64_t raw() const;
     int64_t value_part() const;

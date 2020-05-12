@@ -18,5 +18,5 @@ cd ..
 # find all the test executables
 TESTS=$(find build -type f -executable -iname '*_test' | sort)
 for test in $TESTS; do echo
-    $test
+    $test --order rand
 done

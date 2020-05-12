@@ -2,8 +2,10 @@
 
 #include "currency_amount.h"
 
-TEST_CASE("first test", "[amt]") {
-    core::CurrencyAmount amt{1234678900L};
+TEST_CASE("basic properties", "[CurrencyAmount]") {
+    core::CurrencyAmount amount{1234678900L};
 
-    REQUIRE(amt.m_amount == 1234678900L);
+    SECTION("raw() returns the underlying int") {
+        REQUIRE(amount.raw() == 1234678900L);
+    }
 }

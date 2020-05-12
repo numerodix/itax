@@ -9,7 +9,9 @@ class CurrencyAmount {
   public:
     explicit CurrencyAmount(int64_t amount);
 
-//   private:
+    int64_t raw() const;
+
+  private:
     int64_t m_amount{};
 };
 

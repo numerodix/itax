@@ -1,6 +1,8 @@
 set(libcore_SRC
     cash_amount.cpp
     income_slice.cpp
+    line_item.cpp
+    rule.cpp
     tax_return.cpp
 )
 

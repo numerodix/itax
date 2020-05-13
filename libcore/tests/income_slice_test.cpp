@@ -55,14 +55,12 @@ TEST_CASE("merging", "[IncomeSlice]") {
     }
 
     SECTION("merge throws for non-adjacent slices, lower is first") {
-        REQUIRE_THROWS_MATCHES(
-            first + third, std::invalid_argument,
-            Message("cannot add non-adjacent slices"));
+        REQUIRE_THROWS_MATCHES(first + third, std::invalid_argument,
+                               Message("cannot add non-adjacent slices"));
     }
 
     SECTION("merge throws for non-adjacent slices, upper is first") {
-        REQUIRE_THROWS_MATCHES(
-            third + first, std::invalid_argument,
-            Message("cannot add non-adjacent slices"));
+        REQUIRE_THROWS_MATCHES(third + first, std::invalid_argument,
+                               Message("cannot add non-adjacent slices"));
     }
 }

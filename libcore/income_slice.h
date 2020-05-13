@@ -15,7 +15,8 @@ class IncomeSlice {
     CashAmount lower_bound() const;
     CashAmount upper_bound() const;
 
-    friend IncomeSlice operator+(const IncomeSlice& left, const IncomeSlice& right);
+    friend IncomeSlice operator+(const IncomeSlice &left,
+                                 const IncomeSlice &right);
 
   private:
     CashAmount m_base;

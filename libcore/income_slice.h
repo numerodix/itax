@@ -8,6 +8,7 @@ namespace core {
 class IncomeSlice {
   public:
     explicit IncomeSlice(CashAmount base, CashAmount amount);
+    IncomeSlice();
 
     const CashAmount &base() const;
     const CashAmount &amount() const;

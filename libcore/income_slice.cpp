@@ -7,6 +7,8 @@ namespace core {
 IncomeSlice::IncomeSlice(CashAmount base, CashAmount amount)
     : m_base{base}, m_amount{amount} {}
 
+IncomeSlice::IncomeSlice() : m_base{CashAmount{0L}}, m_amount{CashAmount{0L}} {}
+
 const CashAmount &IncomeSlice::base() const { return m_base; }
 
 const CashAmount &IncomeSlice::amount() const { return m_amount; }

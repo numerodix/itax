@@ -21,6 +21,20 @@ TEST_CASE("basic properties", "[IncomeSlice]") {
     }
 }
 
+TEST_CASE("default constructor", "[IncomeSlice]") {
+    IncomeSlice slice{};
+
+    SECTION("accessors") {
+        REQUIRE(slice.base() == C(0));
+        REQUIRE(slice.amount() == C(0));
+    }
+
+    SECTION("bounds") {
+        REQUIRE(slice.lower_bound() == C(0));
+        REQUIRE(slice.upper_bound() == C(0));
+    }
+}
+
 TEST_CASE("merging", "[IncomeSlice]") {
     IncomeSlice first{C(0), C(20000)};
     IncomeSlice second{C(20000), C(30000)};

@@ -15,7 +15,7 @@ CashAmount CashAmount::from(std::string amount) {
     double value_part_f = std::strtod(buf, &cursor);
     auto num_read = static_cast<std::size_t>(cursor - buf);
 
-    if ((errno > 0) || (num_read < amount.size())) {
+    if ((errno > 0) || (num_read != amount.size())) {
         throw std::invalid_argument("from() called with an input that could "
                                     "not be parsed as an amount");
     }

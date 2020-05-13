@@ -18,6 +18,13 @@ TEST_CASE("basic properties", "[TaxReturn]") {
     SECTION("total_income") { REQUIRE(taxret.total_income() == C(50000)); }
 }
 
+TEST_CASE("constructor given zero slices", "[TaxReturn]") {
+    std::vector<IncomeSlice> slices = {{}};
+    TaxReturn taxret{slices};
+
+    SECTION("total_income") { REQUIRE(taxret.total_income() == C(0)); }
+}
+
 TEST_CASE("constructor validates slices", "[TaxReturn]") {
     IncomeSlice first{C(10000), C(10000)};
     IncomeSlice second{C(20000), C(30000)};

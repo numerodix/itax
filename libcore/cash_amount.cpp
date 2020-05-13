@@ -1,7 +1,6 @@
 #include "cash_amount.h"
 
 #include <cerrno>
-#include <cstring>
 #include <sstream>
 #include <stdexcept>
 

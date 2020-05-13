@@ -1,5 +1,5 @@
-#ifndef LIBCORE_CASH_AMOUNT
-#define LIBCORE_CASH_AMOUNT
+#ifndef LIBCORE_CASH_AMOUNT_H
+#define LIBCORE_CASH_AMOUNT_H
 
 #include <cstdint>
 #include <string>
@@ -59,4 +59,4 @@ class CashAmount {
 
 } // namespace core
 
-#endif // LIBCORE_CASH_AMOUNT
+#endif // LIBCORE_CASH_AMOUNT_H

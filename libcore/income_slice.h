@@ -1,5 +1,5 @@
-#ifndef LIBCORE_INCOME_SLICE
-#define LIBCORE_INCOME_SLICE
+#ifndef LIBCORE_INCOME_SLICE_H
+#define LIBCORE_INCOME_SLICE_H
 
 #include "cash_amount.h"
 
@@ -26,4 +26,4 @@ class IncomeSlice {
 
 } // namespace core
 
-#endif // LIBCORE_INCOME_SLICE
+#endif // LIBCORE_INCOME_SLICE_H

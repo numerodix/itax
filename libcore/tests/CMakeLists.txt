@@ -23,3 +23,21 @@ target_link_libraries(cash_amount_test
     catch_main
     core
 )
+
+# income-slice
+
+set(income_slice_test_SRC
+    income_slice_test.cpp
+)
+
+add_executable(income_slice_test ${income_slice_test_SRC})
+target_include_directories(income_slice_test
+    PUBLIC
+    ${CMAKE_SOURCE_DIR}/libcore
+    ${CMAKE_SOURCE_DIR}/vendor
+)
+target_link_libraries(income_slice_test
+    PRIVATE
+    catch_main
+    core
+)

@@ -44,6 +44,21 @@ class IncomeSlice {
     CashAmount m_amount;
 };
 
+// Convenience functions
+
+template <typename Iterator> IncomeSlice sum(Iterator begin, Iterator end) {
+    if (begin == end) {
+        return IncomeSlice{};
+    }
+
+    IncomeSlice sum = *begin;
+    for (auto it = ++begin; it != end; ++it) {
+        sum = sum + *it;
+    }
+
+    return sum;
+}
+
 } // namespace core
 
 #endif // LIBCORE_INCOME_SLICE_H

@@ -2,6 +2,7 @@
 #include "shortcuts.h"
 
 #include "catch.hpp"
+#include <deque>
 
 using Catch::Matchers::Message;
 using core::CashAmount;
@@ -118,5 +119,18 @@ TEST_CASE("relational operators", "[IncomeSlice]") {
         REQUIRE(ref == ref);
         REQUIRE(ref == same);
         REQUIRE(ref != different);
+    }
+}
+
+TEST_CASE("convenience functions", "[IncomeSlice]") {
+    IncomeSlice first{C(0), C(20000)};
+    IncomeSlice second{C(20000), C(30000)};
+    IncomeSlice third{C(50000), C(10000)};
+
+    SECTION("sum") {
+        std::deque<IncomeSlice> slices{first, second, third};
+        auto res = sum(slices.begin(), slices.end());
+        REQUIRE(res.base() == C(0));
+        REQUIRE(res.amount() == C(60000));
     }
 }

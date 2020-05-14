@@ -16,11 +16,16 @@ class TaxReturn {
   public:
     TaxReturn(std::vector<IncomeSlice> slices);
 
+    TaxReturn(const TaxReturn &other) = delete;
+    TaxReturn &operator=(const TaxReturn &other) = delete;
+
+    TaxReturn(TaxReturn &&other) = delete;
+    TaxReturn &operator=(TaxReturn &&other) = delete;
+
     CashAmount total_income() const;
 
   private:
     void validate_slices() const;
-    IncomeSlice sum_slices() const;
 
     std::vector<IncomeSlice> m_slices;
 };

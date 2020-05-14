@@ -9,30 +9,16 @@ TaxReturn::TaxReturn(std::vector<IncomeSlice> slices) : m_slices{slices} {
 }
 
 CashAmount TaxReturn::total_income() const {
-    IncomeSlice sum = sum_slices();
-    return sum.upper_bound();
+    IncomeSlice summed = sum(m_slices.begin(), m_slices.end());
+    return summed.amount();
 }
 
 void TaxReturn::validate_slices() const {
-    IncomeSlice sum = sum_slices();
+    IncomeSlice summed = sum(m_slices.begin(), m_slices.end());
 
-    if (sum.base() > CashAmount(0L)) {
+    if (summed.base() != CashAmount(0L)) {
         throw std::invalid_argument("sum of slices must have a base of 0");
     }
-}
-
-IncomeSlice TaxReturn::sum_slices() const {
-    if (m_slices.size() == 0) {
-        return IncomeSlice{};
-    }
-
-    IncomeSlice sum = m_slices[0];
-
-    for (auto it = m_slices.begin() + 1; it != m_slices.end(); ++it) {
-        sum = sum + *it;
-    }
-
-    return sum;
 }
 
 } // namespace core

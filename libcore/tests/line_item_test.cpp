@@ -1,3 +1,4 @@
+#include "algos.h"
 #include "cash_amount.h"
 #include "line_item.h"
 #include "shortcuts.h"
@@ -112,14 +113,14 @@ TEST_CASE("relational operators", "[LineItem]") {
     }
 }
 
-TEST_CASE("convenience functions", "[LineItem]") {
+TEST_CASE("algorithms", "[LineItem]") {
     LineItem first{CreditDebit::CREDIT, C(50)};
     LineItem second{CreditDebit::DEBIT, C(70)};
     LineItem third{CreditDebit::CREDIT, C(30)};
 
     SECTION("sum") {
         std::deque<LineItem> items{first, second, third};
-        auto res = sum(items.begin(), items.end());
+        LineItem res = sum(items.begin(), items.end(), LineItem{});
         REQUIRE(res.credit_debit() == CreditDebit::CREDIT);
         REQUIRE(res.amount() == C(10));
     }

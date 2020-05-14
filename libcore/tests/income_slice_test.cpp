@@ -1,8 +1,9 @@
+#include "algos.h"
 #include "income_slice.h"
 #include "shortcuts.h"
 
 #include "catch.hpp"
-#include <deque>
+#include <list>
 
 using Catch::Matchers::Message;
 using core::CashAmount;
@@ -122,14 +123,14 @@ TEST_CASE("relational operators", "[IncomeSlice]") {
     }
 }
 
-TEST_CASE("convenience functions", "[IncomeSlice]") {
+TEST_CASE("algorithms", "[IncomeSlice]") {
     IncomeSlice first{C(0), C(20000)};
     IncomeSlice second{C(20000), C(30000)};
     IncomeSlice third{C(50000), C(10000)};
 
     SECTION("sum") {
-        std::deque<IncomeSlice> slices{first, second, third};
-        auto res = sum(slices.begin(), slices.end());
+        std::list<IncomeSlice> slices{first, second, third};
+        auto res = sum(slices.begin(), slices.end(), IncomeSlice{});
         REQUIRE(res.base() == C(0));
         REQUIRE(res.amount() == C(60000));
     }

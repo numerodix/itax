@@ -32,21 +32,6 @@ class LineItem {
     CashAmount m_amount;
 };
 
-// Convenience functions
-
-template <typename Iterator> LineItem sum(Iterator begin, Iterator end) {
-    if (begin == end) {
-        return LineItem{};
-    }
-
-    LineItem sum = *begin;
-    for (auto it = ++begin; it != end; ++it) {
-        sum = sum + *it;
-    }
-
-    return sum;
-}
-
 } // namespace core
 
 #endif // LIBCORE_LINE_ITEM_H

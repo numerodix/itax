@@ -35,9 +35,11 @@ CashAmount::CashAmount(int64_t amount) {
 CashAmount::~CashAmount() = default;
 
 CashAmount::CashAmount(const CashAmount &other) = default;
+
 CashAmount &CashAmount::operator=(const CashAmount &other) = default;
 
 CashAmount::CashAmount(CashAmount &&other) = default;
+
 CashAmount &CashAmount::operator=(CashAmount &&other) = default;
 
 int64_t CashAmount::raw() const { return m_amount; }

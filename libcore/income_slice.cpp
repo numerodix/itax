@@ -9,10 +9,14 @@ IncomeSlice::IncomeSlice(CashAmount base, CashAmount amount)
 
 IncomeSlice::IncomeSlice() : m_base{CashAmount{0L}}, m_amount{CashAmount{0L}} {}
 
+IncomeSlice::~IncomeSlice() = default;
+
 IncomeSlice::IncomeSlice(const IncomeSlice &other) = default;
+
 IncomeSlice &IncomeSlice::operator=(const IncomeSlice &other) = default;
 
 IncomeSlice::IncomeSlice(IncomeSlice &&other) = default;
+
 IncomeSlice &IncomeSlice::operator=(IncomeSlice &&other) = default;
 
 const CashAmount &IncomeSlice::base() const { return m_base; }

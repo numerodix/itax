@@ -21,6 +21,7 @@ class IncomeSlice {
   public:
     explicit IncomeSlice(CashAmount base, CashAmount amount);
     IncomeSlice();
+    ~IncomeSlice();
 
     IncomeSlice(const IncomeSlice &other);
     IncomeSlice &operator=(const IncomeSlice &other);

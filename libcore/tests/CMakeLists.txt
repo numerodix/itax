@@ -42,6 +42,24 @@ target_link_libraries(income_slice_test
     core
 )
 
+# line-item
+
+set(line_item_test_SRC
+    line_item_test.cpp
+)
+
+add_executable(line_item_test ${line_item_test_SRC})
+target_include_directories(line_item_test
+    PUBLIC
+    ${CMAKE_SOURCE_DIR}/libcore
+    ${CMAKE_SOURCE_DIR}/vendor
+)
+target_link_libraries(line_item_test
+    PRIVATE
+    catch_main
+    core
+)
+
 # tax-return
 
 set(tax_return_test_SRC

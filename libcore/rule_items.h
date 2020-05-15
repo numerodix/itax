@@ -15,11 +15,11 @@ class RuleItems {
     RuleItems(RuleId rule_id, std::vector<LineItem> items);
     ~RuleItems();
 
-    RuleItems(const RuleItems &other) = delete;
-    RuleItems &operator=(const RuleItems &other) = delete;
+    RuleItems(const RuleItems &other);
+    RuleItems &operator=(const RuleItems &other);
 
-    RuleItems(RuleItems &&other) = default;
-    RuleItems &operator=(RuleItems &&other) = delete;
+    RuleItems(RuleItems &&other);
+    RuleItems &operator=(RuleItems &&other);
 
     RuleId rule_id() const;
     const std::vector<LineItem> &items() const;

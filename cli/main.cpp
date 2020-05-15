@@ -31,7 +31,7 @@ CashAmount get_in_bracket(CashAmount lower, CashAmount upper,
                           const IncomeSlice &slice) {
     // the slice is entirely below or above the bracket
     if ((slice.upper_bound() < lower) || (upper < slice.lower_bound())) {
-        return CashAmount{0l};
+        return CashAmount{0L};
     }
 
     // the slice is entirely contained between the bounds of the bracket

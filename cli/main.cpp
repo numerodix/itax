@@ -61,7 +61,7 @@ std::vector<Rule> build_rules() {
 
     // Rule 1
 
-    std::string slug1{"medicare-levy-2%"};
+    std::string slug1{"Medicare levy"};
     std::string desc1{"Medicare levy is 2% on all income"};
     FnCalcForSlice fn1 = FN_CALC_SLICE_SIG {
         CashAmount taxable = slice.amount();
@@ -74,7 +74,7 @@ std::vector<Rule> build_rules() {
 
     // Rule 2
 
-    std::string slug2{"medicare-levy-surcharge-1.5%"};
+    std::string slug2{"Medicare levy surcharge"};
     std::string desc2{
         "Medicare levy surcharge is 1.5% on all income if total income above 90k"};
     FnCalcForSlice fn2 = FN_CALC_SLICE_SIG {
@@ -91,7 +91,7 @@ std::vector<Rule> build_rules() {
 
     // Rule 3
 
-    std::string slug3{"bracket-1"};
+    std::string slug3{"bracket 0 - 18.2k"};
     std::string desc3{"0% on income 0k - 18.2k"};
     FnCalcForSlice fn3 = FN_CALC_SLICE_SIG { return {{}}; };
 
@@ -99,7 +99,7 @@ std::vector<Rule> build_rules() {
 
     // Rule 4
 
-    std::string slug4{"bracket-2"};
+    std::string slug4{"bracket 18.2k - 37k"};
     std::string desc4{"19% on income 18.2k - 37k"};
     FnCalcForSlice fn4 = FN_CALC_SLICE_SIG {
         CashAmount in_bracket = get_in_bracket(C(18200), C(37000), slice);
@@ -116,7 +116,7 @@ std::vector<Rule> build_rules() {
 
     // Rule 5
 
-    std::string slug5{"bracket-3"};
+    std::string slug5{"bracket 37k - 90k"};
     std::string desc5{"32.5% on income 37k - 90k"};
     FnCalcForSlice fn5 = FN_CALC_SLICE_SIG {
         CashAmount in_bracket = get_in_bracket(C(37000), C(90000), slice);
@@ -133,7 +133,7 @@ std::vector<Rule> build_rules() {
 
     // Rule 6
 
-    std::string slug6{"bracket-4"};
+    std::string slug6{"bracket 90k - 180k"};
     std::string desc6{"37% on income 90k - 180k"};
     FnCalcForSlice fn6 = FN_CALC_SLICE_SIG {
         CashAmount in_bracket = get_in_bracket(C(90000), C(180000), slice);
@@ -150,7 +150,7 @@ std::vector<Rule> build_rules() {
 
     // Rule 7
 
-    std::string slug7{"bracket-5"};
+    std::string slug7{"bracket 180k - inf"};
     std::string desc7{"45% on income over 180k"};
     FnCalcForSlice fn7 = FN_CALC_SLICE_SIG {
         CashAmount in_bracket = get_in_bracket(C(180000), C(9999999), slice);
@@ -165,7 +165,7 @@ std::vector<Rule> build_rules() {
 
     Rule rule7{7, slug7, desc7, fn7};
 
-    // return {{rule1, rule2, rule3, rule4, rule5, rule6, rule7}};
+    return {{rule1, rule2, rule3, rule4, rule5, rule6, rule7}};
     return {{rule1, rule3, rule4, rule5, rule6, rule7}};
 }
 
@@ -228,7 +228,7 @@ int main(int argc, char *argv[]) {
                 join(prefix, res.net().payable().display_with_commas());
             cout << "         " << numfmt << number;
 
-            cout << "\t[" << rule.slug() << "] " << rule.desc() << '\n';
+            cout << "\t[" << rule.slug() << "] " << '\n';
         }
 
         std::string prefix = fmt(slice_total.credit_debit());

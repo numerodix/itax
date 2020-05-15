@@ -1,9 +1,11 @@
 #ifndef LIBCORE_DEFS_H
 #define LIBCORE_DEFS_H
 
-#include "cash_amount.h"
+#include <cstdint>
 
 namespace core {
+
+using RuleId = uint32_t;
 
 enum class CreditDebit {
     CREDIT,

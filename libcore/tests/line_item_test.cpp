@@ -6,7 +6,6 @@
 #include "catch.hpp"
 #include <deque>
 
-using Catch::Matchers::Message;
 using core::CashAmount;
 using core::CreditDebit;
 using core::LineItem;

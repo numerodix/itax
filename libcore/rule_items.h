@@ -16,7 +16,7 @@ class RuleItems {
     RuleItems(const RuleItems &other) = delete;
     RuleItems &operator=(const RuleItems &other) = delete;
 
-    RuleItems(RuleItems &&other) = delete;
+    RuleItems(RuleItems &&other) = default;
     RuleItems &operator=(RuleItems &&other) = delete;
 
     RuleId rule_id() const;

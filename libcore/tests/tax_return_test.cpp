@@ -15,13 +15,18 @@ TEST_CASE("basic properties", "[TaxReturn]") {
 
     TaxReturn taxret{slices};
 
+    SECTION("slices") {
+        REQUIRE(taxret.slices()[0] == first);
+        REQUIRE(taxret.slices()[1] == second);
+    }
     SECTION("total_income") { REQUIRE(taxret.total_income() == C(50000)); }
 }
 
 TEST_CASE("constructor given zero slices", "[TaxReturn]") {
-    std::vector<IncomeSlice> slices = {{}};
+    std::vector<IncomeSlice> slices{};
     TaxReturn taxret{slices};
 
+    SECTION("slices") { REQUIRE(taxret.slices().size() == 0); }
     SECTION("total_income") { REQUIRE(taxret.total_income() == C(0)); }
 }
 

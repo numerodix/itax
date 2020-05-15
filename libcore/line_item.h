@@ -6,11 +6,11 @@
 
 namespace core {
 
-// Represents a line item on an invoice.
+// Represents a line item in a tax calculation.
 
 class LineItem {
   public:
-    LineItem(CreditDebit credit_debit, CashAmount amount);
+    LineItem(CashAmount taxable, CashAmount payable, CreditDebit credit_debit);
     LineItem();
     ~LineItem();
 
@@ -20,16 +20,20 @@ class LineItem {
     LineItem(LineItem &&other);
     LineItem &operator=(LineItem &&other);
 
+    CashAmount taxable() const;
+    CashAmount payable() const;
     CreditDebit credit_debit() const;
-    CashAmount amount() const;
+
+    double percent() const;
 
     friend LineItem operator+(const LineItem &left, const LineItem &right);
     friend bool operator==(const LineItem &left, const LineItem &right);
     friend bool operator!=(const LineItem &left, const LineItem &right);
 
   private:
+    CashAmount m_taxable;
+    CashAmount m_payable;
     CreditDebit m_credit_debit;
-    CashAmount m_amount;
 };
 
 } // namespace core

@@ -22,7 +22,7 @@ class TaxReturn {
     TaxReturn(TaxReturn &&other) = default;
     TaxReturn &operator=(TaxReturn &&other) = delete;
 
-    const std::vector<IncomeSlice> &slices() const { return m_slices; }
+    const std::vector<IncomeSlice> &slices() const;
 
     CashAmount total_income() const;
 

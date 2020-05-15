@@ -10,6 +10,8 @@ TaxReturn::TaxReturn(std::vector<IncomeSlice> slices) : m_slices{slices} {
     validate_slices();
 }
 
+const std::vector<IncomeSlice> &TaxReturn::slices() const { return m_slices; }
+
 CashAmount TaxReturn::total_income() const {
     IncomeSlice summed = sum(m_slices.begin(), m_slices.end(), IncomeSlice{});
     return summed.amount();

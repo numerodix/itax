@@ -25,6 +25,7 @@ class LineItem {
     CreditDebit credit_debit() const;
 
     double percent() const;
+    CashAmount after_tax() const;
 
     friend LineItem operator+(const LineItem &left, const LineItem &right);
     friend bool operator==(const LineItem &left, const LineItem &right);

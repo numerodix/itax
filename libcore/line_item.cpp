@@ -2,12 +2,19 @@
 
 #include <cstdint>
 #include <cstdlib>
+#include <stdexcept>
 
 namespace core {
 
 LineItem::LineItem(CashAmount taxable, CashAmount payable,
                    CreditDebit credit_debit)
-    : m_taxable{taxable}, m_payable{payable}, m_credit_debit{credit_debit} {}
+    : m_taxable{taxable}, m_payable{payable}, m_credit_debit{credit_debit} {
+
+    if ((m_payable > m_taxable) && (m_credit_debit == CreditDebit::DEBIT)) {
+        throw std::out_of_range(
+            "constructor called with a payable greater than the taxable");
+    }
+}
 
 LineItem::LineItem()
     : m_taxable{CashAmount{0L}}, m_payable{CashAmount{0L}},
@@ -38,6 +45,12 @@ double LineItem::percent() const {
     }
 
     return numerator / denominator;
+}
+
+CashAmount LineItem::after_tax() const {
+    int64_t sign = m_credit_debit == CreditDebit::CREDIT ? 1L : -1L;
+    int64_t result = m_taxable.raw() + (sign * m_payable.raw());
+    return CashAmount{result};
 }
 
 LineItem operator+(const LineItem &left, const LineItem &right) {

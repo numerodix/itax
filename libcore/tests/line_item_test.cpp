@@ -6,21 +6,36 @@
 #include "catch.hpp"
 #include <deque>
 
+using Catch::Matchers::Message;
 using core::CashAmount;
 using core::CreditDebit;
 using core::LineItem;
 
 TEST_CASE("basic properties", "[LineItem]") {
-    LineItem item{C(100), C(50), CreditDebit::DEBIT};
+    SECTION("aborts if payable greater than taxable") {
+        REQUIRE_THROWS_MATCHES(
+            (LineItem{C(50), C(51), CreditDebit::DEBIT}), std::out_of_range,
+            Message("constructor called with a payable greater than the taxable"));
+    }
 
     SECTION("accessors") {
+        LineItem item{C(100), C(50), CreditDebit::DEBIT};
         REQUIRE(item.taxable() == C(100));
         REQUIRE(item.payable() == C(50));
         REQUIRE(item.credit_debit() == CreditDebit::DEBIT);
     }
 
     SECTION("percent") {
-        REQUIRE(item.percent() == 0.5);
+        LineItem item{C(100), C(53), CreditDebit::DEBIT};
+        REQUIRE(item.percent() == 0.53);
+    }
+
+    SECTION("after_tax") {
+        LineItem item1{C(100), C(24), CreditDebit::DEBIT};
+        REQUIRE(item1.after_tax() == C(76));
+
+        LineItem item2{C(100), C(12), CreditDebit::CREDIT};
+        REQUIRE(item2.after_tax() == C(112));
     }
 }
 
@@ -35,6 +50,10 @@ TEST_CASE("default constructor", "[LineItem]") {
 
     SECTION("percent") {
         REQUIRE(item.percent() == 0.0);
+    }
+
+    SECTION("after_tax") {
+        REQUIRE(item.after_tax() == C(0));
     }
 }
 

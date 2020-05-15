@@ -15,12 +15,13 @@ namespace core {
 class TaxReturn {
   public:
     TaxReturn(std::vector<IncomeSlice> slices);
+    ~TaxReturn();
 
-    TaxReturn(const TaxReturn &other) = delete;
-    TaxReturn &operator=(const TaxReturn &other) = delete;
+    TaxReturn(const TaxReturn &other);
+    TaxReturn &operator=(const TaxReturn &other);
 
-    TaxReturn(TaxReturn &&other) = default;
-    TaxReturn &operator=(TaxReturn &&other) = delete;
+    TaxReturn(TaxReturn &&other);
+    TaxReturn &operator=(TaxReturn &&other);
 
     const std::vector<IncomeSlice> &slices() const;
 

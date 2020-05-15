@@ -10,6 +10,16 @@ TaxReturn::TaxReturn(std::vector<IncomeSlice> slices) : m_slices{slices} {
     validate_slices();
 }
 
+TaxReturn::~TaxReturn() = default;
+
+TaxReturn::TaxReturn(const TaxReturn &other) = default;
+
+TaxReturn &TaxReturn::operator=(const TaxReturn &other) = default;
+
+TaxReturn::TaxReturn(TaxReturn &&other) = default;
+
+TaxReturn &TaxReturn::operator=(TaxReturn &&other) = default;
+
 const std::vector<IncomeSlice> &TaxReturn::slices() const { return m_slices; }
 
 CashAmount TaxReturn::total_income() const {

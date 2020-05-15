@@ -51,3 +51,35 @@ TEST_CASE("constructor validates slices, slices not adjacent", "[TaxReturn]") {
                                Message("cannot add non-adjacent slices"));
     }
 }
+
+TEST_CASE("special member functions", "[TaxReturn]") {
+    IncomeSlice first{C(0), C(20000)};
+    IncomeSlice second{C(20000), C(30000)};
+    std::vector<IncomeSlice> slices = {{first, second}};
+
+    TaxReturn taxret{slices};
+
+    SECTION("copy constructor") {
+        TaxReturn other{taxret};
+        REQUIRE(other.slices()[0] == first);
+        REQUIRE(other.slices()[1] == second);
+    }
+
+    SECTION("copy assignment") {
+        TaxReturn other = taxret;
+        REQUIRE(other.slices()[0] == first);
+        REQUIRE(other.slices()[1] == second);
+    }
+
+    SECTION("move constructor") {
+        TaxReturn other{std::move(taxret)};
+        REQUIRE(other.slices()[0] == first);
+        REQUIRE(other.slices()[1] == second);
+    }
+
+    SECTION("move assignment") {
+        TaxReturn other = std::move(taxret);
+        REQUIRE(other.slices()[0] == first);
+        REQUIRE(other.slices()[1] == second);
+    }
+}

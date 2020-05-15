@@ -132,6 +132,11 @@ TEST_CASE("display routines", "[CashAmount]") {
         CashAmount amount{8950L};
         REQUIRE(amount.display_with_commas() == "0.90");
     }
+
+    SECTION("display_with_commas() formats with commas #5") {
+        CashAmount amount{120000L};
+        REQUIRE(amount.display_with_commas() == "12.00");
+    }
 }
 
 TEST_CASE("relational operators", "[CashAmount]") {

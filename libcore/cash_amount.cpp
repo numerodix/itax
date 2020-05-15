@@ -2,6 +2,7 @@
 
 #include <cerrno>
 #include <cstring>
+#include <iomanip>
 #include <sstream>
 #include <stdexcept>
 
@@ -62,7 +63,7 @@ std::string CashAmount::display_plain() const {
     int64_t dec_part = value_part - (int_part * 100);
 
     std::stringstream ss{};
-    ss << int_part << '.' << dec_part;
+    ss << int_part << '.' << std::setfill('0') << std::setw(2) << dec_part;
     return ss.str();
 }
 

@@ -13,6 +13,7 @@ add_compile_options(-std=c++11 -g -Wall -Wextra -Wpedantic -Wnon-virtual-dtor -W
 
 # set include dirs
 # include_directories(include)
+add_subdirectory(cli)
 add_subdirectory(libcore)
 
 # source files

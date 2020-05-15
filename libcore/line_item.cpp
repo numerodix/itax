@@ -5,11 +5,13 @@
 
 namespace core {
 
-LineItem::LineItem(CreditDebit credit_debit, CashAmount amount)
-    : m_credit_debit{credit_debit}, m_amount{amount} {}
+LineItem::LineItem(CashAmount taxable, CashAmount payable,
+                   CreditDebit credit_debit)
+    : m_taxable{taxable}, m_payable{payable}, m_credit_debit{credit_debit} {}
 
 LineItem::LineItem()
-    : m_credit_debit{CreditDebit::CREDIT}, m_amount{CashAmount{0L}} {}
+    : m_taxable{CashAmount{0L}}, m_payable{CashAmount{0L}},
+      m_credit_debit{CreditDebit::CREDIT} {}
 
 LineItem::~LineItem() = default;
 
@@ -21,27 +23,42 @@ LineItem::LineItem(LineItem &&other) = default;
 
 LineItem &LineItem::operator=(LineItem &&other) = default;
 
+CashAmount LineItem::taxable() const { return m_taxable; }
+
+CashAmount LineItem::payable() const { return m_payable; }
+
 CreditDebit LineItem::credit_debit() const { return m_credit_debit; }
 
-CashAmount LineItem::amount() const { return m_amount; }
+double LineItem::percent() const {
+    double numerator = static_cast<double>(m_payable.raw());
+    double denominator = static_cast<double>(m_taxable.raw());
+
+    if (denominator == 0.0) {
+        return 0.0;
+    }
+
+    return numerator / denominator;
+}
 
 LineItem operator+(const LineItem &left, const LineItem &right) {
-    auto left_amt = left.m_credit_debit == CreditDebit::CREDIT
-                        ? left.m_amount.raw()
-                        : -left.m_amount.raw();
-    auto right_amt = right.m_credit_debit == CreditDebit::CREDIT
-                         ? right.m_amount.raw()
-                         : -right.m_amount.raw();
+    CashAmount taxable = left.m_taxable + right.m_taxable;
 
-    auto sum = left_amt + right_amt;
-    CreditDebit cd = sum >= 0 ? CreditDebit::CREDIT : CreditDebit::DEBIT;
+    int64_t left_pay = left.m_credit_debit == CreditDebit::CREDIT
+                           ? left.m_payable.raw()
+                           : -left.m_payable.raw();
+    int64_t right_pay = right.m_credit_debit == CreditDebit::CREDIT
+                            ? right.m_payable.raw()
+                            : -right.m_payable.raw();
 
-    return LineItem{cd, CashAmount{std::abs(sum)}};
+    int64_t payable = left_pay + right_pay;
+    CreditDebit cd = payable >= 0 ? CreditDebit::CREDIT : CreditDebit::DEBIT;
+
+    return LineItem{taxable, CashAmount{std::abs(payable)}, cd};
 }
 
 bool operator==(const LineItem &left, const LineItem &right) {
     return (left.m_credit_debit == right.m_credit_debit) &&
-           (left.m_amount == right.m_amount);
+           (left.m_payable == right.m_payable);
 }
 
 bool operator!=(const LineItem &left, const LineItem &right) {

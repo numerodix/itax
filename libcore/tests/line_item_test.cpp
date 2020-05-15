@@ -11,11 +11,16 @@ using core::CreditDebit;
 using core::LineItem;
 
 TEST_CASE("basic properties", "[LineItem]") {
-    LineItem item{CreditDebit::DEBIT, C(50)};
+    LineItem item{C(100), C(50), CreditDebit::DEBIT};
 
     SECTION("accessors") {
+        REQUIRE(item.taxable() == C(100));
+        REQUIRE(item.payable() == C(50));
         REQUIRE(item.credit_debit() == CreditDebit::DEBIT);
-        REQUIRE(item.amount() == C(50));
+    }
+
+    SECTION("percent") {
+        REQUIRE(item.percent() == 0.5);
     }
 }
 
@@ -23,88 +28,101 @@ TEST_CASE("default constructor", "[LineItem]") {
     LineItem item{};
 
     SECTION("accessors") {
+        REQUIRE(item.taxable() == C(0));
+        REQUIRE(item.payable() == C(0));
         REQUIRE(item.credit_debit() == CreditDebit::CREDIT);
-        REQUIRE(item.amount() == C(0));
+    }
+
+    SECTION("percent") {
+        REQUIRE(item.percent() == 0.0);
     }
 }
 
 TEST_CASE("special member functions", "[LineItem]") {
     SECTION("copy constructor") {
-        LineItem item{CreditDebit::DEBIT, C(50)};
+        LineItem item{C(100), C(50), CreditDebit::DEBIT};
         LineItem other{item};
+        REQUIRE(item.taxable() == C(100));
+        REQUIRE(other.payable() == C(50));
         REQUIRE(other.credit_debit() == CreditDebit::DEBIT);
-        REQUIRE(other.amount() == C(50));
     }
 
     SECTION("copy assignment") {
-        LineItem item{CreditDebit::DEBIT, C(50)};
+        LineItem item{C(100), C(50), CreditDebit::DEBIT};
         LineItem other = item;
+        REQUIRE(item.taxable() == C(100));
+        REQUIRE(other.payable() == C(50));
         REQUIRE(other.credit_debit() == CreditDebit::DEBIT);
-        REQUIRE(other.amount() == C(50));
     }
 
     SECTION("move constructor") {
-        LineItem item{CreditDebit::DEBIT, C(50)};
+        LineItem item{C(100), C(50), CreditDebit::DEBIT};
         LineItem other{std::move(item)};
+        REQUIRE(item.taxable() == C(100));
+        REQUIRE(other.payable() == C(50));
         REQUIRE(other.credit_debit() == CreditDebit::DEBIT);
-        REQUIRE(other.amount() == C(50));
     }
 
     SECTION("move assignment") {
-        LineItem item{CreditDebit::DEBIT, C(50)};
+        LineItem item{C(100), C(50), CreditDebit::DEBIT};
         LineItem other = std::move(item);
+        REQUIRE(item.taxable() == C(100));
+        REQUIRE(other.payable() == C(50));
         REQUIRE(other.credit_debit() == CreditDebit::DEBIT);
-        REQUIRE(other.amount() == C(50));
     }
 }
 
 TEST_CASE("addition", "[LineItem]") {
     SECTION("same sign, credit") {
-        LineItem left{CreditDebit::CREDIT, C(50)};
-        LineItem right{CreditDebit::CREDIT, C(70)};
+        LineItem left{C(100), C(50), CreditDebit::CREDIT};
+        LineItem right{C(100), C(70), CreditDebit::CREDIT};
 
         auto res = left + right;
 
+        REQUIRE(res.taxable() == C(200));
+        REQUIRE(res.payable() == C(120));
         REQUIRE(res.credit_debit() == CreditDebit::CREDIT);
-        REQUIRE(res.amount() == C(120));
     }
 
     SECTION("same sign, debit") {
-        LineItem left{CreditDebit::DEBIT, C(50)};
-        LineItem right{CreditDebit::DEBIT, C(70)};
+        LineItem left{C(100), C(50), CreditDebit::DEBIT};
+        LineItem right{C(100), C(70), CreditDebit::DEBIT};
 
         auto res = left + right;
 
+        REQUIRE(res.taxable() == C(200));
+        REQUIRE(res.payable() == C(120));
         REQUIRE(res.credit_debit() == CreditDebit::DEBIT);
-        REQUIRE(res.amount() == C(120));
     }
 
     SECTION("different sign, credit") {
-        LineItem left{CreditDebit::DEBIT, C(50)};
-        LineItem right{CreditDebit::CREDIT, C(70)};
+        LineItem left{C(100), C(50), CreditDebit::DEBIT};
+        LineItem right{C(100), C(70), CreditDebit::CREDIT};
 
         auto res = left + right;
 
+        REQUIRE(res.taxable() == C(200));
+        REQUIRE(res.payable() == C(20));
         REQUIRE(res.credit_debit() == CreditDebit::CREDIT);
-        REQUIRE(res.amount() == C(20));
     }
 
     SECTION("different sign, credit") {
-        LineItem left{CreditDebit::DEBIT, C(70)};
-        LineItem right{CreditDebit::CREDIT, C(50)};
+        LineItem left{C(100), C(70), CreditDebit::DEBIT};
+        LineItem right{C(100), C(50), CreditDebit::CREDIT};
 
         auto res = left + right;
 
+        REQUIRE(res.taxable() == C(200));
+        REQUIRE(res.payable() == C(20));
         REQUIRE(res.credit_debit() == CreditDebit::DEBIT);
-        REQUIRE(res.amount() == C(20));
     }
 }
 
 TEST_CASE("relational operators", "[LineItem]") {
     SECTION("equality operator") {
-        LineItem ref{CreditDebit::DEBIT, C(50)};
-        LineItem same{CreditDebit::DEBIT, C(50)};
-        LineItem different{CreditDebit::CREDIT, C(50)};
+        LineItem ref{C(100), C(50), CreditDebit::DEBIT};
+        LineItem same{C(100), C(50), CreditDebit::DEBIT};
+        LineItem different{C(100), C(50), CreditDebit::CREDIT};
 
         REQUIRE(ref == ref);
         REQUIRE(ref == same);
@@ -113,14 +131,15 @@ TEST_CASE("relational operators", "[LineItem]") {
 }
 
 TEST_CASE("algorithms", "[LineItem]") {
-    LineItem first{CreditDebit::CREDIT, C(50)};
-    LineItem second{CreditDebit::DEBIT, C(70)};
-    LineItem third{CreditDebit::CREDIT, C(30)};
+    LineItem first{C(100), C(50), CreditDebit::CREDIT};
+    LineItem second{C(100), C(70), CreditDebit::DEBIT};
+    LineItem third{C(100), C(30), CreditDebit::CREDIT};
 
     SECTION("sum") {
         std::deque<LineItem> items{first, second, third};
         LineItem res = sum(items.begin(), items.end(), LineItem{});
+        REQUIRE(res.taxable() == C(300));
+        REQUIRE(res.payable() == C(10));
         REQUIRE(res.credit_debit() == CreditDebit::CREDIT);
-        REQUIRE(res.amount() == C(10));
     }
 }

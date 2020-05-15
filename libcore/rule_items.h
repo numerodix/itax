@@ -8,6 +8,8 @@
 
 namespace core {
 
+// Represents the line items generated from a particular rule.
+
 class RuleItems {
   public:
     RuleItems(RuleId rule_id, std::vector<LineItem> items);

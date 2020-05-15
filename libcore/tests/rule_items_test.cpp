@@ -11,8 +11,8 @@ using core::LineItem;
 using core::RuleItems;
 
 TEST_CASE("basic properties", "[RuleItems]") {
-    LineItem first{CreditDebit::DEBIT, C(50)};
-    LineItem second{CreditDebit::CREDIT, C(30)};
+    LineItem first{C(100), C(50), CreditDebit::DEBIT};
+    LineItem second{C(100), C(30), CreditDebit::CREDIT};
     std::vector<LineItem> items = {first, second};
 
     RuleItems rule_items{1, items};
@@ -24,7 +24,7 @@ TEST_CASE("basic properties", "[RuleItems]") {
     }
 
     SECTION("net") {
-        LineItem expected{CreditDebit::DEBIT, C(20)};
+        LineItem expected{C(100), C(20), CreditDebit::DEBIT};
         REQUIRE(rule_items.net() == expected);
     }
 }

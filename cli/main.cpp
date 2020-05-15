@@ -61,11 +61,12 @@ std::vector<Rule> build_rules() {
 
     // Rule 1
 
-    std::string slug1{"some-levy-2%"};
-    std::string desc1{"Some levy is 2% on all income"};
+    std::string slug1{"medicare-levy-2%"};
+    std::string desc1{"Medicare levy is 2% on all income"};
     FnCalcForSlice fn1 = FN_CALC_SLICE_SIG {
-        CashAmount debit = slice.amount() * 0.02;
-        LineItem item{CreditDebit::DEBIT, debit};
+        CashAmount taxable = slice.amount();
+        CashAmount payable = taxable * 0.02;
+        LineItem item{taxable, payable, CreditDebit::DEBIT};
         return {{item}};
     };
 
@@ -73,13 +74,14 @@ std::vector<Rule> build_rules() {
 
     // Rule 2
 
-    std::string slug2{"special-levy-1.5%"};
+    std::string slug2{"medicare-levy-surcharge-1.5%"};
     std::string desc2{
-        "Special levy is 1.5% on all income if total income above 90k"};
+        "Medicare levy surcharge is 1.5% on all income if total income above 90k"};
     FnCalcForSlice fn2 = FN_CALC_SLICE_SIG {
         if (context.tax_return().total_income() > C(90000)) {
-            CashAmount debit = slice.amount() * 0.015;
-            LineItem item{CreditDebit::DEBIT, debit};
+            CashAmount taxable = slice.amount();
+            CashAmount payable = taxable * 0.015;
+            LineItem item{taxable, payable, CreditDebit::DEBIT};
             return {{item}};
         }
         return {{}};
@@ -102,8 +104,9 @@ std::vector<Rule> build_rules() {
     FnCalcForSlice fn4 = FN_CALC_SLICE_SIG {
         CashAmount in_bracket = get_in_bracket(C(18200), C(37000), slice);
         if (in_bracket > C(0)) {
-            CashAmount debit = in_bracket * 0.19;
-            LineItem item{CreditDebit::DEBIT, debit};
+            CashAmount taxable = in_bracket;
+            CashAmount payable = taxable * 0.19;
+            LineItem item{taxable, payable, CreditDebit::DEBIT};
             return {{item}};
         }
         return {{}};
@@ -118,8 +121,9 @@ std::vector<Rule> build_rules() {
     FnCalcForSlice fn5 = FN_CALC_SLICE_SIG {
         CashAmount in_bracket = get_in_bracket(C(37000), C(90000), slice);
         if (in_bracket > C(0)) {
-            CashAmount debit = in_bracket * 0.325;
-            LineItem item{CreditDebit::DEBIT, debit};
+            CashAmount taxable = in_bracket;
+            CashAmount payable = taxable * 0.325;
+            LineItem item{taxable, payable, CreditDebit::DEBIT};
             return {{item}};
         }
         return {{}};
@@ -134,8 +138,9 @@ std::vector<Rule> build_rules() {
     FnCalcForSlice fn6 = FN_CALC_SLICE_SIG {
         CashAmount in_bracket = get_in_bracket(C(90000), C(180000), slice);
         if (in_bracket > C(0)) {
-            CashAmount debit = in_bracket * 0.37;
-            LineItem item{CreditDebit::DEBIT, debit};
+            CashAmount taxable = in_bracket;
+            CashAmount payable = taxable * 0.37;
+            LineItem item{taxable, payable, CreditDebit::DEBIT};
             return {{item}};
         }
         return {{}};
@@ -150,8 +155,9 @@ std::vector<Rule> build_rules() {
     FnCalcForSlice fn7 = FN_CALC_SLICE_SIG {
         CashAmount in_bracket = get_in_bracket(C(180000), C(9999999), slice);
         if (in_bracket > C(0)) {
-            CashAmount debit = in_bracket * 0.45;
-            LineItem item{CreditDebit::DEBIT, debit};
+            CashAmount taxable = in_bracket;
+            CashAmount payable = taxable * 0.45;
+            LineItem item{taxable, payable, CreditDebit::DEBIT};
             return {{item}};
         }
         return {{}};
@@ -219,7 +225,7 @@ int main(int argc, char *argv[]) {
 
             std::string prefix = fmt(res.net().credit_debit());
             std::string number =
-                join(prefix, res.net().amount().display_with_commas());
+                join(prefix, res.net().payable().display_with_commas());
             cout << "         " << numfmt << number;
 
             cout << "\t[" << rule.slug() << "] " << rule.desc() << '\n';
@@ -227,7 +233,7 @@ int main(int argc, char *argv[]) {
 
         std::string prefix = fmt(slice_total.credit_debit());
         std::string number =
-            join(prefix, slice_total.amount().display_with_commas());
+            join(prefix, slice_total.payable().display_with_commas());
         cout << "  Total: " << numfmt << number << '\n';
         cout << '\n';
 
@@ -235,9 +241,9 @@ int main(int argc, char *argv[]) {
     }
 
     std::string prefix = fmt(total.credit_debit());
-    std::string tax = join(prefix, total.amount().display_with_commas());
+    std::string tax = join(prefix, total.payable().display_with_commas());
 
-    CashAmount after_tax = context.tax_return().total_income() - total.amount();
+    CashAmount after_tax = context.tax_return().total_income() - total.payable();
 
     cout << "Total income: " << numfmt
          << context.tax_return().total_income().display_with_commas() << '\n';

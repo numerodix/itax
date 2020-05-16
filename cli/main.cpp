@@ -4,28 +4,12 @@
 #include <sstream>
 #include <vector>
 
+#include "libcore/argparse.h"
 #include "libcore/rule.h"
 #include "libcore/shortcuts.h"
 
 using namespace core;
 using namespace std;
-
-TaxReturn build_ret(std::vector<int64_t> args) {
-    std::vector<IncomeSlice> slices{};
-
-    int64_t base = 0L;
-    for (const int64_t &arg : args) {
-        int64_t amount = arg * 10000L;
-        IncomeSlice slice{CashAmount{base}, CashAmount{amount}};
-        slices.push_back(slice);
-
-        base = base + amount;
-    }
-
-    TaxReturn taxret{slices};
-
-    return taxret;
-}
 
 CashAmount get_in_bracket(CashAmount lower, CashAmount upper,
                           const IncomeSlice &slice) {
@@ -165,7 +149,7 @@ std::vector<Rule> build_rules() {
 
     Rule rule7{7, slug7, desc7, fn7};
 
-    return {{rule1, rule2, rule3, rule4, rule5, rule6, rule7}};
+    // return {{rule1, rule2, rule3, rule4, rule5, rule6, rule7}};
     return {{rule1, rule3, rule4, rule5, rule6, rule7}};
 }
 
@@ -179,33 +163,14 @@ std::string join(std::string prefix, std::string number) {
     return ss.str();
 }
 
-std::vector<int64_t> parse_args(int argc, char *argv[]) {
-    std::vector<int64_t> nums{};
-
-    for (auto i = 1; i < argc; ++i) {
-        auto arg = argv[i];
-        auto len = std::strlen(arg);
-
-        auto num = std::atol(arg);
-        if (arg[len - 1] == 'k') {
-            num = num * 1000;
-        }
-
-        nums.push_back(num);
-    }
-
-    return nums;
-}
-
 std::ostream &numfmt(std::ostream &out) {
     out << right << setfill(' ') << setw(12);
     return out;
 }
 
 int main(int argc, char *argv[]) {
-    auto args = parse_args(argc, argv);
-
-    TaxReturn taxret = build_ret(args);
+    ArgParser parser{};
+    TaxReturn taxret = parser.parse(argc, argv)[0];
     Context context{taxret};
     auto rules = build_rules();
 

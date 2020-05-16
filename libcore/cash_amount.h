@@ -56,6 +56,7 @@ class CashAmount {
                                 const CashAmount &right);
     friend CashAmount operator*(const CashAmount &left, double right);
     friend CashAmount operator*(double left, const CashAmount &right);
+    friend double operator/(const CashAmount &left, const CashAmount &right);
     friend CashAmount operator/(const CashAmount &left, double right);
 
     friend std::ostream &operator<<(std::ostream &out, const CashAmount &amt);

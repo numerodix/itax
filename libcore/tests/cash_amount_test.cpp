@@ -213,6 +213,13 @@ TEST_CASE("arithmetic routines", "[CashAmount]") {
         REQUIRE(res.raw() == 550L);
     }
 
+    SECTION("division operator, yielding double") {
+        CashAmount left{1100L};
+        CashAmount right{25L};
+        double res = left / right;
+        REQUIRE(res == 44.0);
+    }
+
     SECTION("division operator") {
         CashAmount left{1100L};
         double right = 3.0;

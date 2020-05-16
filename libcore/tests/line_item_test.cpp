@@ -15,7 +15,8 @@ TEST_CASE("basic properties", "[LineItem]") {
     SECTION("aborts if payable greater than taxable") {
         REQUIRE_THROWS_MATCHES(
             (LineItem{C(50), C(51), CreditDebit::DEBIT}), std::out_of_range,
-            Message("constructor called with a payable greater than the taxable"));
+            Message(
+                "constructor called with a payable greater than the taxable"));
     }
 
     SECTION("accessors") {
@@ -48,13 +49,9 @@ TEST_CASE("default constructor", "[LineItem]") {
         REQUIRE(item.credit_debit() == CreditDebit::CREDIT);
     }
 
-    SECTION("percent") {
-        REQUIRE(item.percent() == 0.0);
-    }
+    SECTION("percent") { REQUIRE(item.percent() == 0.0); }
 
-    SECTION("after_tax") {
-        REQUIRE(item.after_tax() == C(0));
-    }
+    SECTION("after_tax") { REQUIRE(item.after_tax() == C(0)); }
 }
 
 TEST_CASE("special member functions", "[LineItem]") {

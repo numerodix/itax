@@ -1,4 +1,5 @@
 set(libcore_SRC
+    argparse.cpp
     cash_amount.cpp
     income_slice.cpp
     line_item.cpp

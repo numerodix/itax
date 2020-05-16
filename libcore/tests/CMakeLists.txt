@@ -6,6 +6,24 @@ target_include_directories(catch_main
     ${CMAKE_SOURCE_DIR}/vendor
 )
 
+# argparse
+
+set(argparse_test_SRC
+    argparse_test.cpp
+)
+
+add_executable(argparse_test ${argparse_test_SRC})
+target_include_directories(argparse_test
+    PUBLIC
+    ${CMAKE_SOURCE_DIR}/libcore
+    ${CMAKE_SOURCE_DIR}/vendor
+)
+target_link_libraries(argparse_test
+    PRIVATE
+    catch_main
+    core
+)
+
 # cash-amount
 
 set(cash_amount_test_SRC

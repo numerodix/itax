@@ -43,7 +43,7 @@ std::vector<Rule> build_rules() {
 
     Rule rule2{2, slug2, desc2, fn2};
 
-    // Rule 3
+    // Bracket Rule 3
 
     std::string slug3{"bracket 0 - 18.2k"};
     std::string desc3{"0% on income 0k - 18.2k"};
@@ -62,7 +62,7 @@ std::vector<Rule> build_rules() {
 
     Rule rule3{3, slug3, desc3, fn3};
 
-    // Rule 4
+    // Bracket Rule 4
 
     std::string slug4{"bracket 18.2k - 37k"};
     std::string desc4{"19% on income 18.2k - 37k"};
@@ -81,7 +81,7 @@ std::vector<Rule> build_rules() {
 
     Rule rule4{4, slug4, desc4, fn4};
 
-    // Rule 5
+    // Bracket Rule 5
 
     std::string slug5{"bracket 37k - 90k"};
     std::string desc5{"32.5% on income 37k - 90k"};
@@ -100,7 +100,7 @@ std::vector<Rule> build_rules() {
 
     Rule rule5{5, slug5, desc5, fn5};
 
-    // Rule 6
+    // Bracket Rule 6
 
     std::string slug6{"bracket 90k - 180k"};
     std::string desc6{"37% on income 90k - 180k"};
@@ -119,7 +119,7 @@ std::vector<Rule> build_rules() {
 
     Rule rule6{6, slug6, desc6, fn6};
 
-    // Rule 7
+    // Bracket Rule 7
 
     std::string slug7{"bracket 180k - inf"};
     std::string desc7{"45% on income over 180k"};
@@ -138,8 +138,26 @@ std::vector<Rule> build_rules() {
 
     Rule rule7{7, slug7, desc7, fn7};
 
-    // return {{rule1, rule2, rule3, rule4, rule5, rule6, rule7}};
-    return {{rule1, rule3, rule4, rule5, rule6, rule7}};
+    // LIT Bracket Rule 8
+
+    std::string slug8{"low-income-tax offset <67k"};
+    std::string desc8{"Maximum offset of 445 applies below 37k, then phases out"};
+    Bracket brac8{C(0), C(66667)};
+    FnCalcForSlice fn8 = FN_CALC_SLICE_SIG {
+        if (taxret.total_income() <= brac8.upper()) {
+            CashAmount taxable = brac8.in_bracket(slice);
+            CashAmount payable = C(445); // taxable * 0.45;
+            LineItem item{taxable, payable, CreditDebit::CREDIT};
+            return {item};
+        }
+
+        return {};
+    };
+
+    Rule rule8{8, slug8, desc8, fn8};
+
+    // return {rule1, rule2, rule3, rule4, rule5, rule6, rule7};
+    return {rule1, rule3, rule4, rule5, rule6, rule7, rule8};
 }
 
 std::string fmt(CreditDebit cd) {
@@ -175,6 +193,10 @@ int main(int argc, char *argv[]) {
         for (const Rule &rule : rules) {
             auto res = rule.calculate(taxret, slice);
             slice_total = slice_total + res.net();
+
+            if (res.net().payable() == C(0)) {
+                continue;
+            }
 
             std::string prefix = fmt(res.net().credit_debit());
             std::string number =

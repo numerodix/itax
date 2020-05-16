@@ -17,6 +17,14 @@ class Bracket {
     Bracket(CashAmount lower, CashAmount upper)
         : m_lower{lower}, m_upper{upper} {}
 
+    CashAmount upper() const {
+      return m_upper;
+    }
+
+    CashAmount lower() const {
+      return m_lower;
+    }
+
     CashAmount in_bracket(const IncomeSlice &slice) const {
         // the slice is entirely below or above the bracket
         if ((slice.upper_bound() < m_lower) ||

@@ -35,6 +35,9 @@ class CashAmount {
     int64_t rounding_part() const;
     int64_t rounded_value_part() const;
 
+    int64_t dollars() const;
+    int64_t cents() const;
+
     std::string display_plain() const;
     std::string display_with_commas() const;
 
@@ -49,7 +52,8 @@ class CashAmount {
                                 const CashAmount &right);
     friend CashAmount operator-(const CashAmount &left,
                                 const CashAmount &right);
-    friend CashAmount operator*(const CashAmount &left, const CashAmount& right);
+    friend CashAmount operator*(const CashAmount &left,
+                                const CashAmount &right);
     friend CashAmount operator*(const CashAmount &left, double right);
     friend CashAmount operator*(double left, const CashAmount &right);
     friend CashAmount operator/(const CashAmount &left, double right);

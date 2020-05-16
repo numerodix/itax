@@ -34,6 +34,16 @@ TEST_CASE("basic properties", "[CashAmount]") {
         CashAmount round_up{12345678950L};
         REQUIRE(round_up.rounded_value_part() == 123456790L);
     }
+
+    SECTION("dollars") {
+        CashAmount amount{12345678940L};
+        REQUIRE(amount.dollars() == 1234567L);
+    }
+
+    SECTION("cents") {
+        CashAmount amount{12345678950L};
+        REQUIRE(amount.cents() == 90L);
+    }
 }
 
 TEST_CASE("special member functions", "[CashAmount]") {

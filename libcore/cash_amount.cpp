@@ -161,6 +161,12 @@ CashAmount operator*(double left, const CashAmount &right) {
     return CashAmount{res};
 }
 
+double operator/(const CashAmount &left, const CashAmount &right) {
+    double ratio =
+        static_cast<double>(left.raw()) / static_cast<double>(right.raw());
+    return ratio;
+}
+
 CashAmount operator/(const CashAmount &left, double right) {
     double left_f = static_cast<double>(left.m_amount);
     double res_f = left_f / right;

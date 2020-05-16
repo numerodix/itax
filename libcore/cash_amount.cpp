@@ -56,6 +56,17 @@ int64_t CashAmount::rounded_value_part() const {
     return rounding_part() >= 50 ? val_part + 1L : val_part;
 }
 
+int64_t CashAmount::dollars() const {
+    int64_t val_part = rounded_value_part();
+    return val_part / 100L;
+}
+
+int64_t CashAmount::cents() const {
+    int64_t val_part = rounded_value_part();
+    int64_t whole_dollars = dollars();
+    return val_part - (whole_dollars * 100L);
+}
+
 std::string CashAmount::display_plain() const {
     int64_t value_part = rounded_value_part();
 

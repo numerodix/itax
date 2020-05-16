@@ -156,8 +156,9 @@ std::vector<Rule> build_rules() {
 
             if (total_income > thres_phaseout) {
                 CashAmount limit = std::min(total_income, brac8.upper());
-                CashAmount delta = limit - thres_phaseout;
-                payable = payable - (delta * step);
+                CashAmount range = limit - thres_phaseout;
+                CashAmount subtract = range * step;
+                payable = payable - subtract;
             }
 
             LineItem item{taxable, payable, CreditDebit::CREDIT};

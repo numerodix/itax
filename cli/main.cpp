@@ -32,7 +32,7 @@ std::vector<Rule> build_rules() {
     std::string desc2{"Medicare levy surcharge is 1.5% on all income if total "
                       "income above 90k"};
     FnCalcForSlice fn2 = FN_CALC_SLICE_SIG {
-        if (context.tax_return().total_income() > C(90000)) {
+        if (taxret.total_income() > C(90000)) {
             CashAmount taxable = slice.amount();
             CashAmount payable = taxable * 0.015;
             LineItem item{taxable, payable, CreditDebit::DEBIT};
@@ -160,7 +160,6 @@ std::ostream &numfmt(std::ostream &out) {
 int main(int argc, char *argv[]) {
     ArgParser parser{};
     TaxReturn taxret = parser.parse(argc, argv)[0];
-    Context context{taxret};
     auto rules = build_rules();
 
     int slice_no = 0;
@@ -174,7 +173,7 @@ int main(int argc, char *argv[]) {
 
         LineItem slice_total{};
         for (const Rule &rule : rules) {
-            auto res = rule.calculate(context, slice);
+            auto res = rule.calculate(taxret, slice);
             slice_total = slice_total + res.net();
 
             std::string prefix = fmt(res.net().credit_debit());
@@ -197,11 +196,10 @@ int main(int argc, char *argv[]) {
     std::string prefix = fmt(total.credit_debit());
     std::string tax = join(prefix, total.payable().display_with_commas());
 
-    CashAmount after_tax =
-        context.tax_return().total_income() - total.payable();
+    CashAmount after_tax = taxret.total_income() - total.payable();
 
     cout << "Total income: " << numfmt
-         << context.tax_return().total_income().display_with_commas() << '\n';
+         << taxret.total_income().display_with_commas() << '\n';
     cout << "Total tax   : " << numfmt << tax << '\n';
     cout << "After tax   : " << numfmt << after_tax.display_with_commas()
          << '\n';

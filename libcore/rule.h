@@ -56,21 +56,11 @@ class Bracket {
     CashAmount m_upper;
 };
 
-class Context {
-  public:
-    Context(const TaxReturn &taxret) : m_taxret{taxret} {}
-
-    const TaxReturn &tax_return() const { return m_taxret; }
-
-  private:
-    const TaxReturn &m_taxret;
-};
-
-using FnCalcForSlice =
-    std::function<std::vector<LineItem>(const Context &, const IncomeSlice &)>;
+using FnCalcForSlice = std::function<std::vector<LineItem>(
+    const TaxReturn &, const IncomeSlice &)>;
 
 #define FN_CALC_SLICE_SIG                                                      \
-    [=](const Context &context,                                                \
+    [=](const TaxReturn &taxret,                                               \
         const IncomeSlice &slice) -> std::vector<LineItem>
 
 class Rule {
@@ -85,9 +75,9 @@ class Rule {
 
     const std::string &desc() const { return m_desc; }
 
-    RuleItems calculate(const Context &context,
+    RuleItems calculate(const TaxReturn &taxret,
                         const IncomeSlice &slice) const {
-        auto items = m_fn(context, slice);
+        auto items = m_fn(taxret, slice);
         return RuleItems{m_rule_id, items};
     }
 

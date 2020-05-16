@@ -49,6 +49,7 @@ class CashAmount {
                                 const CashAmount &right);
     friend CashAmount operator-(const CashAmount &left,
                                 const CashAmount &right);
+    friend CashAmount operator*(const CashAmount &left, const CashAmount& right);
     friend CashAmount operator*(const CashAmount &left, double right);
     friend CashAmount operator*(double left, const CashAmount &right);
     friend CashAmount operator/(const CashAmount &left, double right);

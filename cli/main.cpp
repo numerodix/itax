@@ -147,17 +147,17 @@ std::vector<Rule> build_rules() {
     Bracket brac8{C(0), C(66667)};
     FnCalcForSlice fn8 = FN_CALC_SLICE_SIG {
         CashAmount total_income = taxret.total_income();
-        CashAmount thres_phaseout = C(37000);
+        CashAmount threshold_phaseout = C(37000);
         CashAmount step{150L};
 
         if (total_income <= brac8.upper()) {
             CashAmount taxable = brac8.in_bracket(slice);
             CashAmount payable = C(445);
 
-            if (total_income > thres_phaseout) {
+            if (total_income > threshold_phaseout) {
                 CashAmount limit = std::min(total_income, brac8.upper());
-                CashAmount range = limit - thres_phaseout;
-                CashAmount subtract = range * step;
+                CashAmount range = limit - threshold_phaseout;
+                CashAmount subtract = std::min(payable, range.dollars() * step);
                 payable = payable - subtract;
             }
 

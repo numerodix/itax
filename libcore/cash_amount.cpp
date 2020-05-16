@@ -152,4 +152,9 @@ CashAmount operator/(const CashAmount &left, double right) {
     return CashAmount{res};
 }
 
+std::ostream &operator<<(std::ostream &out, const CashAmount &amt) {
+    out << amt.raw();
+    return out;
+}
+
 } // namespace core

@@ -182,6 +182,13 @@ TEST_CASE("arithmetic routines", "[CashAmount]") {
         REQUIRE(res.raw() == 590L);
     }
 
+    SECTION("multiplication operator") {
+        CashAmount left{1100L};
+        CashAmount right{30};
+        CashAmount res = left * right;
+        REQUIRE(res.raw() == 33000L);
+    }
+
     SECTION("multiplication operator lhs operand") {
         CashAmount left{1100L};
         double right = 0.5;

@@ -18,7 +18,7 @@ std::vector<Rule> build_rules() {
 
     std::string slug1{"Medicare levy"};
     std::string desc1{"Medicare levy is 2% on all income"};
-    FnCalcForSlice fn1 = FN_CALC_SLICE_SIG {
+    FnCalc fn1 = FN_CALC_SIGNATURE {
         CashAmount taxable = slice.amount();
         CashAmount payable = taxable * 0.02;
         LineItem item{taxable, payable, CreditDebit::DEBIT};
@@ -32,7 +32,7 @@ std::vector<Rule> build_rules() {
     std::string slug2{"Medicare levy surcharge"};
     std::string desc2{"Medicare levy surcharge is 1.5% on all income if total "
                       "income above 90k"};
-    FnCalcForSlice fn2 = FN_CALC_SLICE_SIG {
+    FnCalc fn2 = FN_CALC_SIGNATURE {
         if (taxret.total_income() > C(90000)) {
             CashAmount taxable = slice.amount();
             CashAmount payable = taxable * 0.015;
@@ -49,7 +49,7 @@ std::vector<Rule> build_rules() {
     std::string slug3{"bracket 0 - 18.2k"};
     std::string desc3{"0% on income 0k - 18.2k"};
     Bracket brac3{C(0), C(18200)};
-    FnCalcForSlice fn3 = FN_CALC_SLICE_SIG {
+    FnCalc fn3 = FN_CALC_SIGNATURE {
         CashAmount taxable = brac3.in_bracket(slice);
         CashAmount payable = taxable * 0.0;
 
@@ -68,7 +68,7 @@ std::vector<Rule> build_rules() {
     std::string slug4{"bracket 18.2k - 37k"};
     std::string desc4{"19% on income 18.2k - 37k"};
     Bracket brac4{C(18200), C(37000)};
-    FnCalcForSlice fn4 = FN_CALC_SLICE_SIG {
+    FnCalc fn4 = FN_CALC_SIGNATURE {
         CashAmount taxable = brac4.in_bracket(slice);
         CashAmount payable = taxable * 0.19;
 
@@ -87,7 +87,7 @@ std::vector<Rule> build_rules() {
     std::string slug5{"bracket 37k - 90k"};
     std::string desc5{"32.5% on income 37k - 90k"};
     Bracket brac5{C(37000), C(90000)};
-    FnCalcForSlice fn5 = FN_CALC_SLICE_SIG {
+    FnCalc fn5 = FN_CALC_SIGNATURE {
         CashAmount taxable = brac5.in_bracket(slice);
         CashAmount payable = taxable * 0.325;
 
@@ -106,7 +106,7 @@ std::vector<Rule> build_rules() {
     std::string slug6{"bracket 90k - 180k"};
     std::string desc6{"37% on income 90k - 180k"};
     Bracket brac6{C(90000), C(180000)};
-    FnCalcForSlice fn6 = FN_CALC_SLICE_SIG {
+    FnCalc fn6 = FN_CALC_SIGNATURE {
         CashAmount taxable = brac6.in_bracket(slice);
         CashAmount payable = taxable * 0.37;
 
@@ -125,7 +125,7 @@ std::vector<Rule> build_rules() {
     std::string slug7{"bracket 180k - inf"};
     std::string desc7{"45% on income over 180k"};
     Bracket brac7{C(180000), C(999999999)};
-    FnCalcForSlice fn7 = FN_CALC_SLICE_SIG {
+    FnCalc fn7 = FN_CALC_SIGNATURE {
         CashAmount taxable = brac7.in_bracket(slice);
         CashAmount payable = taxable * 0.45;
 
@@ -145,7 +145,7 @@ std::vector<Rule> build_rules() {
     std::string desc8{
         "Maximum offset of 445 applies below 37k, then phases out"};
     Bracket brac8{C(0), C(66667)};
-    FnCalcForSlice fn8 = FN_CALC_SLICE_SIG {
+    FnCalc fn8 = FN_CALC_SIGNATURE {
         CashAmount total_income = taxret.total_income();
         CashAmount threshold_phaseout = C(37000);
         CashAmount step{150L};

@@ -12,36 +12,40 @@
 
 namespace core {
 
-using FnCalcForSlice = std::function<std::vector<LineItem>(
-    const TaxReturn &, const IncomeSlice &)>;
+using FnCalc = std::function<std::vector<LineItem>(const TaxReturn &,
+                                                   const IncomeSlice &)>;
 
-#define FN_CALC_SLICE_SIG                                                      \
-    [=](const TaxReturn &taxret,                                               \
-        const IncomeSlice &slice) -> std::vector<LineItem>
+#define FN_CALC_SIGNATURE                                                      \
+    [=]([[maybe_unused]] const TaxReturn &taxret,                              \
+        [[maybe_unused]] const IncomeSlice &slice) -> std::vector<LineItem>
+
+// Represents a tax rule.
 
 class Rule {
   public:
     Rule(RuleId rule_id, const std::string &slug, const std::string &desc,
-         FnCalcForSlice fn)
-        : m_rule_id{rule_id}, m_slug{slug}, m_desc{desc}, m_fn{fn} {}
+         FnCalc fn);
+    ~Rule();
 
-    RuleId rule_id() const { return m_rule_id; }
+    Rule(const Rule &other);
+    Rule &operator=(const Rule &other);
 
-    const std::string &slug() const { return m_slug; }
+    Rule(Rule &&other);
+    Rule &operator=(Rule &&other);
 
-    const std::string &desc() const { return m_desc; }
+    RuleId rule_id() const;
+    const std::string &slug() const;
+    const std::string &desc() const;
 
+    // Applies the rule on the `slice`.
     RuleItems calculate(const TaxReturn &taxret,
-                        const IncomeSlice &slice) const {
-        auto items = m_fn(taxret, slice);
-        return RuleItems{m_rule_id, items};
-    }
+                        const IncomeSlice &slice) const;
 
   private:
     RuleId m_rule_id;
     std::string m_slug;
     std::string m_desc;
-    FnCalcForSlice m_fn;
+    FnCalc m_fn;
 };
 
 } // namespace core

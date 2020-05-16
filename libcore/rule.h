@@ -37,6 +37,7 @@ class Rule {
     const std::string &slug() const;
     const std::string &desc() const;
 
+    // Applies the rule on the `slice`.
     RuleItems calculate(const TaxReturn &taxret,
                         const IncomeSlice &slice) const;
 

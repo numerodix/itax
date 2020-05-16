@@ -144,13 +144,29 @@ std::vector<Rule> build_rules() {
     std::string slug8{"low-income-tax offset <67k"};
     std::string desc8{
         "Maximum offset of 445 applies below 37k, then phases out"};
-    Bracket brac8{C(0), C(66667)};
+    Bracket brac8{C(0), C(37000)};
     FnCalc fn8 = FN_CALC_SIGNATURE {
+        CashAmount taxable = brac8.in_bracket(slice);
+        auto proportion = taxable / (brac8.upper() - brac8.lower());
+        CashAmount payable = C(445);
+
+        return {};
+    };
+
+    Rule rule8{8, slug8, desc8, fn8};
+
+    // LIT Bracket Rule 9
+
+    std::string slug9{"low-income-tax offset <67k"};
+    std::string desc9{
+        "Maximum offset of 445 applies below 37k, then phases out"};
+    Bracket brac9{C(0), C(66667)};
+    FnCalc fn9 = FN_CALC_SIGNATURE {
         CashAmount total_income = taxret.total_income();
         CashAmount threshold_phaseout = C(37000);
         CashAmount step{150L};
 
-        if (total_income <= brac8.upper()) {
+        if (total_income <= brac9.upper()) {
             CashAmount taxable = brac8.in_bracket(slice);
             CashAmount payable = C(445);
 
@@ -168,7 +184,8 @@ std::vector<Rule> build_rules() {
         return {};
     };
 
-    Rule rule8{8, slug8, desc8, fn8};
+    Rule rule9{9, slug9, desc9, fn9};
+
 
     // return {rule1, rule2, rule3, rule4, rule5, rule6, rule7};
     return {rule1, rule3, rule4, rule5, rule6, rule7, rule8};

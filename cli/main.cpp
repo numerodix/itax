@@ -11,36 +11,6 @@
 using namespace core;
 using namespace std;
 
-CashAmount get_in_bracket(CashAmount lower, CashAmount upper,
-                          const IncomeSlice &slice) {
-    // the slice is entirely below or above the bracket
-    if ((slice.upper_bound() < lower) || (upper < slice.lower_bound())) {
-        return CashAmount{0L};
-    }
-
-    // the slice is entirely contained between the bounds of the bracket
-    if ((lower < slice.lower_bound()) && (slice.upper_bound() < upper)) {
-        return slice.amount();
-    }
-
-    // the slice overlaps or exceeds the whole bracket
-    if ((slice.lower_bound() <= lower) && (upper <= slice.upper_bound())) {
-        return upper - lower;
-    }
-
-    // the slice begins before the bracket and ends in the bracket
-    if ((slice.lower_bound() < lower) && (slice.upper_bound() < upper)) {
-        return slice.upper_bound() - lower;
-    }
-
-    // the slice begins inside the bracket and ends after the bracket
-    if ((lower < slice.lower_bound()) && (upper < slice.upper_bound())) {
-        return upper - slice.lower_bound();
-    }
-
-    throw runtime_error("should not reach this point");
-}
-
 std::vector<Rule> build_rules() {
 
     // Rule 1
@@ -59,8 +29,8 @@ std::vector<Rule> build_rules() {
     // Rule 2
 
     std::string slug2{"Medicare levy surcharge"};
-    std::string desc2{
-        "Medicare levy surcharge is 1.5% on all income if total income above 90k"};
+    std::string desc2{"Medicare levy surcharge is 1.5% on all income if total "
+                      "income above 90k"};
     FnCalcForSlice fn2 = FN_CALC_SLICE_SIG {
         if (context.tax_return().total_income() > C(90000)) {
             CashAmount taxable = slice.amount();
@@ -77,7 +47,18 @@ std::vector<Rule> build_rules() {
 
     std::string slug3{"bracket 0 - 18.2k"};
     std::string desc3{"0% on income 0k - 18.2k"};
-    FnCalcForSlice fn3 = FN_CALC_SLICE_SIG { return {}; };
+    Bracket brac3{C(0), C(18200)};
+    FnCalcForSlice fn3 = FN_CALC_SLICE_SIG {
+        CashAmount taxable = brac3.in_bracket(slice);
+        CashAmount payable = taxable * 0.0;
+
+        if (payable > C(0)) {
+            LineItem item{taxable, payable, CreditDebit::DEBIT};
+            return {item};
+        }
+
+        return {};
+    };
 
     Rule rule3{3, slug3, desc3, fn3};
 
@@ -85,14 +66,16 @@ std::vector<Rule> build_rules() {
 
     std::string slug4{"bracket 18.2k - 37k"};
     std::string desc4{"19% on income 18.2k - 37k"};
+    Bracket brac4{C(18200), C(37000)};
     FnCalcForSlice fn4 = FN_CALC_SLICE_SIG {
-        CashAmount in_bracket = get_in_bracket(C(18200), C(37000), slice);
-        if (in_bracket > C(0)) {
-            CashAmount taxable = in_bracket;
-            CashAmount payable = taxable * 0.19;
+        CashAmount taxable = brac4.in_bracket(slice);
+        CashAmount payable = taxable * 0.19;
+
+        if (payable > C(0)) {
             LineItem item{taxable, payable, CreditDebit::DEBIT};
             return {item};
         }
+
         return {};
     };
 
@@ -102,14 +85,16 @@ std::vector<Rule> build_rules() {
 
     std::string slug5{"bracket 37k - 90k"};
     std::string desc5{"32.5% on income 37k - 90k"};
+    Bracket brac5{C(37000), C(90000)};
     FnCalcForSlice fn5 = FN_CALC_SLICE_SIG {
-        CashAmount in_bracket = get_in_bracket(C(37000), C(90000), slice);
-        if (in_bracket > C(0)) {
-            CashAmount taxable = in_bracket;
-            CashAmount payable = taxable * 0.325;
+        CashAmount taxable = brac5.in_bracket(slice);
+        CashAmount payable = taxable * 0.325;
+
+        if (payable > C(0)) {
             LineItem item{taxable, payable, CreditDebit::DEBIT};
             return {item};
         }
+
         return {};
     };
 
@@ -119,14 +104,16 @@ std::vector<Rule> build_rules() {
 
     std::string slug6{"bracket 90k - 180k"};
     std::string desc6{"37% on income 90k - 180k"};
+    Bracket brac6{C(90000), C(180000)};
     FnCalcForSlice fn6 = FN_CALC_SLICE_SIG {
-        CashAmount in_bracket = get_in_bracket(C(90000), C(180000), slice);
-        if (in_bracket > C(0)) {
-            CashAmount taxable = in_bracket;
-            CashAmount payable = taxable * 0.37;
+        CashAmount taxable = brac6.in_bracket(slice);
+        CashAmount payable = taxable * 0.37;
+
+        if (payable > C(0)) {
             LineItem item{taxable, payable, CreditDebit::DEBIT};
             return {item};
         }
+
         return {};
     };
 
@@ -136,14 +123,16 @@ std::vector<Rule> build_rules() {
 
     std::string slug7{"bracket 180k - inf"};
     std::string desc7{"45% on income over 180k"};
+    Bracket brac7{C(180000), C(999999999)};
     FnCalcForSlice fn7 = FN_CALC_SLICE_SIG {
-        CashAmount in_bracket = get_in_bracket(C(180000), C(9999999), slice);
-        if (in_bracket > C(0)) {
-            CashAmount taxable = in_bracket;
-            CashAmount payable = taxable * 0.45;
+        CashAmount taxable = brac7.in_bracket(slice);
+        CashAmount payable = taxable * 0.45;
+
+        if (payable > C(0)) {
             LineItem item{taxable, payable, CreditDebit::DEBIT};
             return {item};
         }
+
         return {};
     };
 
@@ -208,7 +197,8 @@ int main(int argc, char *argv[]) {
     std::string prefix = fmt(total.credit_debit());
     std::string tax = join(prefix, total.payable().display_with_commas());
 
-    CashAmount after_tax = context.tax_return().total_income() - total.payable();
+    CashAmount after_tax =
+        context.tax_return().total_income() - total.payable();
 
     cout << "Total income: " << numfmt
          << context.tax_return().total_income().display_with_commas() << '\n';

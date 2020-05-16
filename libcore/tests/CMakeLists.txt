@@ -24,6 +24,24 @@ target_link_libraries(argparse_test
     core
 )
 
+# bracket
+
+set(bracket_test_SRC
+    bracket_test.cpp
+)
+
+add_executable(bracket_test ${bracket_test_SRC})
+target_include_directories(bracket_test
+    PUBLIC
+    ${CMAKE_SOURCE_DIR}/libcore
+    ${CMAKE_SOURCE_DIR}/vendor
+)
+target_link_libraries(bracket_test
+    PRIVATE
+    catch_main
+    core
+)
+
 # cash-amount
 
 set(cash_amount_test_SRC

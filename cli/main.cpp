@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "libcore/argparse.h"
+#include "libcore/bracket.h"
 #include "libcore/rule.h"
 #include "libcore/shortcuts.h"
 
@@ -141,12 +142,24 @@ std::vector<Rule> build_rules() {
     // LIT Bracket Rule 8
 
     std::string slug8{"low-income-tax offset <67k"};
-    std::string desc8{"Maximum offset of 445 applies below 37k, then phases out"};
+    std::string desc8{
+        "Maximum offset of 445 applies below 37k, then phases out"};
     Bracket brac8{C(0), C(66667)};
     FnCalcForSlice fn8 = FN_CALC_SLICE_SIG {
-        if (taxret.total_income() <= brac8.upper()) {
+        CashAmount total_income = taxret.total_income();
+        CashAmount thres_phaseout = C(37000);
+        CashAmount step{150L};
+
+        if (total_income <= brac8.upper()) {
             CashAmount taxable = brac8.in_bracket(slice);
-            CashAmount payable = C(445); // taxable * 0.45;
+            CashAmount payable = C(445);
+
+            if (total_income > thres_phaseout) {
+                CashAmount limit = std::min(total_income, brac8.upper());
+                CashAmount delta = limit - thres_phaseout;
+                payable = payable - (delta * step);
+            }
+
             LineItem item{taxable, payable, CreditDebit::CREDIT};
             return {item};
         }

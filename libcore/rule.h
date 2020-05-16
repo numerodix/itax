@@ -12,58 +12,6 @@
 
 namespace core {
 
-class Bracket {
-  public:
-    Bracket(CashAmount lower, CashAmount upper)
-        : m_lower{lower}, m_upper{upper} {}
-
-    CashAmount upper() const {
-      return m_upper;
-    }
-
-    CashAmount lower() const {
-      return m_lower;
-    }
-
-    CashAmount in_bracket(const IncomeSlice &slice) const {
-        // the slice is entirely below or above the bracket
-        if ((slice.upper_bound() < m_lower) ||
-            (m_upper < slice.lower_bound())) {
-            return CashAmount{0L};
-        }
-
-        // the slice is entirely contained between the bounds of the bracket
-        if ((m_lower < slice.lower_bound()) &&
-            (slice.upper_bound() < m_upper)) {
-            return slice.amount();
-        }
-
-        // the slice overlaps or exceeds the whole bracket
-        if ((slice.lower_bound() <= m_lower) &&
-            (m_upper <= slice.upper_bound())) {
-            return m_upper - m_lower;
-        }
-
-        // the slice begins before the bracket and ends in the bracket
-        if ((slice.lower_bound() < m_lower) &&
-            (slice.upper_bound() < m_upper)) {
-            return slice.upper_bound() - m_lower;
-        }
-
-        // the slice begins inside the bracket and ends after the bracket
-        if ((m_lower < slice.lower_bound()) &&
-            (m_upper < slice.upper_bound())) {
-            return m_upper - slice.lower_bound();
-        }
-
-        throw std::runtime_error("should not reach this point");
-    }
-
-  private:
-    CashAmount m_lower;
-    CashAmount m_upper;
-};
-
 using FnCalcForSlice = std::function<std::vector<LineItem>(
     const TaxReturn &, const IncomeSlice &)>;
 

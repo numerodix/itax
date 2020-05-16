@@ -51,7 +51,7 @@ std::vector<Rule> build_rules() {
         CashAmount taxable = slice.amount();
         CashAmount payable = taxable * 0.02;
         LineItem item{taxable, payable, CreditDebit::DEBIT};
-        return {{item}};
+        return {item};
     };
 
     Rule rule1{1, slug1, desc1, fn1};
@@ -66,9 +66,9 @@ std::vector<Rule> build_rules() {
             CashAmount taxable = slice.amount();
             CashAmount payable = taxable * 0.015;
             LineItem item{taxable, payable, CreditDebit::DEBIT};
-            return {{item}};
+            return {item};
         }
-        return {{}};
+        return {};
     };
 
     Rule rule2{2, slug2, desc2, fn2};
@@ -77,7 +77,7 @@ std::vector<Rule> build_rules() {
 
     std::string slug3{"bracket 0 - 18.2k"};
     std::string desc3{"0% on income 0k - 18.2k"};
-    FnCalcForSlice fn3 = FN_CALC_SLICE_SIG { return {{}}; };
+    FnCalcForSlice fn3 = FN_CALC_SLICE_SIG { return {}; };
 
     Rule rule3{3, slug3, desc3, fn3};
 
@@ -91,9 +91,9 @@ std::vector<Rule> build_rules() {
             CashAmount taxable = in_bracket;
             CashAmount payable = taxable * 0.19;
             LineItem item{taxable, payable, CreditDebit::DEBIT};
-            return {{item}};
+            return {item};
         }
-        return {{}};
+        return {};
     };
 
     Rule rule4{4, slug4, desc4, fn4};
@@ -108,9 +108,9 @@ std::vector<Rule> build_rules() {
             CashAmount taxable = in_bracket;
             CashAmount payable = taxable * 0.325;
             LineItem item{taxable, payable, CreditDebit::DEBIT};
-            return {{item}};
+            return {item};
         }
-        return {{}};
+        return {};
     };
 
     Rule rule5{5, slug5, desc5, fn5};
@@ -125,9 +125,9 @@ std::vector<Rule> build_rules() {
             CashAmount taxable = in_bracket;
             CashAmount payable = taxable * 0.37;
             LineItem item{taxable, payable, CreditDebit::DEBIT};
-            return {{item}};
+            return {item};
         }
-        return {{}};
+        return {};
     };
 
     Rule rule6{6, slug6, desc6, fn6};
@@ -142,9 +142,9 @@ std::vector<Rule> build_rules() {
             CashAmount taxable = in_bracket;
             CashAmount payable = taxable * 0.45;
             LineItem item{taxable, payable, CreditDebit::DEBIT};
-            return {{item}};
+            return {item};
         }
-        return {{}};
+        return {};
     };
 
     Rule rule7{7, slug7, desc7, fn7};

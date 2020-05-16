@@ -124,14 +124,14 @@ TEST_CASE("relational operators", "[IncomeSlice]") {
 }
 
 TEST_CASE("algorithms", "[IncomeSlice]") {
-    IncomeSlice first{C(0), C(20000)};
-    IncomeSlice second{C(20000), C(30000)};
-    IncomeSlice third{C(50000), C(10000)};
+    IncomeSlice first{C(0), C(19000)};
+    IncomeSlice second{C(19000), C(12500)};
+    IncomeSlice third{C(31500), C(3100)};
 
     SECTION("sum") {
         std::list<IncomeSlice> slices{first, second, third};
         auto res = sum(slices.begin(), slices.end(), IncomeSlice{});
         REQUIRE(res.base() == C(0));
-        REQUIRE(res.amount() == C(60000));
+        REQUIRE(res.amount() == C(34600));
     }
 }

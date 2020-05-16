@@ -96,6 +96,24 @@ target_link_libraries(line_item_test
     core
 )
 
+# rule
+
+set(rule_test_SRC
+    rule_test.cpp
+)
+
+add_executable(rule_test ${rule_test_SRC})
+target_include_directories(rule_test
+    PUBLIC
+    ${CMAKE_SOURCE_DIR}/libcore
+    ${CMAKE_SOURCE_DIR}/vendor
+)
+target_link_libraries(rule_test
+    PRIVATE
+    catch_main
+    core
+)
+
 # rule-items
 
 set(rule_items_test_SRC

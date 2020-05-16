@@ -6,6 +6,8 @@
 
 namespace core {
 
+// Represents a tax bracket with a `lower` bound and an `upper` bound.
+
 class Bracket {
   public:
     Bracket(CashAmount lower, CashAmount upper);

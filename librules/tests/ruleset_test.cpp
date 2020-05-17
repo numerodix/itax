@@ -48,7 +48,7 @@ TEST_CASE("apply", "[RuleSet]") {
 
     auto fn2 = FN_CALC_SIGNATURE {
         LineItem first{C(1000), C(500), CreditDebit::DEBIT};
-        LineItem second{C(100), C(30), CreditDebit::CREDIT};
+        LineItem second{C(200), C(20), CreditDebit::CREDIT};
         return {first, second};
     };
     Rule rule2{9, "slug-2", "desc-2", fn2};
@@ -91,14 +91,32 @@ TEST_CASE("apply", "[RuleSet]") {
         REQUIRE(first.net().taxable() == C(2000));
         REQUIRE(first.net().payable() == C(1400));
         REQUIRE(first.net().credit_debit() == CreditDebit::DEBIT);
+        REQUIRE(first.net().percent() == 0.7);
         REQUIRE(first.net().after_tax() == C(600));
 
         // RuleItem #2
         auto second = rule_items[1];
         REQUIRE(second.rule_id() == 9);
-        REQUIRE(second.net().taxable() == C(1100));
-        REQUIRE(second.net().payable() == C(470));
+        REQUIRE(second.net().taxable() == C(1200));
+        REQUIRE(second.net().payable() == C(480));
         REQUIRE(second.net().credit_debit() == CreditDebit::DEBIT);
-        REQUIRE(second.net().after_tax() == C(630));
+        REQUIRE(second.net().percent() == 0.4);
+        REQUIRE(second.net().after_tax() == C(720));
+
+        // Total the slice
+        auto net_item = calc.slice_total(slice);
+        REQUIRE(net_item.taxable() == C(3200));
+        REQUIRE(net_item.payable() == C(1880));
+        REQUIRE(net_item.credit_debit() == CreditDebit::DEBIT);
+        REQUIRE(net_item.percent() == 0.5875);
+        REQUIRE(net_item.after_tax() == C(1320));
+
+        // Total the return
+        auto net_return = calc.return_total();
+        REQUIRE(net_return.taxable() == C(3200));
+        REQUIRE(net_return.payable() == C(1880));
+        REQUIRE(net_return.credit_debit() == CreditDebit::DEBIT);
+        REQUIRE(net_return.percent() == 0.5875);
+        REQUIRE(net_return.after_tax() == C(1320));
     }
 }

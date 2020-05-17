@@ -13,6 +13,7 @@ namespace core {
 class RuleItems {
   public:
     RuleItems(RuleId rule_id, std::vector<LineItem> items);
+    RuleItems();
     ~RuleItems();
 
     RuleItems(const RuleItems &other);
@@ -25,6 +26,8 @@ class RuleItems {
     const std::vector<LineItem> &items() const;
 
     LineItem net() const;
+
+    void append_item(const LineItem& item);
 
   private:
     RuleId m_rule_id;

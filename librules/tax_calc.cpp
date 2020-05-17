@@ -24,15 +24,9 @@ std::vector<core::IncomeSlice> TaxCalculation::slices() const {
     return slices;
 }
 
-SliceIterator
-TaxCalculation::slice_begin(const core::IncomeSlice &slice) const {
-    auto rule_items = m_calc.at(slice);
-    return rule_items.begin();
-}
-
-SliceIterator TaxCalculation::slice_end(const core::IncomeSlice &slice) const {
-    auto rule_items = m_calc.at(slice);
-    return rule_items.end();
+const std::vector<core::RuleItems> &
+TaxCalculation::get_ruleitems(const core::IncomeSlice &slice) const {
+    return m_calc.at(slice);
 }
 
 const core::Rule &TaxCalculation::get_rule(core::RuleId rule_id) const {

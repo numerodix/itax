@@ -10,8 +10,6 @@
 
 namespace rules {
 
-using SliceIterator = std::vector<core::RuleItems>::const_iterator;
-
 // Represents the tax calculation for a given tax year.
 
 class TaxCalculation {
@@ -29,8 +27,8 @@ class TaxCalculation {
     std::size_t num_slices() const;
     std::vector<core::IncomeSlice> slices() const;
 
-    SliceIterator slice_begin(const core::IncomeSlice &slice) const;
-    SliceIterator slice_end(const core::IncomeSlice &slice) const;
+    const std::vector<core::RuleItems> &
+    get_ruleitems(const core::IncomeSlice &slice) const;
 
     const core::Rule &get_rule(core::RuleId rule_id) const;
 

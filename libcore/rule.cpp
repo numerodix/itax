@@ -6,6 +6,8 @@ Rule::Rule(RuleId rule_id, const std::string &slug, const std::string &desc,
            FnCalc fn)
     : m_rule_id{rule_id}, m_slug{slug}, m_desc{desc}, m_fn{fn} {}
 
+Rule::Rule() = default;
+
 Rule::~Rule() = default;
 
 Rule::Rule(const Rule &other) = default;

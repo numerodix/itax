@@ -1,10 +1,4 @@
-# # catch-main
-
-# add_library(catch_main STATIC catch_main.cpp)
-# target_include_directories(catch_main
-#     PUBLIC
-#     ${CMAKE_SOURCE_DIR}/vendor
-# )
+# catch-main re-used from libcore
 
 # ruleset
 
@@ -23,4 +17,5 @@ target_link_libraries(ruleset_test
     PRIVATE
     catch_main
     core
+    rules
 )

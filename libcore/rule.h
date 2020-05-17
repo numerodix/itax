@@ -25,6 +25,7 @@ class Rule {
   public:
     Rule(RuleId rule_id, const std::string &slug, const std::string &desc,
          FnCalc fn);
+    Rule();
     ~Rule();
 
     Rule(const Rule &other);

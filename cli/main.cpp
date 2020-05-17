@@ -304,7 +304,7 @@ int main(int argc, const char *argv[]) {
     // Display return as a whole
 
     LineItem return_total = calc.return_total();
-    cout << "Return total"
+    cout << "Total"
          << " :: " << return_total.taxable().display_with_commas() << "\n";
 
     cout << numfmt << "Taxable";

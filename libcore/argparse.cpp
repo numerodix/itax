@@ -9,7 +9,8 @@ ArgParser::ArgParser() = default;
 
 ArgParser::~ArgParser() = default;
 
-std::vector<std::string> ArgParser::tokenize(int argc, const char *argv[]) const {
+std::vector<std::string> ArgParser::tokenize(int argc,
+                                             const char *argv[]) const {
     std::vector<std::string> args{};
 
     for (int i = 0; i < argc; ++i) {

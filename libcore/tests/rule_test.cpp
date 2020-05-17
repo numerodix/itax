@@ -41,6 +41,16 @@ TEST_CASE("basic properties", "[Rule]") {
     }
 }
 
+TEST_CASE("default constructor", "[Rule]") {
+    Rule rule{};
+
+    SECTION("accessors") {
+        REQUIRE(rule.rule_id() == 0);
+        REQUIRE(rule.slug() == "uninitialized");
+        REQUIRE(rule.desc() == "uninitialized");
+    }
+}
+
 TEST_CASE("special member functions", "[Rule]") {
     auto fn = FN_CALC_SIGNATURE {
         LineItem item{C(10), C(5), CreditDebit::DEBIT};

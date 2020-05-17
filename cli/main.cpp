@@ -360,6 +360,4 @@ int main(int argc, const char *argv[]) {
     cout << "  ";
     cout << "Total";
     cout << "\n";
-
-    cout << "\n";
 }

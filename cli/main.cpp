@@ -27,7 +27,7 @@ RuleSet build_ruleset() {
         return {item};
     };
 
-    Rule rule1{1, slug1, desc1, fn1};
+    Rule medicare_levy{801, slug1, desc1, fn1};
 
     // Rule 2
 
@@ -44,7 +44,7 @@ RuleSet build_ruleset() {
         return {};
     };
 
-    Rule rule2{2, slug2, desc2, fn2};
+    Rule medicare_surcharge{802, slug2, desc2, fn2};
 
     // Bracket Rule 3
 
@@ -63,7 +63,7 @@ RuleSet build_ruleset() {
         return {};
     };
 
-    Rule rule3{3, slug3, desc3, fn3};
+    Rule std_bracket1{101, slug3, desc3, fn3};
 
     // Bracket Rule 4
 
@@ -82,7 +82,7 @@ RuleSet build_ruleset() {
         return {};
     };
 
-    Rule rule4{4, slug4, desc4, fn4};
+    Rule std_bracket2{102, slug4, desc4, fn4};
 
     // Bracket Rule 5
 
@@ -101,7 +101,7 @@ RuleSet build_ruleset() {
         return {};
     };
 
-    Rule rule5{5, slug5, desc5, fn5};
+    Rule std_bracket3{103, slug5, desc5, fn5};
 
     // Bracket Rule 6
 
@@ -120,7 +120,7 @@ RuleSet build_ruleset() {
         return {};
     };
 
-    Rule rule6{6, slug6, desc6, fn6};
+    Rule std_bracket4{104, slug6, desc6, fn6};
 
     // Bracket Rule 7
 
@@ -139,7 +139,7 @@ RuleSet build_ruleset() {
         return {};
     };
 
-    Rule rule7{7, slug7, desc7, fn7};
+    Rule std_bracket5{105, slug7, desc7, fn7};
 
     // LIT Bracket Rule 8
 
@@ -155,7 +155,7 @@ RuleSet build_ruleset() {
         return {item};
     };
 
-    Rule rule8{8, slug8, desc8, fn8};
+    Rule lit_bracket1{201, slug8, desc8, fn8};
 
     // LIT Bracket Rule 9
 
@@ -186,12 +186,10 @@ RuleSet build_ruleset() {
         return {};
     };
 
-    Rule rule9{9, slug9, desc9, fn9};
+    Rule lit_bracket2{202, slug9, desc9, fn9};
 
-    // return {rule1, rule2, rule3, rule4, rule5, rule6, rule7};
-    // return {rule1, rule3, rule4, rule5, rule6, rule7, rule8};
-
-    auto rules = {rule1, rule3, rule4, rule5, rule6, rule7, rule8};
+    auto rules = {std_bracket1, std_bracket2, std_bracket3, std_bracket4,
+                  std_bracket5, lit_bracket1, medicare_levy};
     RuleSet ruleset{"aus-2020", "Australian income tax 2020", rules};
     return ruleset;
 }
@@ -200,10 +198,24 @@ std::string fmt(CreditDebit cd) {
     return cd == CreditDebit::CREDIT ? " " : "-";
 }
 
+std::string fmt_pct(double pct) {
+    // pct = pct * 100;
+
+    stringstream ss{};
+    // ss << std::fixed << ss.precision(4) << (pct * 100);
+    ss << std::fixed << (100 * pct);
+    return ss.str();
+}
+
 std::string join(std::string prefix, std::string number) {
     stringstream ss{};
     ss << prefix << number;
     return ss.str();
+}
+
+std::ostream &pctfmt(std::ostream &out) {
+    out << right << setfill(' ') << setw(6);
+    return out;
 }
 
 std::ostream &numfmt(std::ostream &out) {
@@ -226,21 +238,34 @@ int main(int argc, const char *argv[]) {
              << slice.lower_bound().display_with_commas() << " - "
              << slice.upper_bound().display_with_commas() << " ]" << '\n';
 
-        cout << numfmt << "Taxable  ";
-        cout << numfmt << "Payable  ";
-        cout << numfmt << "After tax" << '\n';
+        cout << numfmt << "Taxable";
+        cout << "  ";
+        cout << numfmt << "Payable";
+        cout << "  ";
+        cout << numfmt << "%";
+        cout << "  ";
+        cout << numfmt << "After tax";
+        cout << "  ";
+        cout << "Rule";
+        cout << "\n";
 
-        for (auto it = calc.slice_begin(slice); it != calc.slice_end(slice);
-             ++it) {
-            const RuleItems &rule_items = *it;
+        auto rule_items_vec = calc.get_ruleitems(slice);
+        for (const auto& rule_items: rule_items_vec) {
             const Rule &rule = calc.get_rule(rule_items.rule_id());
 
-            cout << numfmt << rule_items.net().taxable().display_with_commas()
-                 << "  ";
-            cout << numfmt << rule_items.net().payable().display_with_commas()
-                 << "  ";
-            cout << numfmt << rule_items.net().after_tax().display_with_commas()
-                 << "  ";
+            std::string prefix = fmt(rule_items.net().credit_debit());
+            auto payable = join(prefix, rule_items.net().payable().display_with_commas());
+
+            auto pct = fmt_pct(rule_items.net().percent());
+
+            cout << numfmt << rule_items.net().taxable().display_with_commas();
+            cout << "  ";
+            cout << numfmt << payable;
+            cout << "  ";
+            cout << numfmt << pct;
+            cout << "  ";
+            cout << numfmt << rule_items.net().after_tax().display_with_commas();
+            cout << "  ";
             cout << rule.slug();
             cout << "\n";
         }

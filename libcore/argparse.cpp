@@ -9,7 +9,7 @@ ArgParser::ArgParser() = default;
 
 ArgParser::~ArgParser() = default;
 
-std::vector<std::string> ArgParser::tokenize(int argc, char *argv[]) const {
+std::vector<std::string> ArgParser::tokenize(int argc, const char *argv[]) const {
     std::vector<std::string> args{};
 
     for (int i = 0; i < argc; ++i) {
@@ -45,7 +45,7 @@ ArgParser::parse_returns(std::vector<std::string> tokens) const {
     return returns;
 }
 
-std::vector<TaxReturn> ArgParser::parse(int argc, char *argv[]) const {
+std::vector<TaxReturn> ArgParser::parse(int argc, const char *argv[]) const {
     auto tokens = tokenize(argc, argv);
     return parse_returns(tokens);
 }

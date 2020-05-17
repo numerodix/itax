@@ -13,10 +13,10 @@ class ArgParser {
     ArgParser();
     ~ArgParser();
 
-    std::vector<std::string> tokenize(int argc, char *argv[]) const;
+    std::vector<std::string> tokenize(int argc, const char *argv[]) const;
     std::vector<TaxReturn> parse_returns(std::vector<std::string> tokens) const;
 
-    std::vector<TaxReturn> parse(int argc, char *argv[]) const;
+    std::vector<TaxReturn> parse(int argc, const char *argv[]) const;
 
   private:
     int64_t parse_number(std::string arg) const;

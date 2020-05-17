@@ -11,7 +11,7 @@ TEST_CASE("tokenize") {
     ArgParser parser{};
 
     SECTION("program only") {
-        char *argv[] = {"program"};
+        const char *argv[] = {"program"};
         const int argc = 1;
 
         auto tokens = parser.tokenize(argc, argv);
@@ -21,7 +21,7 @@ TEST_CASE("tokenize") {
     }
 
     SECTION("program and a few args") {
-        char *argv[] = {"program", "one", "two", "|", "three"};
+        const char *argv[] = {"program", "one", "two", "|", "three"};
         const int argc = 5;
 
         auto tokens = parser.tokenize(argc, argv);
@@ -109,7 +109,7 @@ TEST_CASE("parse") {
     ArgParser parser{};
 
     SECTION("program and a few args") {
-        char *argv[] = {"program", "11k", "22.3k"};
+        const char *argv[] = {"program", "11k", "22.3k"};
         const int argc = 3;
 
         auto returns = parser.parse(argc, argv);

@@ -37,6 +37,8 @@ core::LineItem TaxCalculation::slice_total(const core::IncomeSlice &slice) const
         sum = sum + rule_items.net();
     }
 
+    sum.set_taxable(slice.amount());
+
     return sum;
 }
 
@@ -55,6 +57,7 @@ std::vector<core::RuleItems> TaxCalculation::net_slices() const {
 
     // fill each RuleItems in the map with LineItem from each slice
     for (const auto& pair: m_calc) {
+        const auto& slice = pair.first;
         const auto& rule_items_vec = pair.second;
         for (const core::RuleItems& rule_items : rule_items_vec) {
             core::RuleId rule_id = rule_items.rule_id();

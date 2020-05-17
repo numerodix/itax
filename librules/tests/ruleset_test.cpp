@@ -103,20 +103,20 @@ TEST_CASE("apply", "[RuleSet]") {
         REQUIRE(second.net().percent() == 0.4);
         REQUIRE(second.net().after_tax() == C(720));
 
-        // Total the slice
-        auto net_item = calc.slice_total(slice);
-        REQUIRE(net_item.taxable() == C(3200));
-        REQUIRE(net_item.payable() == C(1880));
-        REQUIRE(net_item.credit_debit() == CreditDebit::DEBIT);
-        REQUIRE(net_item.percent() == 0.5875);
-        REQUIRE(net_item.after_tax() == C(1320));
+        // // Total the slice
+        // auto net_item = calc.slice_total(slice);
+        // REQUIRE(net_item.taxable() == C(3200));
+        // REQUIRE(net_item.payable() == C(1880));
+        // REQUIRE(net_item.credit_debit() == CreditDebit::DEBIT);
+        // REQUIRE(net_item.percent() == 0.5875);
+        // REQUIRE(net_item.after_tax() == C(1320));
 
-        // Total the return
-        auto net_return = calc.return_total();
-        REQUIRE(net_return.taxable() == C(3200));
-        REQUIRE(net_return.payable() == C(1880));
-        REQUIRE(net_return.credit_debit() == CreditDebit::DEBIT);
-        REQUIRE(net_return.percent() == 0.5875);
-        REQUIRE(net_return.after_tax() == C(1320));
+        // // Total the return
+        // auto net_return = calc.return_total();
+        // REQUIRE(net_return.taxable() == C(3200));
+        // REQUIRE(net_return.payable() == C(1880));
+        // REQUIRE(net_return.credit_debit() == CreditDebit::DEBIT);
+        // REQUIRE(net_return.percent() == 0.5875);
+        // REQUIRE(net_return.after_tax() == C(1320));
     }
 }

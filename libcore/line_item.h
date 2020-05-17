@@ -20,6 +20,8 @@ class LineItem {
     LineItem(LineItem &&other);
     LineItem &operator=(LineItem &&other);
 
+    void set_taxable(CashAmount taxable);
+
     CashAmount taxable() const;
     CashAmount payable() const;
     CreditDebit credit_debit() const;

@@ -189,7 +189,7 @@ RuleSet build_ruleset() {
     Rule lit_bracket2{202, slug9, desc9, fn9};
 
     auto rules = {std_bracket1, std_bracket2, std_bracket3, std_bracket4,
-                  std_bracket5, lit_bracket1, medicare_levy};
+                  std_bracket5, /* lit_bracket1, */ medicare_levy};
     RuleSet ruleset{"aus-2020", "Australian income tax 2020", rules};
     return ruleset;
 }
@@ -249,6 +249,8 @@ int main(int argc, const char *argv[]) {
         cout << "Rule";
         cout << "\n";
 
+        // Itemize rules for the slice
+
         auto rule_items_vec = calc.get_ruleitems(slice);
         for (const auto& rule_items: rule_items_vec) {
             const Rule &rule = calc.get_rule(rule_items.rule_id());
@@ -269,6 +271,28 @@ int main(int argc, const char *argv[]) {
             cout << rule.slug();
             cout << "\n";
         }
+
+        // Total for the slice
+
+        auto slice_total = calc.slice_total(slice);
+
+        std::string prefix = fmt(slice_total.credit_debit());
+        auto payable = join(prefix, slice_total.payable().display_with_commas());
+
+        auto pct = fmt_pct(slice_total.percent());
+
+        cout << numfmt << slice_total.taxable().display_with_commas();
+        cout << "  ";
+        cout << numfmt << payable;
+        cout << "  ";
+        cout << numfmt << pct;
+        cout << "  ";
+        cout << numfmt << slice_total.after_tax().display_with_commas();
+        cout << "  ";
+        cout << "Total";
+        cout << "\n";
+
+        cout << "\n";
     }
 }
 

@@ -51,4 +51,8 @@ bool operator!=(const IncomeSlice &left, const IncomeSlice &right) {
     return !(left == right);
 }
 
+bool operator<(const IncomeSlice &left, const IncomeSlice &right) {
+    return left.m_base < right.m_base;
+}
+
 } // namespace core

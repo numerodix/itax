@@ -1,5 +1,6 @@
 set(librules_SRC
     ruleset.cpp
+    tax_calc.cpp
 )
 
 add_library(rules ${librules_SRC})

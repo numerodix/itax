@@ -39,6 +39,7 @@ class IncomeSlice {
                                  const IncomeSlice &right);
     friend bool operator==(const IncomeSlice &left, const IncomeSlice &right);
     friend bool operator!=(const IncomeSlice &left, const IncomeSlice &right);
+    friend bool operator<(const IncomeSlice &left, const IncomeSlice &right);
 
   private:
     CashAmount m_base;

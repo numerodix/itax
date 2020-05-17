@@ -147,10 +147,10 @@ std::vector<Rule> build_rules() {
     Bracket brac8{C(0), C(37000)};
     FnCalc fn8 = FN_CALC_SIGNATURE {
         CashAmount taxable = brac8.in_bracket(slice);
-        auto proportion = taxable / (brac8.upper() - brac8.lower());
-        CashAmount payable = C(445);
-
-        return {};
+        double proportion = taxable / (brac8.upper() - brac8.lower());
+        CashAmount payable = C(445) * proportion;
+        LineItem item{taxable, payable, CreditDebit::CREDIT};
+        return {item};
     };
 
     Rule rule8{8, slug8, desc8, fn8};
@@ -160,7 +160,7 @@ std::vector<Rule> build_rules() {
     std::string slug9{"low-income-tax offset <67k"};
     std::string desc9{
         "Maximum offset of 445 applies below 37k, then phases out"};
-    Bracket brac9{C(0), C(66667)};
+    Bracket brac9{C(37000), C(66667)};
     FnCalc fn9 = FN_CALC_SIGNATURE {
         CashAmount total_income = taxret.total_income();
         CashAmount threshold_phaseout = C(37000);

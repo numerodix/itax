@@ -8,11 +8,13 @@
 #include "libcore/bracket.h"
 #include "libcore/rule.h"
 #include "libcore/shortcuts.h"
+#include "librules/ruleset.h"
 
 using namespace core;
+using namespace rules;
 using namespace std;
 
-std::vector<Rule> build_rules() {
+RuleSet build_ruleset() {
 
     // Rule 1
 
@@ -186,9 +188,12 @@ std::vector<Rule> build_rules() {
 
     Rule rule9{9, slug9, desc9, fn9};
 
-
     // return {rule1, rule2, rule3, rule4, rule5, rule6, rule7};
-    return {rule1, rule3, rule4, rule5, rule6, rule7, rule8};
+    // return {rule1, rule3, rule4, rule5, rule6, rule7, rule8};
+
+    auto rules = {rule1, rule3, rule4, rule5, rule6, rule7, rule8};
+    RuleSet ruleset{"aus-2020", "Australian income tax 2020", rules};
+    return ruleset;
 }
 
 std::string fmt(CreditDebit cd) {
@@ -209,10 +214,44 @@ std::ostream &numfmt(std::ostream &out) {
 int main(int argc, const char *argv[]) {
     ArgParser parser{};
     TaxReturn taxret = parser.parse(argc, argv)[0];
-    auto rules = build_rules();
+    RuleSet ruleset = build_ruleset();
+
+    TaxCalculation calc = ruleset.apply(taxret);
+    auto slices = calc.slices();
 
     int slice_no = 0;
+    for (auto slice : slices) {
+        cout << "Slice " << ++slice_no
+             << " :: " << slice.amount().display_with_commas() << "  [ "
+             << slice.lower_bound().display_with_commas() << " - "
+             << slice.upper_bound().display_with_commas() << " ]" << '\n';
+
+        cout << numfmt << "Taxable  ";
+        cout << numfmt << "Payable  ";
+        cout << numfmt << "After tax" << '\n';
+
+        for (auto it = calc.slice_begin(slice); it != calc.slice_end(slice);
+             ++it) {
+            const RuleItems &rule_items = *it;
+            const Rule &rule = calc.get_rule(rule_items.rule_id());
+
+            cout << numfmt << rule_items.net().taxable().display_with_commas()
+                 << "  ";
+            cout << numfmt << rule_items.net().payable().display_with_commas()
+                 << "  ";
+            cout << numfmt << rule_items.net().after_tax().display_with_commas()
+                 << "  ";
+            cout << rule.slug();
+            cout << "\n";
+        }
+    }
+}
+
+void noin() {
+    int slice_no = 0;
     LineItem total{};
+    TaxReturn taxret{std::vector<IncomeSlice>{}};
+    std::vector<Rule> rules;
 
     for (const IncomeSlice &slice : taxret.slices()) {
         cout << "Slice " << ++slice_no

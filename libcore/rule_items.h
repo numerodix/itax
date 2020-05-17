@@ -27,7 +27,7 @@ class RuleItems {
 
     LineItem net() const;
 
-    void append_item(const LineItem& item);
+    void append_item(const LineItem &item);
 
   private:
     RuleId m_rule_id;

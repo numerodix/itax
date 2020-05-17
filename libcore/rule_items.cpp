@@ -27,8 +27,6 @@ LineItem RuleItems::net() const {
     return sum(m_items.begin(), m_items.end(), LineItem{});
 }
 
-void RuleItems::append_item(const LineItem& item) {
-    m_items.push_back(item);
-}
+void RuleItems::append_item(const LineItem &item) { m_items.push_back(item); }
 
 } // namespace core

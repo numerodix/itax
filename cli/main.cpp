@@ -188,7 +188,8 @@ RuleSet build_ruleset() {
 
     Rule lit_bracket2{202, slug9, desc9, fn9};
 
-    auto rules = {std_bracket1, std_bracket2, std_bracket3, std_bracket4,
+    auto rules = {std_bracket1, std_bracket2,
+                  std_bracket3, std_bracket4,
                   std_bracket5, /* lit_bracket1, */ medicare_levy};
     RuleSet ruleset{"aus-2020", "Australian income tax 2020", rules};
     return ruleset;
@@ -231,6 +232,8 @@ int main(int argc, const char *argv[]) {
     TaxCalculation calc = ruleset.apply(taxret);
     auto slices = calc.slices();
 
+    // Display each slice
+
     int slice_no = 0;
     for (auto slice : slices) {
         cout << "Slice " << ++slice_no
@@ -252,11 +255,12 @@ int main(int argc, const char *argv[]) {
         // Itemize rules for the slice
 
         auto rule_items_vec = calc.get_ruleitems(slice);
-        for (const auto& rule_items: rule_items_vec) {
+        for (const auto &rule_items : rule_items_vec) {
             const Rule &rule = calc.get_rule(rule_items.rule_id());
 
             std::string prefix = fmt(rule_items.net().credit_debit());
-            auto payable = join(prefix, rule_items.net().payable().display_with_commas());
+            auto payable =
+                join(prefix, rule_items.net().payable().display_with_commas());
 
             auto pct = fmt_pct(rule_items.net().percent());
 
@@ -266,7 +270,8 @@ int main(int argc, const char *argv[]) {
             cout << "  ";
             cout << numfmt << pct;
             cout << "  ";
-            cout << numfmt << rule_items.net().after_tax().display_with_commas();
+            cout << numfmt
+                 << rule_items.net().after_tax().display_with_commas();
             cout << "  ";
             cout << rule.slug();
             cout << "\n";
@@ -277,7 +282,8 @@ int main(int argc, const char *argv[]) {
         auto slice_total = calc.slice_total(slice);
 
         std::string prefix = fmt(slice_total.credit_debit());
-        auto payable = join(prefix, slice_total.payable().display_with_commas());
+        auto payable =
+            join(prefix, slice_total.payable().display_with_commas());
 
         auto pct = fmt_pct(slice_total.percent());
 
@@ -294,54 +300,66 @@ int main(int argc, const char *argv[]) {
 
         cout << "\n";
     }
-}
 
-void noin() {
-    int slice_no = 0;
-    LineItem total{};
-    TaxReturn taxret{std::vector<IncomeSlice>{}};
-    std::vector<Rule> rules;
+    // Display return as a whole
 
-    for (const IncomeSlice &slice : taxret.slices()) {
-        cout << "Slice " << ++slice_no
-             << " :: " << slice.amount().display_with_commas() << "  [ "
-             << slice.lower_bound().display_with_commas() << " - "
-             << slice.upper_bound().display_with_commas() << " ]" << '\n';
+    LineItem return_total = calc.return_total();
+    cout << "Return total"
+         << " :: " << return_total.taxable().display_with_commas() << "\n";
 
-        LineItem slice_total{};
-        for (const Rule &rule : rules) {
-            auto res = rule.calculate(taxret, slice);
-            slice_total = slice_total + res.net();
+    cout << numfmt << "Taxable";
+    cout << "  ";
+    cout << numfmt << "Payable";
+    cout << "  ";
+    cout << numfmt << "%";
+    cout << "  ";
+    cout << numfmt << "After tax";
+    cout << "  ";
+    cout << "Rule";
+    cout << "\n";
 
-            if (res.net().payable() == C(0)) {
-                continue;
-            }
+    // Display total for each rule
 
-            std::string prefix = fmt(res.net().credit_debit());
-            std::string number =
-                join(prefix, res.net().payable().display_with_commas());
-            cout << "         " << numfmt << number;
+    auto slice_totals = calc.net_slices();
+    for (auto rule_items : slice_totals) {
+        const Rule &rule = calc.get_rule(rule_items.rule_id());
 
-            cout << "\t[" << rule.slug() << "] " << '\n';
-        }
+        std::string prefix = fmt(rule_items.net().credit_debit());
+        auto payable =
+            join(prefix, rule_items.net().payable().display_with_commas());
 
-        std::string prefix = fmt(slice_total.credit_debit());
-        std::string number =
-            join(prefix, slice_total.payable().display_with_commas());
-        cout << "  Total: " << numfmt << number << '\n';
-        cout << '\n';
+        auto pct = fmt_pct(rule_items.net().percent());
 
-        total = total + slice_total;
+        cout << numfmt << rule_items.net().taxable().display_with_commas();
+        cout << "  ";
+        cout << numfmt << payable;
+        cout << "  ";
+        cout << numfmt << pct;
+        cout << "  ";
+        cout << numfmt << rule_items.net().after_tax().display_with_commas();
+        cout << "  ";
+        cout << rule.slug();
+        cout << "\n";
     }
 
-    std::string prefix = fmt(total.credit_debit());
-    std::string tax = join(prefix, total.payable().display_with_commas());
+    // Total for the return
 
-    CashAmount after_tax = taxret.total_income() - total.payable();
+    std::string prefix = fmt(return_total.credit_debit());
+    auto payable =
+        join(prefix, return_total.payable().display_with_commas());
 
-    cout << "Total income: " << numfmt
-         << taxret.total_income().display_with_commas() << '\n';
-    cout << "Total tax   : " << numfmt << tax << '\n';
-    cout << "After tax   : " << numfmt << after_tax.display_with_commas()
-         << '\n';
+    auto pct = fmt_pct(return_total.percent());
+
+    cout << numfmt << return_total.taxable().display_with_commas();
+    cout << "  ";
+    cout << numfmt << payable;
+    cout << "  ";
+    cout << numfmt << pct;
+    cout << "  ";
+    cout << numfmt << return_total.after_tax().display_with_commas();
+    cout << "  ";
+    cout << "Total";
+    cout << "\n";
+
+    cout << "\n";
 }

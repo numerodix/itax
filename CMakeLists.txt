@@ -15,6 +15,7 @@ add_compile_options(-std=c++11 -g -Wall -Wextra -Wpedantic -Wnon-virtual-dtor -W
 # include_directories(include)
 add_subdirectory(cli)
 add_subdirectory(libcore)
+add_subdirectory(librules)
 
 # source files
 # file(GLOB SOURCES_LIBTAX "libtax/*.cpp")

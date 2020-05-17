@@ -206,7 +206,7 @@ std::ostream &numfmt(std::ostream &out) {
     return out;
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, const char *argv[]) {
     ArgParser parser{};
     TaxReturn taxret = parser.parse(argc, argv)[0];
     auto rules = build_rules();

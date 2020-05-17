@@ -121,6 +121,21 @@ TEST_CASE("relational operators", "[IncomeSlice]") {
         REQUIRE(ref == same);
         REQUIRE(ref != different);
     }
+
+    SECTION("lesser/greater operator") {
+        IncomeSlice ref{C(10), C(20)};
+        IncomeSlice same{C(10), C(20)};
+        IncomeSlice smaller{C(0), C(20)};
+
+        REQUIRE(smaller < ref);
+        REQUIRE(ref > smaller);
+
+        REQUIRE(smaller <= same);
+        REQUIRE(ref <= same);
+
+        REQUIRE(ref >= smaller);
+        REQUIRE(ref >= same);
+    }
 }
 
 TEST_CASE("algorithms", "[IncomeSlice]") {

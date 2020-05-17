@@ -27,6 +27,30 @@ CashAmount IncomeSlice::lower_bound() const { return m_base; }
 
 CashAmount IncomeSlice::upper_bound() const { return m_base + m_amount; }
 
+bool operator==(const IncomeSlice &left, const IncomeSlice &right) {
+    return (left.m_base == right.m_base) && (left.m_amount == right.m_amount);
+}
+
+bool operator!=(const IncomeSlice &left, const IncomeSlice &right) {
+    return !(left == right);
+}
+
+bool operator<(const IncomeSlice &left, const IncomeSlice &right) {
+    return left.m_base < right.m_base;
+}
+
+bool operator>(const IncomeSlice &left, const IncomeSlice &right) {
+    return left.m_base > right.m_base;
+}
+
+bool operator<=(const IncomeSlice &left, const IncomeSlice &right) {
+    return left.m_base <= right.m_base;
+}
+
+bool operator>=(const IncomeSlice &left, const IncomeSlice &right) {
+    return left.m_base >= right.m_base;
+}
+
 IncomeSlice operator+(const IncomeSlice &left, const IncomeSlice &right) {
     IncomeSlice *lower = const_cast<IncomeSlice *>(&left);
     IncomeSlice *upper = const_cast<IncomeSlice *>(&right);
@@ -42,13 +66,4 @@ IncomeSlice operator+(const IncomeSlice &left, const IncomeSlice &right) {
 
     return IncomeSlice{lower->m_base, lower->m_amount + upper->m_amount};
 }
-
-bool operator==(const IncomeSlice &left, const IncomeSlice &right) {
-    return (left.m_base == right.m_base) && (left.m_amount == right.m_amount);
-}
-
-bool operator!=(const IncomeSlice &left, const IncomeSlice &right) {
-    return !(left == right);
-}
-
 } // namespace core

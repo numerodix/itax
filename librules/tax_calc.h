@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "libcore/income_slice.h"
+#include "libcore/line_item.h"
 #include "libcore/rule.h"
 #include "libcore/rule_items.h"
 
@@ -29,6 +30,11 @@ class TaxCalculation {
 
     const std::vector<core::RuleItems> &
     get_ruleitems(const core::IncomeSlice &slice) const;
+
+    core::LineItem slice_total(const core::IncomeSlice &slice) const;
+
+    std::vector<core::RuleItems> net_slices() const;
+    core::LineItem return_total() const;
 
     const core::Rule &get_rule(core::RuleId rule_id) const;
 

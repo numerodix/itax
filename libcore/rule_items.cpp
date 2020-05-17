@@ -7,6 +7,8 @@ namespace core {
 RuleItems::RuleItems(RuleId rule_id, std::vector<LineItem> items)
     : m_rule_id{rule_id}, m_items{items} {}
 
+RuleItems::RuleItems() : m_rule_id{0}, m_items{{}} {}
+
 RuleItems::~RuleItems() = default;
 
 RuleItems::RuleItems(const RuleItems &other) = default;
@@ -23,6 +25,10 @@ const std::vector<LineItem> &RuleItems::items() const { return m_items; }
 
 LineItem RuleItems::net() const {
     return sum(m_items.begin(), m_items.end(), LineItem{});
+}
+
+void RuleItems::append_item(const LineItem& item) {
+    m_items.push_back(item);
 }
 
 } // namespace core

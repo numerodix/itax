@@ -27,6 +27,14 @@ TEST_CASE("basic properties", "[RuleItems]") {
         LineItem expected{C(100), C(20), CreditDebit::DEBIT};
         REQUIRE(rule_items.net() == expected);
     }
+
+    SECTION("append_item") {
+        LineItem item{C(200), C(50), CreditDebit::DEBIT};
+        rule_items.append_item(item);
+
+        LineItem expected{C(300), C(70), CreditDebit::DEBIT};
+        REQUIRE(rule_items.net() == expected);
+    }
 }
 
 TEST_CASE("special member functions", "[RuleItems]") {

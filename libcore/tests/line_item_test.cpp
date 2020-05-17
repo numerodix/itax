@@ -26,6 +26,12 @@ TEST_CASE("basic properties", "[LineItem]") {
         REQUIRE(item.credit_debit() == CreditDebit::DEBIT);
     }
 
+    SECTION("set_taxable") {
+        LineItem item{C(100), C(53), CreditDebit::DEBIT};
+        item.set_taxable(C(3));
+        REQUIRE(item.taxable() == C(3));
+    }
+
     SECTION("percent") {
         LineItem item{C(100), C(53), CreditDebit::DEBIT};
         REQUIRE(item.percent() == 0.53);

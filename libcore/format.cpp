@@ -61,4 +61,8 @@ std::string format_percent(double perc) {
     return ss.str();
 }
 
+std::string format_prefix(CreditDebit cd) {
+    return cd == CreditDebit::CREDIT ? " " : "-";
+}
+
 } // namespace core

@@ -5,6 +5,7 @@
 #include "catch.hpp"
 
 using core::CashAmount;
+using core::CreditDebit;
 using core::format_percent;
 using core::format_plain;
 using core::format_with_commas;
@@ -60,5 +61,15 @@ TEST_CASE("format_percent", "[format]") {
 
     SECTION("format_percent #7") {
         REQUIRE(format_percent(2.2147) == "221.47");
+    }
+}
+
+TEST_CASE("format_prefix", "[format]") {
+    SECTION("format_prefix #1") {
+        REQUIRE(format_prefix(CreditDebit::CREDIT) == " ");
+    }
+
+    SECTION("format_prefix #2") {
+        REQUIRE(format_prefix(CreditDebit::DEBIT) == "-");
     }
 }

@@ -11,10 +11,6 @@ using namespace core;
 using namespace rules;
 using namespace std;
 
-std::string fmt(CreditDebit cd) {
-    return cd == CreditDebit::CREDIT ? " " : "-";
-}
-
 std::string join(std::string prefix, std::string number) {
     stringstream ss{};
     ss << prefix << number;
@@ -72,7 +68,7 @@ int main(int argc, const char *argv[]) {
         for (const auto &rule_items : rule_items_vec) {
             const Rule &rule = rules_registry->get_rule(rule_items.rule_id());
 
-            std::string prefix = fmt(rule_items.net().credit_debit());
+            std::string prefix = format_prefix(rule_items.net().credit_debit());
             auto payable =
                 join(prefix, format_with_commas(rule_items.net().payable()));
 
@@ -94,7 +90,7 @@ int main(int argc, const char *argv[]) {
 
         auto slice_total = calc.slice_total(slice);
 
-        std::string prefix = fmt(slice_total.credit_debit());
+        std::string prefix = format_prefix(slice_total.credit_debit());
         auto payable = join(prefix, format_with_commas(slice_total.payable()));
 
         auto pct = format_percent(slice_total.percent());
@@ -136,7 +132,7 @@ int main(int argc, const char *argv[]) {
     for (auto rule_items : slice_totals) {
         const Rule &rule = rules_registry->get_rule(rule_items.rule_id());
 
-        std::string prefix = fmt(rule_items.net().credit_debit());
+        std::string prefix = format_prefix(rule_items.net().credit_debit());
         auto payable =
             join(prefix, format_with_commas(rule_items.net().payable()));
 
@@ -156,7 +152,7 @@ int main(int argc, const char *argv[]) {
 
     // Total for the return
 
-    std::string prefix = fmt(return_total.credit_debit());
+    std::string prefix = format_prefix(return_total.credit_debit());
     auto payable = join(prefix, format_with_commas(return_total.payable()));
 
     auto pct = format_percent(return_total.percent());

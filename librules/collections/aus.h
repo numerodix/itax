@@ -1,10 +1,7 @@
 #include <tuple>
 
-#include "libcore/bracket.h"
-#include "libcore/cash_amount.h"
-#include "libcore/format.h"
+#include "libcore/defs.h"
 #include "libcore/rule.h"
-#include "libcore/shortcuts.h"
 
 namespace rules {
 namespace collections {

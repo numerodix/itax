@@ -1,5 +1,10 @@
 #include "aus.h"
 
+#include "libcore/bracket.h"
+#include "libcore/cash_amount.h"
+#include "libcore/format.h"
+#include "libcore/shortcuts.h"
+
 namespace rules {
 namespace collections {
 

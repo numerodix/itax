@@ -2,8 +2,7 @@
 
 namespace rules {
 
-TaxCalculation::TaxCalculation(std::map<core::RuleId, core::Rule> rules)
-    : m_rules{rules}, m_calc{} {}
+TaxCalculation::TaxCalculation() : m_calc{} {}
 
 TaxCalculation::~TaxCalculation() = default;
 
@@ -85,10 +84,6 @@ core::LineItem TaxCalculation::return_total() const {
     }
 
     return sum;
-}
-
-const core::Rule &TaxCalculation::get_rule(core::RuleId rule_id) const {
-    return m_rules.at(rule_id);
 }
 
 } // namespace rules

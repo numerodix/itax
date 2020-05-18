@@ -4,6 +4,7 @@
 
 #include "libcore/argparse.h"
 #include "libcore/format.h"
+#include "librules/rules_registry.h"
 #include "librules/rulesets_registry.h"
 
 using namespace core;
@@ -33,8 +34,11 @@ std::ostream &numfmt(std::ostream &out) {
 int main(int argc, const char *argv[]) {
     ArgParser parser{};
     TaxReturn taxret = parser.parse(argc, argv)[0];
-    const Ruleset &ruleset =
-        RulesetsRegistry::instance()->get_ruleset("aus-2020");
+
+    auto rules_registry = RulesRegistry::instance();
+    auto ruleset_registry = RulesetsRegistry::instance();
+
+    const Ruleset &ruleset = ruleset_registry->get_ruleset("aus-2020");
 
     TaxCalculation calc = ruleset.apply(taxret);
     auto slices = calc.slices();
@@ -66,7 +70,7 @@ int main(int argc, const char *argv[]) {
 
         auto rule_items_vec = calc.get_ruleitems(slice);
         for (const auto &rule_items : rule_items_vec) {
-            const Rule &rule = calc.get_rule(rule_items.rule_id());
+            const Rule &rule = rules_registry->get_rule(rule_items.rule_id());
 
             std::string prefix = fmt(rule_items.net().credit_debit());
             auto payable =
@@ -130,7 +134,7 @@ int main(int argc, const char *argv[]) {
 
     auto slice_totals = calc.net_slices();
     for (auto rule_items : slice_totals) {
-        const Rule &rule = calc.get_rule(rule_items.rule_id());
+        const Rule &rule = rules_registry->get_rule(rule_items.rule_id());
 
         std::string prefix = fmt(rule_items.net().credit_debit());
         auto payable =

@@ -28,16 +28,6 @@ TEST_CASE("basic properties", "[Ruleset]") {
         REQUIRE(set.desc() == "desc");
         REQUIRE(set.num_rules() == 2);
     }
-
-    SECTION("get_rule") {
-        REQUIRE(set.get_rule(7).rule_id() == 7);
-        REQUIRE(set.get_rule(7).slug() == "slug-1");
-        REQUIRE(set.get_rule(7).desc() == "desc-1");
-
-        REQUIRE(set.get_rule(9).rule_id() == 9);
-        REQUIRE(set.get_rule(9).slug() == "slug-2");
-        REQUIRE(set.get_rule(9).desc() == "desc-2");
-    }
 }
 
 TEST_CASE("apply", "[Ruleset]") {

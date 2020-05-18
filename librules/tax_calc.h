@@ -15,7 +15,7 @@ namespace rules {
 
 class TaxCalculation {
   public:
-    TaxCalculation(std::map<core::RuleId, core::Rule> rules);
+    TaxCalculation();
     ~TaxCalculation();
 
     // Producer
@@ -36,10 +36,7 @@ class TaxCalculation {
     std::vector<core::RuleItems> net_slices() const;
     core::LineItem return_total() const;
 
-    const core::Rule &get_rule(core::RuleId rule_id) const;
-
   private:
-    std::map<core::RuleId, core::Rule> m_rules;
     std::map<core::IncomeSlice, std::vector<core::RuleItems>> m_calc;
 };
 

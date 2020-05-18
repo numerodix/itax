@@ -22,13 +22,12 @@ class Ruleset {
     const std::string &desc() const;
     std::size_t num_rules() const;
 
-    const core::Rule &get_rule(core::RuleId rule_id) const;
     TaxCalculation apply(const core::TaxReturn &taxret) const;
 
   private:
     std::string m_slug;
     std::string m_desc;
-    std::map<core::RuleId, core::Rule> m_rules;
+    std::vector<core::Rule> m_rules;
 };
 
 } // namespace rules

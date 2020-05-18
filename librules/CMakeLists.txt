@@ -1,5 +1,6 @@
 set(librules_SRC
     ruleset.cpp
+    rules_registry.cpp
     tax_calc.cpp
 )
 

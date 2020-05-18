@@ -18,7 +18,7 @@ TEST_CASE("spot check registry", "[RulesRegistry]") {
     auto rule = registry->get_rule(AUS_REV_FY19_BRACKET2);
 
     IncomeSlice slice{C(0), C(50000)};
-    TaxReturn taxret{{slice}};
+    TaxReturn taxret{{}};
 
     auto rule_items = rule.calculate(taxret, slice);
     REQUIRE(rule_items.net().taxable() == C(18800));

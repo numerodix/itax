@@ -1,5 +1,6 @@
 #include "format.h"
 
+#include <cmath>
 #include <iomanip>
 #include <sstream>
 
@@ -44,6 +45,20 @@ std::string format_with_commas(const CashAmount& amount) {
     std::string backwards = ss.str();
     std::string forwards(backwards.rbegin(), backwards.rend());
     return forwards;
+}
+
+std::string format_percent(double perc) {
+    perc *= 100.0;
+
+    int int_part = static_cast<int>(perc);
+    int dec_part = std::round((perc - int_part) * 100.0);
+
+    std::stringstream ss{};
+    ss << std::setw(2) << std::setfill('0') << int_part;
+    ss << '.';
+    ss << std::setw(2) << std::setfill('0') << dec_part;
+
+    return ss.str();
 }
 
 } // namespace core

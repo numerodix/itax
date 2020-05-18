@@ -49,7 +49,7 @@ RuleSet build_ruleset() {
 
     // Bracket Rule 3
 
-    std::string slug3{"bracket 0 - 18.2k"};
+    std::string slug3{"Bracket 0 - 18.2k"};
     std::string desc3{"0% on income 0k - 18.2k"};
     Bracket brac3{C(0), C(18200)};
     FnCalc fn3 = FN_CALC_SIGNATURE {
@@ -68,7 +68,7 @@ RuleSet build_ruleset() {
 
     // Bracket Rule 4
 
-    std::string slug4{"bracket 18.2k - 37k"};
+    std::string slug4{"Bracket 18.2k - 37k"};
     std::string desc4{"19% on income 18.2k - 37k"};
     Bracket brac4{C(18200), C(37000)};
     FnCalc fn4 = FN_CALC_SIGNATURE {
@@ -87,7 +87,7 @@ RuleSet build_ruleset() {
 
     // Bracket Rule 5
 
-    std::string slug5{"bracket 37k - 90k"};
+    std::string slug5{"Bracket 37k - 90k"};
     std::string desc5{"32.5% on income 37k - 90k"};
     Bracket brac5{C(37000), C(90000)};
     FnCalc fn5 = FN_CALC_SIGNATURE {
@@ -106,7 +106,7 @@ RuleSet build_ruleset() {
 
     // Bracket Rule 6
 
-    std::string slug6{"bracket 90k - 180k"};
+    std::string slug6{"Bracket 90k - 180k"};
     std::string desc6{"37% on income 90k - 180k"};
     Bracket brac6{C(90000), C(180000)};
     FnCalc fn6 = FN_CALC_SIGNATURE {
@@ -125,7 +125,7 @@ RuleSet build_ruleset() {
 
     // Bracket Rule 7
 
-    std::string slug7{"bracket 180k - inf"};
+    std::string slug7{"Bracket 180k - inf"};
     std::string desc7{"45% on income over 180k"};
     Bracket brac7{C(180000), C(999999999)};
     FnCalc fn7 = FN_CALC_SIGNATURE {
@@ -144,7 +144,7 @@ RuleSet build_ruleset() {
 
     // LIT Bracket Rule 8
 
-    std::string slug8{"low-income-tax offset <67k"};
+    std::string slug8{"Low-income-tax offset <67k"};
     std::string desc8{
         "Maximum offset of 445 applies below 37k, then phases out"};
     Bracket brac8{C(0), C(37000)};
@@ -160,7 +160,7 @@ RuleSet build_ruleset() {
 
     // LIT Bracket Rule 9
 
-    std::string slug9{"low-income-tax offset <67k"};
+    std::string slug9{"Low-income-tax offset <67k"};
     std::string desc9{
         "Maximum offset of 445 applies below 37k, then phases out"};
     Bracket brac9{C(37000), C(66667)};

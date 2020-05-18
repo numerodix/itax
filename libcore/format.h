@@ -11,7 +11,8 @@ std::string format_with_commas(const CashAmount &amount);
 
 std::string format_percent(double perc);
 
-std::string format_prefix(CreditDebit cd);
+std::string format_sign(CreditDebit cd);
+std::string format_with_sign(CreditDebit cd, const CashAmount& amount);
 
 } // namespace core
 

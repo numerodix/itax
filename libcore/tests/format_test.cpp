@@ -64,12 +64,12 @@ TEST_CASE("format_percent", "[format]") {
     }
 }
 
-TEST_CASE("format_prefix", "[format]") {
-    SECTION("format_prefix #1") {
-        REQUIRE(format_prefix(CreditDebit::CREDIT) == " ");
+TEST_CASE("format_sign", "[format]") {
+    SECTION("format_sign #1") {
+        REQUIRE(format_sign(CreditDebit::CREDIT) == " ");
     }
 
-    SECTION("format_prefix #2") {
-        REQUIRE(format_prefix(CreditDebit::DEBIT) == "-");
+    SECTION("format_sign #2") {
+        REQUIRE(format_sign(CreditDebit::DEBIT) == "-");
     }
 }

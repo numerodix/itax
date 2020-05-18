@@ -11,12 +11,6 @@ using namespace core;
 using namespace rules;
 using namespace std;
 
-std::string join(std::string prefix, std::string number) {
-    stringstream ss{};
-    ss << prefix << number;
-    return ss.str();
-}
-
 std::ostream &pctfmt(std::ostream &out) {
     out << right << setfill(' ') << setw(5);
     return out;
@@ -68,17 +62,14 @@ int main(int argc, const char *argv[]) {
         for (const auto &rule_items : rule_items_vec) {
             const Rule &rule = rules_registry->get_rule(rule_items.rule_id());
 
-            std::string prefix = format_prefix(rule_items.net().credit_debit());
-            auto payable =
-                join(prefix, format_with_commas(rule_items.net().payable()));
-
-            auto pct = format_percent(rule_items.net().percent());
+            auto payable = format_with_sign(rule_items.net().credit_debit(),
+                                            rule_items.net().payable());
 
             cout << numfmt << format_with_commas(rule_items.net().taxable());
             cout << "  ";
             cout << numfmt << payable;
             cout << "  ";
-            cout << pctfmt << pct;
+            cout << pctfmt << format_percent(rule_items.net().percent());
             cout << "  ";
             cout << numfmt << format_with_commas(rule_items.net().after_tax());
             cout << "  ";
@@ -90,16 +81,14 @@ int main(int argc, const char *argv[]) {
 
         auto slice_total = calc.slice_total(slice);
 
-        std::string prefix = format_prefix(slice_total.credit_debit());
-        auto payable = join(prefix, format_with_commas(slice_total.payable()));
-
-        auto pct = format_percent(slice_total.percent());
+        auto payable =
+            format_with_sign(slice_total.credit_debit(), slice_total.payable());
 
         cout << numfmt << format_with_commas(slice_total.taxable());
         cout << "  ";
         cout << numfmt << payable;
         cout << "  ";
-        cout << pctfmt << pct;
+        cout << pctfmt << format_percent(slice_total.percent());
         cout << "  ";
         cout << numfmt << format_with_commas(slice_total.after_tax());
         cout << "  ";
@@ -132,17 +121,14 @@ int main(int argc, const char *argv[]) {
     for (auto rule_items : slice_totals) {
         const Rule &rule = rules_registry->get_rule(rule_items.rule_id());
 
-        std::string prefix = format_prefix(rule_items.net().credit_debit());
-        auto payable =
-            join(prefix, format_with_commas(rule_items.net().payable()));
-
-        auto pct = format_percent(rule_items.net().percent());
+        auto payable = format_with_sign(rule_items.net().credit_debit(),
+                                        rule_items.net().payable());
 
         cout << numfmt << format_with_commas(rule_items.net().taxable());
         cout << "  ";
         cout << numfmt << payable;
         cout << "  ";
-        cout << pctfmt << pct;
+        cout << pctfmt << format_percent(rule_items.net().percent());
         cout << "  ";
         cout << numfmt << format_with_commas(rule_items.net().after_tax());
         cout << "  ";
@@ -152,16 +138,14 @@ int main(int argc, const char *argv[]) {
 
     // Total for the return
 
-    std::string prefix = format_prefix(return_total.credit_debit());
-    auto payable = join(prefix, format_with_commas(return_total.payable()));
-
-    auto pct = format_percent(return_total.percent());
+    auto payable =
+        format_with_sign(return_total.credit_debit(), return_total.payable());
 
     cout << numfmt << format_with_commas(return_total.taxable());
     cout << "  ";
     cout << numfmt << payable;
     cout << "  ";
-    cout << pctfmt << pct;
+    cout << pctfmt << format_percent(return_total.percent());
     cout << "  ";
     cout << numfmt << format_with_commas(return_total.after_tax());
     cout << "  ";

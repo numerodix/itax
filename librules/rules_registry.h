@@ -1,6 +1,7 @@
 #ifndef LIBRULES_RULES_REGISTRY_H
 #define LIBRULES_RULES_REGISTRY_H
 
+#include <cstdint>
 #include <unordered_map>
 
 #include "libcore/defs.h"
@@ -14,6 +15,9 @@ class RulesRegistry {
 
     RulesRegistry();
     ~RulesRegistry();
+
+    std::size_t num_rules() const;
+    const core::Rule &get_rule(core::RuleId rule_id) const;
 
   private:
     void populate_rules();

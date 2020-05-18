@@ -12,13 +12,13 @@ namespace rules {
 
 class RulesetsRegistry {
   public:
-    static RulesetsRegistry* instance();
+    static RulesetsRegistry *instance();
 
     RulesetsRegistry();
     ~RulesetsRegistry();
 
     std::size_t num_rulesets() const;
-    const Ruleset &get_ruleset(const std::string& slug) const;
+    const Ruleset &get_ruleset(const std::string &slug) const;
 
   private:
     void populate_rulesets();

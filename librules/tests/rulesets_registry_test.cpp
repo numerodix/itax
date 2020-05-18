@@ -12,5 +12,5 @@ TEST_CASE("spot check registry", "[RulesetsRegistry]") {
 
     REQUIRE(ruleset.num_rules() == 6);
     REQUIRE(ruleset.slug() == "aus-2020");
-    REQUIRE(ruleset.desc() == "Australian income tax 2020");
+    REQUIRE(ruleset.desc() == "Australian Income Tax 2020");
 }

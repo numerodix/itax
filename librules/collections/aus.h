@@ -50,15 +50,13 @@ const std::vector<RuleFactoryFn> RULE_FACTORIES{
 using RulesetTuple = std::tuple<std::string, std::string, std::vector<RuleId>>;
 
 const std::vector<RulesetTuple> RULESET_TUPLES{
-    std::make_tuple("aus-2020", "Australian income tax 2020", std::vector<RuleId>{
-        AUS_REV_FY19_BRACKET1,
-        AUS_REV_FY19_BRACKET2,
-        AUS_REV_FY19_BRACKET3,
-        AUS_REV_FY19_BRACKET4,
-        AUS_REV_FY19_BRACKET5,
-        AUS_REV_FY19_MEDICARE_LEVY,
-        // AUS_REV_FY19_MEDICARE_LEVY_SURCHARGE,
-    }),
+    std::make_tuple("aus-2020", "Australian Income Tax 2020",
+                    std::vector<RuleId>{
+                        AUS_REV_FY19_BRACKET1, AUS_REV_FY19_BRACKET2,
+                        AUS_REV_FY19_BRACKET3, AUS_REV_FY19_BRACKET4,
+                        AUS_REV_FY19_BRACKET5, AUS_REV_FY19_MEDICARE_LEVY,
+                        // AUS_REV_FY19_MEDICARE_LEVY_SURCHARGE,
+                    }),
 };
 
 } // namespace collections

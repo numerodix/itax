@@ -20,11 +20,9 @@ RulesetsRegistry::RulesetsRegistry() = default;
 
 RulesetsRegistry::~RulesetsRegistry() = default;
 
-std::size_t RulesetsRegistry::num_rulesets() const {
-    return m_rulesets.size();
-}
+std::size_t RulesetsRegistry::num_rulesets() const { return m_rulesets.size(); }
 
-const Ruleset &RulesetsRegistry::get_ruleset(const std::string& slug) const {
+const Ruleset &RulesetsRegistry::get_ruleset(const std::string &slug) const {
     return m_rulesets.at(slug);
 }
 
@@ -37,7 +35,7 @@ void RulesetsRegistry::populate_rulesets() {
         auto rule_ids = std::get<2>(tup);
 
         std::vector<core::Rule> rules{};
-        for (core::RuleId rule_id: rule_ids) {
+        for (core::RuleId rule_id : rule_ids) {
             core::Rule rule = rules_registry->get_rule(rule_id);
             rules.push_back(rule);
         }

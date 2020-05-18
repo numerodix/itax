@@ -11,11 +11,12 @@ namespace rules {
 
 // Represents a complete set of tax rules for a given tax year.
 
-class RuleSet {
+class Ruleset {
   public:
-    RuleSet(const std::string &slug, const std::string &desc,
+    Ruleset(const std::string &slug, const std::string &desc,
             std::vector<core::Rule> rules);
-    ~RuleSet();
+    Ruleset();
+    ~Ruleset();
 
     const std::string &slug() const;
     const std::string &desc() const;

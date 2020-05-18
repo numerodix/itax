@@ -1,3 +1,5 @@
+#include <tuple>
+
 #include "libcore/bracket.h"
 #include "libcore/cash_amount.h"
 #include "libcore/format.h"
@@ -28,7 +30,7 @@ Rule get_aus_rev_fy19_bracket5();
 Rule get_aus_rev_fy19_medicare_levy();
 Rule get_aus_rev_fy19_medicare_levy_surcharge();
 
-// factory helpers
+// rule factory helpers
 
 using RuleFactoryFn = std::function<Rule()>;
 
@@ -41,6 +43,22 @@ const std::vector<RuleFactoryFn> RULE_FACTORIES{
     get_aus_rev_fy19_bracket5,
     get_aus_rev_fy19_medicare_levy,
     get_aus_rev_fy19_medicare_levy_surcharge,
+};
+
+// ruleset factory helpers
+
+using RulesetTuple = std::tuple<std::string, std::string, std::vector<RuleId>>;
+
+const std::vector<RulesetTuple> RULESET_TUPLES{
+    std::make_tuple("aus-2020", "Australian income tax 2020", std::vector<RuleId>{
+        AUS_REV_FY19_BRACKET1,
+        AUS_REV_FY19_BRACKET2,
+        AUS_REV_FY19_BRACKET3,
+        AUS_REV_FY19_BRACKET4,
+        AUS_REV_FY19_BRACKET5,
+        AUS_REV_FY19_MEDICARE_LEVY,
+        // AUS_REV_FY19_MEDICARE_LEVY_SURCHARGE,
+    }),
 };
 
 } // namespace collections

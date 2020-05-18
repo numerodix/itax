@@ -39,3 +39,23 @@ target_link_libraries(ruleset_test
     core
     rules
 )
+
+# rulesets_registry
+
+set(rulesets_registry_test_SRC
+    rulesets_registry_test.cpp
+)
+
+add_executable(rulesets_registry_test ${rulesets_registry_test_SRC})
+target_include_directories(rulesets_registry_test
+    PUBLIC
+    ${CMAKE_SOURCE_DIR}
+    ${CMAKE_SOURCE_DIR}/librules
+    ${CMAKE_SOURCE_DIR}/vendor
+)
+target_link_libraries(rulesets_registry_test
+    PRIVATE
+    catch_main
+    core
+    rules
+)

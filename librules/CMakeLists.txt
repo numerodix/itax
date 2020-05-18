@@ -2,6 +2,7 @@ set(librules_SRC
     collections/aus.cpp
     ruleset.cpp
     rules_registry.cpp
+    rulesets_registry.cpp
     tax_calc.cpp
 )
 

@@ -15,7 +15,7 @@ using namespace core;
 using namespace rules;
 using namespace std;
 
-RuleSet build_ruleset() {
+Ruleset build_ruleset() {
 
     // Rule 1
 
@@ -192,7 +192,7 @@ RuleSet build_ruleset() {
     auto rules = {std_bracket1, std_bracket2,
                   std_bracket3, std_bracket4,
                   std_bracket5, /* lit_bracket1, */ medicare_levy};
-    RuleSet ruleset{"aus-2020", "Australian income tax 2020", rules};
+    Ruleset ruleset{"aus-2020", "Australian income tax 2020", rules};
     return ruleset;
 }
 
@@ -219,7 +219,7 @@ std::ostream &numfmt(std::ostream &out) {
 int main(int argc, const char *argv[]) {
     ArgParser parser{};
     TaxReturn taxret = parser.parse(argc, argv)[0];
-    RuleSet ruleset = build_ruleset();
+    Ruleset ruleset = build_ruleset();
 
     TaxCalculation calc = ruleset.apply(taxret);
     auto slices = calc.slices();

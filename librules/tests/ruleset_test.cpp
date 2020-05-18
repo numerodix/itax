@@ -11,17 +11,17 @@ using core::IncomeSlice;
 using core::LineItem;
 using core::Rule;
 using core::TaxReturn;
-using rules::RuleSet;
+using rules::Ruleset;
 using rules::TaxCalculation;
 
-TEST_CASE("basic properties", "[RuleSet]") {
+TEST_CASE("basic properties", "[Ruleset]") {
     auto fn1 = FN_CALC_SIGNATURE { return {}; };
     Rule rule1{7, "slug-1", "desc-1", fn1};
 
     auto fn2 = FN_CALC_SIGNATURE { return {}; };
     Rule rule2{9, "slug-2", "desc-2", fn2};
 
-    RuleSet set{"slug", "desc", {rule1, rule2}};
+    Ruleset set{"slug", "desc", {rule1, rule2}};
 
     SECTION("accessors") {
         REQUIRE(set.slug() == "slug");
@@ -40,7 +40,7 @@ TEST_CASE("basic properties", "[RuleSet]") {
     }
 }
 
-TEST_CASE("apply", "[RuleSet]") {
+TEST_CASE("apply", "[Ruleset]") {
     auto fn1 = FN_CALC_SIGNATURE {
         LineItem first{C(10000), C(1000), CreditDebit::CREDIT};
         LineItem second{C(20000), C(4000), CreditDebit::DEBIT};
@@ -54,7 +54,7 @@ TEST_CASE("apply", "[RuleSet]") {
     };
     Rule rule2{9, "slug-2", "desc-2", fn2};
 
-    RuleSet set{"slug", "desc", {rule1, rule2}};
+    Ruleset set{"slug", "desc", {rule1, rule2}};
 
     SECTION("apply to tax return with single slice") {
         IncomeSlice slice_input{C(0), C(50000)};

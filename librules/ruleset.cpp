@@ -2,7 +2,7 @@
 
 namespace rules {
 
-RuleSet::RuleSet(const std::string &slug, const std::string &desc,
+Ruleset::Ruleset(const std::string &slug, const std::string &desc,
                  std::vector<core::Rule> rules)
     : m_slug{slug}, m_desc{desc}, m_rules{} {
     for (core::Rule &rule : rules) {
@@ -10,19 +10,21 @@ RuleSet::RuleSet(const std::string &slug, const std::string &desc,
     }
 }
 
-RuleSet::~RuleSet() = default;
+Ruleset::Ruleset() = default;
 
-const std::string &RuleSet::slug() const { return m_slug; }
+Ruleset::~Ruleset() = default;
 
-const std::string &RuleSet::desc() const { return m_desc; }
+const std::string &Ruleset::slug() const { return m_slug; }
 
-std::size_t RuleSet::num_rules() const { return m_rules.size(); }
+const std::string &Ruleset::desc() const { return m_desc; }
 
-const core::Rule &RuleSet::get_rule(core::RuleId rule_id) const {
+std::size_t Ruleset::num_rules() const { return m_rules.size(); }
+
+const core::Rule &Ruleset::get_rule(core::RuleId rule_id) const {
     return m_rules.at(rule_id);
 }
 
-TaxCalculation RuleSet::apply(const core::TaxReturn &taxret) const {
+TaxCalculation Ruleset::apply(const core::TaxReturn &taxret) const {
     TaxCalculation calc{m_rules};
 
     for (const core::IncomeSlice &slice : taxret.slices()) {

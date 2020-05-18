@@ -60,6 +60,24 @@ target_link_libraries(cash_amount_test
     core
 )
 
+# format
+
+set(format_test_SRC
+    format_test.cpp
+)
+
+add_executable(format_test ${format_test_SRC})
+target_include_directories(format_test
+    PUBLIC
+    ${CMAKE_SOURCE_DIR}/libcore
+    ${CMAKE_SOURCE_DIR}/vendor
+)
+target_link_libraries(format_test
+    PRIVATE
+    catch_main
+    core
+)
+
 # income-slice
 
 set(income_slice_test_SRC

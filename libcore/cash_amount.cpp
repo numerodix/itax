@@ -67,47 +67,6 @@ int64_t CashAmount::cents() const {
     return val_part - (whole_dollars * 100L);
 }
 
-std::string CashAmount::display_plain() const {
-    int64_t value_part = rounded_value_part();
-
-    int64_t int_part = value_part / 100;
-    int64_t dec_part = value_part - (int_part * 100);
-
-    std::stringstream ss{};
-    ss << int_part << '.' << std::setfill('0') << std::setw(2) << dec_part;
-    return ss.str();
-}
-
-std::string CashAmount::display_with_commas() const {
-    std::string plain = display_plain();
-
-    std::stringstream ss{};
-    int counter = 0;
-    bool past_decimal_point = false;
-
-    for (auto it = plain.rbegin(); it != plain.rend(); ++it) {
-        if (past_decimal_point) {
-            if ((counter > 0) && (counter % 3 == 0)) {
-                ss << ',';
-            }
-
-            ss << *it;
-            ++counter;
-
-        } else {
-            if (*it == '.') {
-                past_decimal_point = true;
-            }
-
-            ss << *it;
-        }
-    }
-
-    std::string backwards = ss.str();
-    std::string forwards(backwards.rbegin(), backwards.rend());
-    return forwards;
-}
-
 bool operator==(const CashAmount &left, const CashAmount &right) {
     return left.m_amount == right.m_amount;
 }

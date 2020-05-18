@@ -117,38 +117,6 @@ TEST_CASE("non-trivial construction", "[CashAmount]") {
     }
 }
 
-TEST_CASE("display routines", "[CashAmount]") {
-    SECTION("display_plain() returns a string representation, rounded") {
-        CashAmount amount{12345678950L};
-        REQUIRE(amount.display_plain() == "1234567.90");
-    }
-
-    SECTION("display_with_commas() formats with commas #1") {
-        CashAmount amount{12345678950L};
-        REQUIRE(amount.display_with_commas() == "1,234,567.90");
-    }
-
-    SECTION("display_with_commas() formats with commas #2") {
-        CashAmount amount{2345678950L};
-        REQUIRE(amount.display_with_commas() == "234,567.90");
-    }
-
-    SECTION("display_with_commas() formats with commas #3") {
-        CashAmount amount{5678950L};
-        REQUIRE(amount.display_with_commas() == "567.90");
-    }
-
-    SECTION("display_with_commas() formats with commas #4") {
-        CashAmount amount{8950L};
-        REQUIRE(amount.display_with_commas() == "0.90");
-    }
-
-    SECTION("display_with_commas() formats with commas #5") {
-        CashAmount amount{120000L};
-        REQUIRE(amount.display_with_commas() == "12.00");
-    }
-}
-
 TEST_CASE("relational operators", "[CashAmount]") {
     SECTION("equality operator") {
         CashAmount ref{1295L};

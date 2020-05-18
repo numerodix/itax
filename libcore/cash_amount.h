@@ -38,9 +38,6 @@ class CashAmount {
     int64_t dollars() const;
     int64_t cents() const;
 
-    std::string display_plain() const;
-    std::string display_with_commas() const;
-
     friend bool operator==(const CashAmount &left, const CashAmount &right);
     friend bool operator!=(const CashAmount &left, const CashAmount &right);
     friend bool operator<(const CashAmount &left, const CashAmount &right);

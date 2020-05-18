@@ -6,6 +6,7 @@
 
 #include "libcore/argparse.h"
 #include "libcore/bracket.h"
+#include "libcore/format.h"
 #include "libcore/rule.h"
 #include "libcore/shortcuts.h"
 #include "librules/ruleset.h"
@@ -237,9 +238,9 @@ int main(int argc, const char *argv[]) {
     int slice_no = 0;
     for (auto slice : slices) {
         cout << "Slice " << ++slice_no
-             << " :: " << slice.amount().display_with_commas() << "  [ "
-             << slice.lower_bound().display_with_commas() << " - "
-             << slice.upper_bound().display_with_commas() << " ]" << '\n';
+             << " :: " << format_with_commas(slice.amount()) << "  [ "
+             << format_with_commas(slice.lower_bound()) << " - "
+             << format_with_commas(slice.upper_bound()) << " ]" << '\n';
 
         cout << numfmt << "Taxable";
         cout << "  ";
@@ -260,18 +261,18 @@ int main(int argc, const char *argv[]) {
 
             std::string prefix = fmt(rule_items.net().credit_debit());
             auto payable =
-                join(prefix, rule_items.net().payable().display_with_commas());
+                join(prefix, format_with_commas(rule_items.net().payable()));
 
             auto pct = fmt_pct(rule_items.net().percent());
 
-            cout << numfmt << rule_items.net().taxable().display_with_commas();
+            cout << numfmt << format_with_commas(rule_items.net().taxable());
             cout << "  ";
             cout << numfmt << payable;
             cout << "  ";
             cout << numfmt << pct;
             cout << "  ";
             cout << numfmt
-                 << rule_items.net().after_tax().display_with_commas();
+                 << format_with_commas(rule_items.net().after_tax());
             cout << "  ";
             cout << rule.slug();
             cout << "\n";
@@ -283,17 +284,17 @@ int main(int argc, const char *argv[]) {
 
         std::string prefix = fmt(slice_total.credit_debit());
         auto payable =
-            join(prefix, slice_total.payable().display_with_commas());
+            join(prefix, format_with_commas(slice_total.payable()));
 
         auto pct = fmt_pct(slice_total.percent());
 
-        cout << numfmt << slice_total.taxable().display_with_commas();
+        cout << numfmt << format_with_commas(slice_total.taxable());
         cout << "  ";
         cout << numfmt << payable;
         cout << "  ";
         cout << numfmt << pct;
         cout << "  ";
-        cout << numfmt << slice_total.after_tax().display_with_commas();
+        cout << numfmt << format_with_commas(slice_total.after_tax());
         cout << "  ";
         cout << "Total";
         cout << "\n";
@@ -305,7 +306,7 @@ int main(int argc, const char *argv[]) {
 
     LineItem return_total = calc.return_total();
     cout << "Total"
-         << " :: " << return_total.taxable().display_with_commas() << "\n";
+         << " :: " << format_with_commas(return_total.taxable()) << "\n";
 
     cout << numfmt << "Taxable";
     cout << "  ";
@@ -326,17 +327,17 @@ int main(int argc, const char *argv[]) {
 
         std::string prefix = fmt(rule_items.net().credit_debit());
         auto payable =
-            join(prefix, rule_items.net().payable().display_with_commas());
+            join(prefix, format_with_commas(rule_items.net().payable()));
 
         auto pct = fmt_pct(rule_items.net().percent());
 
-        cout << numfmt << rule_items.net().taxable().display_with_commas();
+        cout << numfmt << format_with_commas(rule_items.net().taxable());
         cout << "  ";
         cout << numfmt << payable;
         cout << "  ";
         cout << numfmt << pct;
         cout << "  ";
-        cout << numfmt << rule_items.net().after_tax().display_with_commas();
+        cout << numfmt << format_with_commas(rule_items.net().after_tax());
         cout << "  ";
         cout << rule.slug();
         cout << "\n";
@@ -346,17 +347,17 @@ int main(int argc, const char *argv[]) {
 
     std::string prefix = fmt(return_total.credit_debit());
     auto payable =
-        join(prefix, return_total.payable().display_with_commas());
+        join(prefix, format_with_commas(return_total.payable()));
 
     auto pct = fmt_pct(return_total.percent());
 
-    cout << numfmt << return_total.taxable().display_with_commas();
+    cout << numfmt << format_with_commas(return_total.taxable());
     cout << "  ";
     cout << numfmt << payable;
     cout << "  ";
     cout << numfmt << pct;
     cout << "  ";
-    cout << numfmt << return_total.after_tax().display_with_commas();
+    cout << numfmt << format_with_commas(return_total.after_tax());
     cout << "  ";
     cout << "Total";
     cout << "\n";

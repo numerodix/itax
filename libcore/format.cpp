@@ -6,7 +6,7 @@
 
 namespace core {
 
-std::string format_plain(const CashAmount& amount) {
+std::string format_plain(const CashAmount &amount) {
     int64_t value_part = amount.rounded_value_part();
 
     int64_t int_part = value_part / 100;
@@ -17,7 +17,7 @@ std::string format_plain(const CashAmount& amount) {
     return ss.str();
 }
 
-std::string format_with_commas(const CashAmount& amount) {
+std::string format_with_commas(const CashAmount &amount) {
     std::string plain = format_plain(amount);
 
     std::stringstream ss{};

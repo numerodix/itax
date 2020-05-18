@@ -3,6 +3,7 @@
 #include <cerrno>
 #include <cstring>
 #include <iomanip>
+#include <limits>
 #include <sstream>
 #include <stdexcept>
 
@@ -23,6 +24,10 @@ CashAmount CashAmount::from(std::string amount) {
 
     int64_t value_part = static_cast<int64_t>(value_part_f * 100.0) * 100L;
     return CashAmount{value_part};
+}
+
+CashAmount CashAmount::max() {
+    return CashAmount{std::numeric_limits<int64_t>::max()};
 }
 
 CashAmount::CashAmount(int64_t amount) {

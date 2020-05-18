@@ -262,8 +262,7 @@ int main(int argc, const char *argv[]) {
             cout << "  ";
             cout << pctfmt << pct;
             cout << "  ";
-            cout << numfmt
-                 << format_with_commas(rule_items.net().after_tax());
+            cout << numfmt << format_with_commas(rule_items.net().after_tax());
             cout << "  ";
             cout << rule.slug();
             cout << "\n";
@@ -274,8 +273,7 @@ int main(int argc, const char *argv[]) {
         auto slice_total = calc.slice_total(slice);
 
         std::string prefix = fmt(slice_total.credit_debit());
-        auto payable =
-            join(prefix, format_with_commas(slice_total.payable()));
+        auto payable = join(prefix, format_with_commas(slice_total.payable()));
 
         auto pct = format_percent(slice_total.percent());
 
@@ -337,8 +335,7 @@ int main(int argc, const char *argv[]) {
     // Total for the return
 
     std::string prefix = fmt(return_total.credit_debit());
-    auto payable =
-        join(prefix, format_with_commas(return_total.payable()));
+    auto payable = join(prefix, format_with_commas(return_total.payable()));
 
     auto pct = format_percent(return_total.percent());
 

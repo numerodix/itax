@@ -13,6 +13,7 @@ class RulesRegistry {
     static RulesRegistry *instance();
 
     RulesRegistry();
+    ~RulesRegistry();
 
   private:
     void populate_rules();
@@ -23,4 +24,3 @@ class RulesRegistry {
 } // namespace rules
 
 #endif // LIBRULES_RULES_REGISTRY_H
-

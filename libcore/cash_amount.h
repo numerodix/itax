@@ -20,6 +20,7 @@ namespace core {
 class CashAmount {
   public:
     static CashAmount from(std::string amount);
+    static CashAmount max();
 
     explicit CashAmount(int64_t amount);
     ~CashAmount();

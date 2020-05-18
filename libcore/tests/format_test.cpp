@@ -5,9 +5,9 @@
 #include "catch.hpp"
 
 using core::CashAmount;
+using core::format_percent;
 using core::format_plain;
 using core::format_with_commas;
-using core::format_percent;
 
 TEST_CASE("format_plain", "[format]") {
     SECTION("format_plain #1") {
@@ -44,25 +44,15 @@ TEST_CASE("format_with_commas", "[format]") {
 }
 
 TEST_CASE("format_percent", "[format]") {
-    SECTION("format_percent #1") {
-        REQUIRE(format_percent(0.0) == "00.00");
-    }
+    SECTION("format_percent #1") { REQUIRE(format_percent(0.0) == "00.00"); }
 
-    SECTION("format_percent #2") {
-        REQUIRE(format_percent(0.01) == "01.00");
-    }
+    SECTION("format_percent #2") { REQUIRE(format_percent(0.01) == "01.00"); }
 
-    SECTION("format_percent #3") {
-        REQUIRE(format_percent(0.21) == "21.00");
-    }
+    SECTION("format_percent #3") { REQUIRE(format_percent(0.21) == "21.00"); }
 
-    SECTION("format_percent #4") {
-        REQUIRE(format_percent(0.214) == "21.40");
-    }
+    SECTION("format_percent #4") { REQUIRE(format_percent(0.214) == "21.40"); }
 
-    SECTION("format_percent #5") {
-        REQUIRE(format_percent(0.2147) == "21.47");
-    }
+    SECTION("format_percent #5") { REQUIRE(format_percent(0.2147) == "21.47"); }
 
     SECTION("format_percent #6") {
         REQUIRE(format_percent(0.214792) == "21.48");

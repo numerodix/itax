@@ -6,7 +6,7 @@
 namespace core {
 
 // An opaque unique identifier for each `Rule` instance.
-using RuleId = uint32_t;
+using RuleId = uint64_t;
 
 enum class CreditDebit {
     CREDIT,

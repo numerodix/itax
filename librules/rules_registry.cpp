@@ -1,11 +1,11 @@
 #include "rules_registry.h"
 
-#include "db/aus.h"
+#include "collections/aus.h"
 
 namespace rules {
 
-RulesRegistry* RulesRegistry::instance() {
-    static RulesRegistry* registry = new RulesRegistry();
+RulesRegistry *RulesRegistry::instance() {
+    static RulesRegistry *registry = new RulesRegistry();
 
     if (registry == nullptr) {
         registry = new RulesRegistry();
@@ -17,9 +17,13 @@ RulesRegistry* RulesRegistry::instance() {
 
 RulesRegistry::RulesRegistry() = default;
 
+RulesRegistry::~RulesRegistry() = default;
+
 void RulesRegistry::populate_rules() {
-    auto id = db::AUS_BRACKET_1;
-    m_rules[id] = db::get_bracket_1(id);
+    for (auto fn : collections::RULE_FACTORIES) {
+        core::Rule rule = fn();
+        m_rules[rule.rule_id()] = rule;
+    }
 }
 
 } // namespace rules

@@ -117,6 +117,11 @@ TEST_CASE("non-trivial construction", "[CashAmount]") {
     }
 }
 
+TEST_CASE("max() constructor", "[CashAmount]") {
+    CashAmount amount = CashAmount::max();
+    REQUIRE(amount.raw() == 0x7fffffffffffffff);
+}
+
 TEST_CASE("relational operators", "[CashAmount]") {
     SECTION("equality operator") {
         CashAmount ref{1295L};

@@ -1,6 +1,5 @@
 #include <iomanip>
 #include <iostream>
-#include <sstream>
 
 #include "libcore/argparse.h"
 #include "libcore/format.h"

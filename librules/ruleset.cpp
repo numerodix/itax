@@ -17,7 +17,7 @@ const std::string &Ruleset::desc() const { return m_desc; }
 std::size_t Ruleset::num_rules() const { return m_rules.size(); }
 
 TaxCalculation Ruleset::apply(const core::TaxReturn &taxret) const {
-    TaxCalculation calc{};
+    TaxCalculation calc{m_rules};
 
     for (const core::IncomeSlice &slice : taxret.slices()) {
         std::vector<core::RuleItems> vec_rule_items{};

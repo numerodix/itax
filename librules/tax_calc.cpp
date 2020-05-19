@@ -2,7 +2,8 @@
 
 namespace rules {
 
-TaxCalculation::TaxCalculation() : m_calc{} {}
+TaxCalculation::TaxCalculation(std::vector<core::Rule> rules)
+    : m_rules{rules}, m_calc{} {}
 
 TaxCalculation::~TaxCalculation() = default;
 
@@ -67,8 +68,9 @@ std::vector<core::RuleItems> TaxCalculation::net_slices() const {
 
     // create a vector to return
     std::vector<core::RuleItems> rule_items_vec{};
-    for (const auto &pair : rule_items_map) {
-        const core::RuleItems &rule_items = pair.second;
+    for (const auto &rule : m_rules) {
+        core::RuleId rule_id = rule.rule_id();
+        const core::RuleItems &rule_items = rule_items_map[rule_id];
         rule_items_vec.push_back(rule_items);
     }
 

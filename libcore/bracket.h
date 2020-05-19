@@ -21,6 +21,7 @@ class Bracket {
 
     CashAmount lower() const;
     CashAmount upper() const;
+    CashAmount range() const;
 
     // Calculates the amount of the `slice` that is contained inside this
     // bracket.

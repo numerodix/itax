@@ -65,7 +65,7 @@ std::string format_sign(CreditDebit cd) {
     return cd == CreditDebit::CREDIT ? " " : "-";
 }
 
-std::string format_with_sign(CreditDebit cd, const CashAmount& amount) {
+std::string format_with_sign(CreditDebit cd, const CashAmount &amount) {
     std::stringstream ss{};
     ss << format_sign(cd) << format_with_commas(amount);
     return ss.str();

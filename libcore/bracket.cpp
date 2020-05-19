@@ -5,7 +5,11 @@
 namespace core {
 
 Bracket::Bracket(CashAmount lower, CashAmount upper)
-    : m_lower{lower}, m_upper{upper} {}
+    : m_lower{lower}, m_upper{upper} {
+    if (m_lower > m_upper) {
+        throw std::invalid_argument("constructor called with a negative range");
+    }
+}
 
 Bracket::~Bracket() = default;
 
@@ -20,6 +24,8 @@ Bracket &Bracket::operator=(Bracket &&other) = default;
 CashAmount Bracket::lower() const { return m_lower; }
 
 CashAmount Bracket::upper() const { return m_upper; }
+
+CashAmount Bracket::range() const { return m_upper - m_lower; }
 
 CashAmount Bracket::in_bracket(const IncomeSlice &slice) const {
     if (slice.upper_bound() <= m_lower) {

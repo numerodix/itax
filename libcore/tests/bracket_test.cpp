@@ -9,11 +9,18 @@ using core::CashAmount;
 using core::IncomeSlice;
 
 TEST_CASE("basic properties", "[Bracket]") {
-    Bracket bracket{C(100), C(200)};
+    Bracket bracket{C(100), C(250)};
 
     SECTION("accessors") {
         REQUIRE(bracket.lower() == C(100));
-        REQUIRE(bracket.upper() == C(200));
+        REQUIRE(bracket.upper() == C(250));
+        REQUIRE(bracket.range() == C(150));
+    }
+
+    SECTION("aborts if constructed with a negative range") {
+        REQUIRE_THROWS_MATCHES(
+            (Bracket{C(2), C(1)}), std::invalid_argument,
+            Message("constructor called with a negative range"));
     }
 }
 

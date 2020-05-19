@@ -16,4 +16,5 @@ target_link_libraries(rules
     core
 )
 
+add_subdirectory(collections)
 add_subdirectory(tests)

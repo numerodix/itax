@@ -130,6 +130,56 @@ Rule get_aus_rev_fy19_bracket5() {
     return rule;
 }
 
+Rule get_aus_rev_fy13_lito_bracket1() {
+    std::string slug{"Low Income Tax Offset 0 - 37k"};
+    std::string desc{"Low Income Tax Offset is 445 when income is up to 37k"};
+
+    Bracket bracket{C(0), C(37000)};
+
+    FnCalc fn = FN_CALC_SIGNATURE {
+        CashAmount taxable = bracket.in_bracket(slice);
+        CashAmount base = std::min(bracket.upper(), taxret.total_income());
+        double proportion = taxable / base;
+        CashAmount payable = C(445) * proportion;
+
+        if (payable > C(0)) {
+            LineItem item{taxable, payable, CreditDebit::CREDIT};
+            return {item};
+        }
+
+        return {};
+    };
+
+    Rule rule{AUS_REV_FY13_LITO_BRACKET1, slug, desc, fn};
+    return rule;
+}
+
+Rule get_aus_rev_fy13_lito_bracket2() {
+    std::string slug{"Low Income Tax Offset 37k - 67k"};
+    std::string desc{
+        "Low Income Tax Offset is up to 445 when income is below 66667"};
+
+    Bracket bracket{C(37000), C(66667)};
+    CashAmount decrement{150L};
+
+    FnCalc fn = FN_CALC_SIGNATURE {
+        CashAmount taxable = bracket.in_bracket(slice);
+        CashAmount deduction = decrement * bracket.range().dollars();
+        double proportion = taxable / bracket.range();
+        CashAmount payable = std::min(C(445), deduction * proportion);
+
+        if (payable > C(0)) {
+            LineItem item{taxable, payable, CreditDebit::DEBIT};
+            return {item};
+        }
+
+        return {};
+    };
+
+    Rule rule{AUS_REV_FY13_LITO_BRACKET2, slug, desc, fn};
+    return rule;
+}
+
 Rule get_aus_rev_fy19_medicare_levy() {
     std::string slug{"Medicare levy"};
     std::string desc{"Medicare levy is 2% on all income"};

@@ -27,6 +27,14 @@ Rule get_aus_rev_fy19_bracket5();
 Rule get_aus_rev_fy19_medicare_levy();
 Rule get_aus_rev_fy19_medicare_levy_surcharge();
 
+// REV_FY13: first active in the financial year 2012/13
+
+const RuleId AUS_REV_FY13_LITO_BRACKET1 = 2013003001;
+const RuleId AUS_REV_FY13_LITO_BRACKET2 = 2013003002;
+
+Rule get_aus_rev_fy13_lito_bracket1();
+Rule get_aus_rev_fy13_lito_bracket2();
+
 // rule factory helpers
 
 using RuleFactoryFn = std::function<Rule()>;
@@ -40,6 +48,10 @@ const std::vector<RuleFactoryFn> RULE_FACTORIES{
     get_aus_rev_fy19_bracket5,
     get_aus_rev_fy19_medicare_levy,
     get_aus_rev_fy19_medicare_levy_surcharge,
+
+    // FY13
+    get_aus_rev_fy13_lito_bracket1,
+    get_aus_rev_fy13_lito_bracket2,
 };
 
 // ruleset factory helpers
@@ -51,7 +63,8 @@ const std::vector<RulesetTuple> RULESET_TUPLES{
                     std::vector<RuleId>{
                         AUS_REV_FY19_BRACKET1, AUS_REV_FY19_BRACKET2,
                         AUS_REV_FY19_BRACKET3, AUS_REV_FY19_BRACKET4,
-                        AUS_REV_FY19_BRACKET5, AUS_REV_FY19_MEDICARE_LEVY,
+                        AUS_REV_FY19_BRACKET5, AUS_REV_FY13_LITO_BRACKET1,
+                        AUS_REV_FY13_LITO_BRACKET2, AUS_REV_FY19_MEDICARE_LEVY,
                         // AUS_REV_FY19_MEDICARE_LEVY_SURCHARGE,
                     }),
 };

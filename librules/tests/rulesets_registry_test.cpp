@@ -10,7 +10,7 @@ TEST_CASE("spot check registry", "[RulesetsRegistry]") {
     REQUIRE(registry->num_rulesets() > 0);
     auto ruleset = registry->get_ruleset("aus-2020");
 
-    REQUIRE(ruleset.num_rules() == 6);
+    REQUIRE(ruleset.num_rules() > 0);
     REQUIRE(ruleset.slug() == "aus-2020");
     REQUIRE(ruleset.desc() == "Australian Income Tax 2020");
 }

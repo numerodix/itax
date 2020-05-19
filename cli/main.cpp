@@ -2,7 +2,9 @@
 #include <iostream>
 
 #include "libcore/argparse.h"
+#include "libcore/cash_amount.h"
 #include "libcore/format.h"
+#include "libcore/shortcuts.h"
 #include "librules/rules_registry.h"
 #include "librules/rulesets_registry.h"
 
@@ -60,6 +62,10 @@ int main(int argc, const char *argv[]) {
         auto rule_items_vec = calc.get_ruleitems(slice);
         for (const auto &rule_items : rule_items_vec) {
             const Rule &rule = rules_registry->get_rule(rule_items.rule_id());
+
+            if (rule_items.net().payable() == C(0)) {
+                continue;
+            }
 
             auto payable = format_with_sign(rule_items.net().credit_debit(),
                                             rule_items.net().payable());
@@ -119,6 +125,10 @@ int main(int argc, const char *argv[]) {
     auto slice_totals = calc.net_slices();
     for (auto rule_items : slice_totals) {
         const Rule &rule = rules_registry->get_rule(rule_items.rule_id());
+
+        if (rule_items.net().payable() == C(0)) {
+            continue;
+        }
 
         auto payable = format_with_sign(rule_items.net().credit_debit(),
                                         rule_items.net().payable());

@@ -9,8 +9,6 @@ namespace core {
 
 // Represents the information captured in a tax return. This is used as input
 // into the tax calculation.
-//
-// FIXME: flesh out
 
 class TaxReturn {
   public:

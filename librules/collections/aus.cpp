@@ -132,7 +132,8 @@ Rule get_aus_rev_fy19_bracket5() {
 
 Rule get_aus_rev_fy13_lito() {
     std::string slug{"Low Income Tax Offset"};
-    std::string desc{"Low Income Tax Offset is up to 445 when income is up to 66667"};
+    std::string desc{
+        "Low Income Tax Offset is up to 445 when income is up to 66667"};
 
     Bracket constant{C(0), C(37000)};
     Bracket phaseout{C(37000), C(66667)};
@@ -159,6 +160,51 @@ Rule get_aus_rev_fy13_lito() {
     };
 
     Rule rule{AUS_REV_FY13_LITO, slug, desc, fn};
+    return rule;
+}
+
+Rule get_aus_rev_fy19_lmito() {
+    std::string slug{"Low and Middle Income Tax Offset"};
+    std::string desc{"Low and Middle Income Tax Offset is up to 1080 when "
+                     "income is up to 126k"};
+
+    Bracket first{C(0), C(37000)};
+    Bracket second{C(37000), C(48000)};
+    Bracket third{C(48000), C(90000)};
+    Bracket fourth{C(90000), C(126000)};
+    CashAmount offset = C(255);
+
+    FnCalc fn = FN_CALC_SIGNATURE {
+        // first bracket
+        CashAmount taxable_fst = first.in_bracket(slice);
+        CashAmount base = std::min(first.upper(), taxret.total_income());
+        double proportion_fst = taxable_fst / base;
+        CashAmount payable_fst = offset * proportion_fst;
+        LineItem item_fst{taxable_fst, payable_fst, CreditDebit::CREDIT};
+
+        // second bracket
+        CashAmount range_snd = second.range();
+        CashAmount taxable_snd = second.in_bracket(slice);
+        double proportion_snd = taxable_snd / range_snd;
+        CashAmount payable_snd = range_snd * 0.075 * proportion_snd;
+        LineItem item_snd{taxable_snd, payable_snd, CreditDebit::CREDIT};
+
+        // third bracket adds no credit nor debit
+        CashAmount taxable_thd = third.in_bracket(slice);
+        CashAmount payable_thd = C(0);
+        LineItem item_thd{taxable_thd, payable_thd, CreditDebit::CREDIT};
+
+        // fourth bracket
+        CashAmount range_fth = fourth.range();
+        CashAmount taxable_fth = fourth.in_bracket(slice);
+        double proportion_fth = taxable_fth / range_fth;
+        CashAmount payable_fth = range_fth * 0.03 * proportion_fth;
+        LineItem item_fth{taxable_fth, payable_fth, CreditDebit::DEBIT};
+
+        return {item_fst, item_snd, item_thd, item_fth};
+    };
+
+    Rule rule{AUS_REV_FY19_LMITO, slug, desc, fn};
     return rule;
 }
 

@@ -16,6 +16,7 @@ const RuleId AUS_REV_FY19_BRACKET2 = 2019001002;
 const RuleId AUS_REV_FY19_BRACKET3 = 2019001003;
 const RuleId AUS_REV_FY19_BRACKET4 = 2019001004;
 const RuleId AUS_REV_FY19_BRACKET5 = 2019001005;
+const RuleId AUS_REV_FY19_LMITO = 2019003002;
 const RuleId AUS_REV_FY19_MEDICARE_LEVY = 2019009001;
 const RuleId AUS_REV_FY19_MEDICARE_LEVY_SURCHARGE = 2019009002;
 
@@ -24,6 +25,7 @@ Rule get_aus_rev_fy19_bracket2();
 Rule get_aus_rev_fy19_bracket3();
 Rule get_aus_rev_fy19_bracket4();
 Rule get_aus_rev_fy19_bracket5();
+Rule get_aus_rev_fy19_lmito();
 Rule get_aus_rev_fy19_medicare_levy();
 Rule get_aus_rev_fy19_medicare_levy_surcharge();
 
@@ -44,6 +46,7 @@ const std::vector<RuleFactoryFn> RULE_FACTORIES{
     get_aus_rev_fy19_bracket3,
     get_aus_rev_fy19_bracket4,
     get_aus_rev_fy19_bracket5,
+    get_aus_rev_fy19_lmito,
     get_aus_rev_fy19_medicare_levy,
     get_aus_rev_fy19_medicare_levy_surcharge,
 
@@ -61,7 +64,7 @@ const std::vector<RulesetTuple> RULESET_TUPLES{
                         AUS_REV_FY19_BRACKET1, AUS_REV_FY19_BRACKET2,
                         AUS_REV_FY19_BRACKET3, AUS_REV_FY19_BRACKET4,
                         AUS_REV_FY19_BRACKET5, AUS_REV_FY13_LITO,
-                        AUS_REV_FY19_MEDICARE_LEVY,
+                        AUS_REV_FY19_LMITO, AUS_REV_FY19_MEDICARE_LEVY,
                         // AUS_REV_FY19_MEDICARE_LEVY_SURCHARGE,
                     }),
 };

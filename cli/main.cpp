@@ -27,7 +27,7 @@ int main(int argc, const char *argv[]) {
     auto taxrets = parser.parse(argc, argv);
 
     if (taxrets.size() < 1) {
-        cout << "No income slices given\n";
+        cout << "Usage: cli <income_slice>+\n";
         return EXIT_FAILURE;
     }
 

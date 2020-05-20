@@ -24,7 +24,14 @@ std::ostream &numfmt(std::ostream &out) {
 
 int main(int argc, const char *argv[]) {
     ArgParser parser{};
-    TaxReturn taxret = parser.parse(argc, argv)[0];
+    auto taxrets = parser.parse(argc, argv);
+
+    if (taxrets.size() < 1) {
+        cout << "No income slices given\n";
+        return EXIT_FAILURE;
+    }
+
+    TaxReturn taxret = taxrets[0];
 
     auto rules_registry = RulesRegistry::instance();
     auto ruleset_registry = RulesetsRegistry::instance();

@@ -13,14 +13,18 @@ Presenter::Presenter(const rules::RulesRegistry *rules_registry,
     : m_rules_registry{rules_registry}, m_calc{calc} {}
 
 std::string Presenter::present() const {
+    auto total_inc = m_calc.return_total();
+    auto fmt_total_inc = format_with_commas(total_inc.taxable());
+    auto amt_width = 1 + fmt_total_inc.size();
+
     std::vector<TableColumn> columns{
-        {"Taxable", ColumnType::CASH_AMOUNT, 12, 2},
-        {"Payable", ColumnType::CASH_AMOUNT, 12, 2},
+        {"Taxable", ColumnType::CASH_AMOUNT, amt_width, 2},
+        {"Payable", ColumnType::CASH_AMOUNT, amt_width, 2},
         {"%", ColumnType::PERCENT, 5, 2},
-        {"After tax", ColumnType::CASH_AMOUNT, 12, 2},
+        {"After tax", ColumnType::CASH_AMOUNT, amt_width, 2},
         {"Rule", ColumnType::TEXT, 20, 2},
     };
-    TableFormatter formatter{m_rules_registry, columns, '-', '=', true};
+    TableFormatter formatter{m_rules_registry, columns, '-', '\0', true};
 
     std::stringstream ss{};
     int sliceno = 1;
@@ -37,10 +41,9 @@ std::string Presenter::present() const {
     }
 
     auto items = m_calc.net_slices();
-    auto total = m_calc.return_total();
-    std::string return_block = formatter.format(items, total, "Total");
+    std::string return_block = formatter.format(items, total_inc, "Total");
 
-    ss << "Total :: " << format_with_commas(total.taxable()) << '\n';
+    ss << "Total :: " << fmt_total_inc << '\n';
     ss << '\n';
     ss << return_block;
     ss << '\n';

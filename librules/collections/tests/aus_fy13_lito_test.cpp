@@ -115,9 +115,7 @@ TEST_CASE("Low Income Tax Offset phaseout bracket", "[aus_fy13_lito]") {
 
         LineItem sum =
             ri_fst.net() + ri_snd.net() + ri_thd.net() + ri_fth.net();
-        // FIXME: when a RuleItems is created, set rounding_part of each
-        // LineItem to 0?
-        // and if value_part is 0 make sure CreditDebit is CREDIT
+        // FIXME: this should be 0
         REQUIRE(sum.payable() == CashAmount{1L});
         REQUIRE(sum.credit_debit() == CreditDebit::CREDIT);
     }

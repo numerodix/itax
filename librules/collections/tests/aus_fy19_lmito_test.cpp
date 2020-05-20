@@ -77,7 +77,7 @@ TEST_CASE("Low and Middle Income Tax Offset constant bracket",
 
         LineItem sum =
             fst.net() + snd.net() + thd.net() + foth.net() + fith.net();
-        // FIXME: should be 0
+        // FIXME: this should be 0
         REQUIRE(sum.payable() == CashAmount{1L});
         REQUIRE(sum.credit_debit() == CreditDebit::DEBIT);
     }

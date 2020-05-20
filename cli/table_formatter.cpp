@@ -35,7 +35,7 @@ std::string TableFormatter::format(const std::vector<core::RuleItems> &lines,
 
     for (const core::RuleItems &rule_items : lines) {
         if (m_skip_zero_payables &&
-            rule_items.net().payable() == core::CashAmount{0L}) {
+            rule_items.net().payable().rounded_value_part() == 0L) {
             continue;
         }
 

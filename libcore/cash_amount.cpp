@@ -48,9 +48,7 @@ CashAmount::CashAmount(CashAmount &&other) = default;
 
 CashAmount &CashAmount::operator=(CashAmount &&other) = default;
 
-void CashAmount::zero_rounding_part() {
-    m_amount = (m_amount / 100) * 100;
-}
+void CashAmount::zero_rounding_part() { m_amount = (m_amount / 100) * 100; }
 
 int64_t CashAmount::raw() const { return m_amount; }
 

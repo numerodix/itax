@@ -1,5 +1,7 @@
 set(cli_SRC
     main.cpp
+    presenter.cpp
+    table_formatter.cpp
 )
 
 add_executable(cli ${cli_SRC})

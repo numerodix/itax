@@ -12,6 +12,12 @@ TEST_CASE("basic properties", "[CashAmount]") {
             Message("constructor called with a negative number"));
     }
 
+    SECTION("zero_rounding_part() zeroes the rounding part") {
+        CashAmount amount{12345678912L};
+        amount.zero_rounding_part();
+        REQUIRE(amount.raw() == 12345678900L);
+    }
+
     SECTION("raw() returns the underlying int") {
         CashAmount amount{12345678900L};
         REQUIRE(amount.raw() == 12345678900L);

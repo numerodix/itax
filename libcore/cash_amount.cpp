@@ -48,6 +48,10 @@ CashAmount::CashAmount(CashAmount &&other) = default;
 
 CashAmount &CashAmount::operator=(CashAmount &&other) = default;
 
+void CashAmount::zero_rounding_part() {
+    m_amount = (m_amount / 100) * 100;
+}
+
 int64_t CashAmount::raw() const { return m_amount; }
 
 int64_t CashAmount::value_part() const { return m_amount / 100L; }

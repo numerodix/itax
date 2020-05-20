@@ -31,6 +31,8 @@ class CashAmount {
     CashAmount(CashAmount &&other);
     CashAmount &operator=(CashAmount &&other);
 
+    void zero_rounding_part();
+
     int64_t raw() const;
     int64_t value_part() const;
     int64_t rounding_part() const;

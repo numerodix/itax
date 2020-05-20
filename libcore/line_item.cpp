@@ -32,6 +32,8 @@ LineItem &LineItem::operator=(LineItem &&other) = default;
 
 void LineItem::set_taxable(CashAmount taxable) { m_taxable = taxable; }
 
+void LineItem::set_payable(CashAmount payable) { m_payable = payable; }
+
 CashAmount LineItem::taxable() const { return m_taxable; }
 
 CashAmount LineItem::payable() const { return m_payable; }

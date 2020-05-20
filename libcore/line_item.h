@@ -21,6 +21,7 @@ class LineItem {
     LineItem &operator=(LineItem &&other);
 
     void set_taxable(CashAmount taxable);
+    void set_payable(CashAmount payable);
 
     CashAmount taxable() const;
     CashAmount payable() const;

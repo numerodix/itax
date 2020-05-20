@@ -27,7 +27,7 @@ int main(int argc, const char *argv[]) {
     auto taxrets = parser.parse(argc, argv);
 
     if (taxrets.size() < 1) {
-        cout << "Usage: cli <income_slice>+\n";
+        cout << "Usage: " << argv[0] << " <income_slice>+\n";
         return EXIT_FAILURE;
     }
 

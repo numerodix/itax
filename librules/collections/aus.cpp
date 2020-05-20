@@ -131,7 +131,7 @@ Rule get_aus_rev_fy19_bracket5() {
 }
 
 Rule get_aus_rev_fy13_lito() {
-    std::string slug{"Low Income Tax Offset"};
+    std::string slug{"Low Income Tax Offset 0 - 67k"};
     std::string desc{
         "Low Income Tax Offset is up to 445 when income is up to 66667"};
 
@@ -164,7 +164,7 @@ Rule get_aus_rev_fy13_lito() {
 }
 
 Rule get_aus_rev_fy19_lmito() {
-    std::string slug{"Low and Middle Income Tax Offset"};
+    std::string slug{"Low/Middle Income Tax Offset 0 - 126k"};
     std::string desc{"Low and Middle Income Tax Offset is up to 1080 when "
                      "income is up to 126k"};
 

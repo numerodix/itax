@@ -3,9 +3,6 @@
 
 #include "cli/presenter.h"
 #include "libcore/argparse.h"
-#include "libcore/cash_amount.h"
-#include "libcore/format.h"
-#include "libcore/shortcuts.h"
 #include "librules/rules_registry.h"
 #include "librules/rulesets_registry.h"
 

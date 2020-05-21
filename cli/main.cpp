@@ -18,12 +18,11 @@ int main(int argc, const char *argv[]) {
     core::TaxReturn taxret = taxrets[0];
 
     auto rules_registry = rules::RulesRegistry::instance();
-    auto ruleset_registry = rules::RulesetsRegistry::instance();
+    auto rulesets_registry = rules::RulesetsRegistry::instance();
 
-    const rules::Ruleset &ruleset = ruleset_registry->get_ruleset("aus-2020");
+    const rules::Ruleset &ruleset = rulesets_registry->get_ruleset("aus-2020");
 
     rules::TaxCalculation calc = ruleset.apply(taxret);
-    auto slices = calc.slices();
 
     cli::Presenter presenter{rules_registry, calc};
 

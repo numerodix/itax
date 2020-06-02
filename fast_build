@@ -1,0 +1,23 @@
+#!/bin/sh
+
+set -eux
+
+ulimit -c unlimited  # allow a core file to be written
+
+mkdir -p build bin
+rm -f build/core  # remove previous core file if any
+
+cd build
+# rm CMakeCache.txt  # invalidate options (sigh
+
+cmake --warn-uninitialized ..
+make VERBOSE=1
+
+cd ..
+cp build/cli/cli bin/
+
+# find all the test executables
+TESTS=$(find build -type f -executable -iname '*_test' | sort)
+for test in $TESTS; do echo
+    $test --order rand
+done

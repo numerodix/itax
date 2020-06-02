@@ -4,19 +4,15 @@ set -eux
 
 ulimit -c unlimited  # allow a core file to be written
 
-mkdir -p build
+mkdir -p build bin
 rm -f build/core  # remove previous core file if any
 
 cd build
 # rm CMakeCache.txt  # invalidate options (sigh
 
-cmake --warn-uninitialized ..
+cmake -DCMAKE_BUILD_TYPE=Release ..
 make VERBOSE=1
 
 cd ..
-
-# find all the test executables
-TESTS=$(find build -type f -executable -iname '*_test' | sort)
-for test in $TESTS; do echo
-    $test --order rand
-done
+cp build/cli/cli bin/
+strip bin/cli

@@ -17,6 +17,216 @@ using core::LineItem;
 using core::TaxReturn;
 
 /////////////////////////////////////////////////////////////////////////////
+// Financial year 2025
+// preliminary source:
+// https://www.smh.com.au/politics/federal/tax-cuts-to-flow-within-weeks-after-ato-receives-assurance-of-labor-s-support-20201007-p562vx.html
+/////////////////////////////////////////////////////////////////////////////
+
+Rule get_aus_rev_fy25_bracket1() {
+    std::string slug{"Bracket 0 - 18.2k"};
+    std::string desc{"0% on income 0k - 18.2k"};
+
+    Bracket bracket{C(0), C(18200)};
+
+    FnCalc fn = FN_CALC_SIGNATURE {
+        CashAmount taxable = bracket.in_bracket(slice);
+        CashAmount payable = taxable * 0.0;
+
+        if (payable > C(0)) {
+            LineItem item{taxable, payable, CreditDebit::DEBIT};
+            return {item};
+        }
+
+        return {};
+    };
+
+    Rule rule{AUS_REV_FY25_BRACKET1, slug, desc, fn};
+    return rule;
+}
+
+Rule get_aus_rev_fy25_bracket2() {
+    std::string slug{"Bracket 18.2k - 45k"};
+    std::string desc{"19% on income 18.2k - 45k"};
+
+    Bracket bracket{C(18200), C(45000)};
+
+    FnCalc fn = FN_CALC_SIGNATURE {
+        CashAmount taxable = bracket.in_bracket(slice);
+        CashAmount payable = taxable * 0.19;
+
+        if (payable > C(0)) {
+            LineItem item{taxable, payable, CreditDebit::DEBIT};
+            return {item};
+        }
+
+        return {};
+    };
+
+    Rule rule{AUS_REV_FY25_BRACKET2, slug, desc, fn};
+    return rule;
+}
+
+Rule get_aus_rev_fy25_bracket3() {
+    std::string slug{"Bracket 45k - 200k"};
+    std::string desc{"30% on income 45k - 200k"};
+
+    Bracket bracket{C(45000), C(200000)};
+
+    FnCalc fn = FN_CALC_SIGNATURE {
+        CashAmount taxable = bracket.in_bracket(slice);
+        CashAmount payable = taxable * 0.3;
+
+        if (payable > C(0)) {
+            LineItem item{taxable, payable, CreditDebit::DEBIT};
+            return {item};
+        }
+
+        return {};
+    };
+
+    Rule rule{AUS_REV_FY25_BRACKET3, slug, desc, fn};
+    return rule;
+}
+
+Rule get_aus_rev_fy25_bracket4() {
+    std::string slug{"Bracket 200k - inf"};
+    std::string desc{"45% on income over 200k"};
+
+    Bracket bracket{C(200000), CashAmount::max()};
+
+    FnCalc fn = FN_CALC_SIGNATURE {
+        CashAmount taxable = bracket.in_bracket(slice);
+        CashAmount payable = taxable * 0.45;
+
+        if (payable > C(0)) {
+            LineItem item{taxable, payable, CreditDebit::DEBIT};
+            return {item};
+        }
+
+        return {};
+    };
+
+    Rule rule{AUS_REV_FY25_BRACKET4, slug, desc, fn};
+    return rule;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// Financial year 2021
+// preliminary source:
+// https://www.smh.com.au/politics/federal/tax-cuts-to-flow-within-weeks-after-ato-receives-assurance-of-labor-s-support-20201007-p562vx.html
+/////////////////////////////////////////////////////////////////////////////
+
+Rule get_aus_rev_fy21_bracket1() {
+    std::string slug{"Bracket 0 - 18.2k"};
+    std::string desc{"0% on income 0k - 18.2k"};
+
+    Bracket bracket{C(0), C(18200)};
+
+    FnCalc fn = FN_CALC_SIGNATURE {
+        CashAmount taxable = bracket.in_bracket(slice);
+        CashAmount payable = taxable * 0.0;
+
+        if (payable > C(0)) {
+            LineItem item{taxable, payable, CreditDebit::DEBIT};
+            return {item};
+        }
+
+        return {};
+    };
+
+    Rule rule{AUS_REV_FY21_BRACKET1, slug, desc, fn};
+    return rule;
+}
+
+Rule get_aus_rev_fy21_bracket2() {
+    std::string slug{"Bracket 18.2k - 45k"};
+    std::string desc{"19% on income 18.2k - 45k"};
+
+    Bracket bracket{C(18200), C(45000)};
+
+    FnCalc fn = FN_CALC_SIGNATURE {
+        CashAmount taxable = bracket.in_bracket(slice);
+        CashAmount payable = taxable * 0.19;
+
+        if (payable > C(0)) {
+            LineItem item{taxable, payable, CreditDebit::DEBIT};
+            return {item};
+        }
+
+        return {};
+    };
+
+    Rule rule{AUS_REV_FY21_BRACKET2, slug, desc, fn};
+    return rule;
+}
+
+Rule get_aus_rev_fy21_bracket3() {
+    std::string slug{"Bracket 45k - 120k"};
+    std::string desc{"32.5% on income 45k - 120k"};
+
+    Bracket bracket{C(45000), C(120000)};
+
+    FnCalc fn = FN_CALC_SIGNATURE {
+        CashAmount taxable = bracket.in_bracket(slice);
+        CashAmount payable = taxable * 0.325;
+
+        if (payable > C(0)) {
+            LineItem item{taxable, payable, CreditDebit::DEBIT};
+            return {item};
+        }
+
+        return {};
+    };
+
+    Rule rule{AUS_REV_FY21_BRACKET3, slug, desc, fn};
+    return rule;
+}
+
+Rule get_aus_rev_fy21_bracket4() {
+    std::string slug{"Bracket 120k - 180k"};
+    std::string desc{"37% on income 120k - 180k"};
+
+    Bracket bracket{C(120000), C(180000)};
+
+    FnCalc fn = FN_CALC_SIGNATURE {
+        CashAmount taxable = bracket.in_bracket(slice);
+        CashAmount payable = taxable * 0.37;
+
+        if (payable > C(0)) {
+            LineItem item{taxable, payable, CreditDebit::DEBIT};
+            return {item};
+        }
+
+        return {};
+    };
+
+    Rule rule{AUS_REV_FY21_BRACKET4, slug, desc, fn};
+    return rule;
+}
+
+Rule get_aus_rev_fy21_bracket5() {
+    std::string slug{"Bracket 180k - inf"};
+    std::string desc{"45% on income over 180k"};
+
+    Bracket bracket{C(180000), CashAmount::max()};
+
+    FnCalc fn = FN_CALC_SIGNATURE {
+        CashAmount taxable = bracket.in_bracket(slice);
+        CashAmount payable = taxable * 0.45;
+
+        if (payable > C(0)) {
+            LineItem item{taxable, payable, CreditDebit::DEBIT};
+            return {item};
+        }
+
+        return {};
+    };
+
+    Rule rule{AUS_REV_FY21_BRACKET5, slug, desc, fn};
+    return rule;
+}
+
+/////////////////////////////////////////////////////////////////////////////
 // Financial year 2019
 /////////////////////////////////////////////////////////////////////////////
 
@@ -130,39 +340,6 @@ Rule get_aus_rev_fy19_bracket5() {
     return rule;
 }
 
-Rule get_aus_rev_fy13_lito() {
-    std::string slug{"Low Income Tax Offset 0 - 67k"};
-    std::string desc{
-        "Low Income Tax Offset is up to 445 when income is up to 66667"};
-
-    Bracket constant{C(0), C(37000)};
-    Bracket phaseout{C(37000), C(66667)};
-    CashAmount decrement{150L};
-    CashAmount offset = C(445);
-
-    FnCalc fn = FN_CALC_SIGNATURE {
-        // constant bracket
-        CashAmount taxable_con = constant.in_bracket(slice);
-        CashAmount base = std::min(constant.upper(), taxret.total_income());
-        double proportion_con = taxable_con / base;
-        CashAmount payable_con = offset * proportion_con;
-        LineItem item_constant{taxable_con, payable_con, CreditDebit::CREDIT};
-
-        // phaseout bracket
-        CashAmount taxable_ph = phaseout.in_bracket(slice);
-        CashAmount deduction =
-            std::min(offset, decrement * phaseout.range().dollars());
-        double proportion_ph = taxable_ph / phaseout.range();
-        CashAmount payable_ph = std::min(offset, deduction * proportion_ph);
-        LineItem item_phaseout{taxable_ph, payable_ph, CreditDebit::DEBIT};
-
-        return {item_constant, item_phaseout};
-    };
-
-    Rule rule{AUS_REV_FY13_LITO, slug, desc, fn};
-    return rule;
-}
-
 Rule get_aus_rev_fy19_lmito() {
     std::string slug{"Low/Middle Income Tax Offset 0 - 126k"};
     std::string desc{"Low and Middle Income Tax Offset is up to 1080 when "
@@ -248,6 +425,43 @@ Rule get_aus_rev_fy19_medicare_levy_surcharge() {
     };
 
     Rule rule{AUS_REV_FY19_MEDICARE_LEVY_SURCHARGE, slug, desc, fn};
+    return rule;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// Financial year 2013
+/////////////////////////////////////////////////////////////////////////////
+
+Rule get_aus_rev_fy13_lito() {
+    std::string slug{"Low Income Tax Offset 0 - 67k"};
+    std::string desc{
+        "Low Income Tax Offset is up to 445 when income is up to 66667"};
+
+    Bracket constant{C(0), C(37000)};
+    Bracket phaseout{C(37000), C(66667)};
+    CashAmount decrement{150L};
+    CashAmount offset = C(445);
+
+    FnCalc fn = FN_CALC_SIGNATURE {
+        // constant bracket
+        CashAmount taxable_con = constant.in_bracket(slice);
+        CashAmount base = std::min(constant.upper(), taxret.total_income());
+        double proportion_con = taxable_con / base;
+        CashAmount payable_con = offset * proportion_con;
+        LineItem item_constant{taxable_con, payable_con, CreditDebit::CREDIT};
+
+        // phaseout bracket
+        CashAmount taxable_ph = phaseout.in_bracket(slice);
+        CashAmount deduction =
+            std::min(offset, decrement * phaseout.range().dollars());
+        double proportion_ph = taxable_ph / phaseout.range();
+        CashAmount payable_ph = std::min(offset, deduction * proportion_ph);
+        LineItem item_phaseout{taxable_ph, payable_ph, CreditDebit::DEBIT};
+
+        return {item_constant, item_phaseout};
+    };
+
+    Rule rule{AUS_REV_FY13_LITO, slug, desc, fn};
     return rule;
 }
 

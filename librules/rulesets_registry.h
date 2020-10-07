@@ -3,6 +3,7 @@
 
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 #include "libcore/defs.h"
 #include "libcore/rule.h"
@@ -18,6 +19,7 @@ class RulesetsRegistry {
     ~RulesetsRegistry();
 
     std::size_t num_rulesets() const;
+    std::vector<std::string> get_all_ruleset_ids() const;
     const Ruleset &get_ruleset(const std::string &slug) const;
 
   private:

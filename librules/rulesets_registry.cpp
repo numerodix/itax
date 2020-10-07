@@ -1,5 +1,7 @@
 #include "rulesets_registry.h"
 
+#include <algorithm>
+
 #include "collections/aus.h"
 #include "rules_registry.h"
 
@@ -21,6 +23,18 @@ RulesetsRegistry::RulesetsRegistry() = default;
 RulesetsRegistry::~RulesetsRegistry() = default;
 
 std::size_t RulesetsRegistry::num_rulesets() const { return m_rulesets.size(); }
+
+std::vector<std::string> RulesetsRegistry::get_all_ruleset_ids() const {
+    std::vector<std::string> ruleset_ids{};
+
+    for (const auto& item: m_rulesets) {
+        ruleset_ids.push_back(item.first);
+    }
+
+    std::sort(ruleset_ids.begin(), ruleset_ids.end());
+
+    return ruleset_ids;
+}
 
 const Ruleset &RulesetsRegistry::get_ruleset(const std::string &slug) const {
     return m_rulesets.at(slug);

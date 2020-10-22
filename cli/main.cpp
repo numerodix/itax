@@ -28,9 +28,10 @@ int main(int argc, const char *argv[]) {
         parser.parse(argc_remaining, const_cast<const char **>(argv_cursor));
 
     if (taxrets.size() < 1) {
-        std::cout << "Usage: " << argv[0] << " [--rules <ruleset_id>] <income_slice>+\n\n";
+        std::cout << "Usage: " << argv[0]
+                  << " [--rules <ruleset_id>] <income_slice>+\n\n";
         std::cout << "Rulesets:\n";
-        for (const std::string& id : rulesets_registry->get_all_ruleset_ids()) {
+        for (const std::string &id : rulesets_registry->get_all_ruleset_ids()) {
             std::cout << "- " << id << "\n";
         }
         return EXIT_FAILURE;

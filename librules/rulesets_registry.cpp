@@ -27,7 +27,7 @@ std::size_t RulesetsRegistry::num_rulesets() const { return m_rulesets.size(); }
 std::vector<std::string> RulesetsRegistry::get_all_ruleset_ids() const {
     std::vector<std::string> ruleset_ids{};
 
-    for (const auto& item: m_rulesets) {
+    for (const auto &item : m_rulesets) {
         ruleset_ids.push_back(item.first);
     }
 

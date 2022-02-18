@@ -254,6 +254,18 @@ Rule get_aus_rev_fy21_lito() {
         CashAmount taxable_thd = third.in_bracket(slice);
         double proportion_thd = taxable_thd / range_thd;
         CashAmount payable_thd = range_thd * 0.015 * proportion_thd;
+
+        // Hack: the 0.015 multiplier above tends to create a 50 in the
+        // rounding_part which is rounded up to one cent in the overall
+        // calculation and fails to precisely cancel out the amounts from the
+        // first and second brackets. This is all because we are multiplying
+        // 0.015 by a number ending in 667, as per the bracket upper bound.
+        // Here we detect whether combining the three parts produces a quantity
+        // that is less than one cent. If it is, then we discard it.
+        if ((payable_fst.raw() - payable_snd.raw() - payable_thd.raw()) < 100L) {
+            payable_thd.zero_rounding_part();
+        }
+
         LineItem item_thd{taxable_thd, payable_thd, CreditDebit::DEBIT};
 
         return {item_fst, item_snd, item_thd};

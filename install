@@ -1,0 +1,5 @@
+#!/bin/sh
+
+./opt_build
+install -m 744 bin/cli $HOME/bin/itax
+rm -rf build

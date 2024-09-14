@@ -15,11 +15,13 @@ const RuleId AUS_REV_FY25_BRACKET1 = 2025001001;
 const RuleId AUS_REV_FY25_BRACKET2 = 2025001002;
 const RuleId AUS_REV_FY25_BRACKET3 = 2025001003;
 const RuleId AUS_REV_FY25_BRACKET4 = 2025001004;
+const RuleId AUS_REV_FY25_BRACKET5 = 2025001005;
 
 Rule get_aus_rev_fy25_bracket1();
 Rule get_aus_rev_fy25_bracket2();
 Rule get_aus_rev_fy25_bracket3();
 Rule get_aus_rev_fy25_bracket4();
+Rule get_aus_rev_fy25_bracket5();
 
 // TODO: add updated lito/lmito for FY25 once it's official
 
@@ -75,6 +77,7 @@ const std::vector<RuleFactoryFn> RULE_FACTORIES{
     get_aus_rev_fy25_bracket2,
     get_aus_rev_fy25_bracket3,
     get_aus_rev_fy25_bracket4,
+    get_aus_rev_fy25_bracket5,
     // TODO add update lito/lmito
 
     // FY21

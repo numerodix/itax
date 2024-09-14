@@ -46,13 +46,13 @@ Rule get_aus_rev_fy25_bracket1() {
 
 Rule get_aus_rev_fy25_bracket2() {
     std::string slug{"Bracket 18.2k - 45k"};
-    std::string desc{"19% on income 18.2k - 45k"};
+    std::string desc{"16% on income 18.2k - 45k"};
 
     Bracket bracket{C(18200), C(45000)};
 
     FnCalc fn = FN_CALC_SIGNATURE {
         CashAmount taxable = bracket.in_bracket(slice);
-        CashAmount payable = taxable * 0.19;
+        CashAmount payable = taxable * 0.16;
 
         if (payable > C(0)) {
             LineItem item{taxable, payable, CreditDebit::DEBIT};
@@ -67,10 +67,10 @@ Rule get_aus_rev_fy25_bracket2() {
 }
 
 Rule get_aus_rev_fy25_bracket3() {
-    std::string slug{"Bracket 45k - 200k"};
-    std::string desc{"30% on income 45k - 200k"};
+    std::string slug{"Bracket 45k - 135k"};
+    std::string desc{"30% on income 45k - 135k"};
 
-    Bracket bracket{C(45000), C(200000)};
+    Bracket bracket{C(45000), C(135000)};
 
     FnCalc fn = FN_CALC_SIGNATURE {
         CashAmount taxable = bracket.in_bracket(slice);
@@ -89,10 +89,32 @@ Rule get_aus_rev_fy25_bracket3() {
 }
 
 Rule get_aus_rev_fy25_bracket4() {
-    std::string slug{"Bracket 200k - inf"};
-    std::string desc{"45% on income over 200k"};
+    std::string slug{"Bracket 135k - 190k"};
+    std::string desc{"37% on income 135k - 190k"};
 
-    Bracket bracket{C(200000), CashAmount::max()};
+    Bracket bracket{C(135000), C(190000)};
+
+    FnCalc fn = FN_CALC_SIGNATURE {
+        CashAmount taxable = bracket.in_bracket(slice);
+        CashAmount payable = taxable * 0.37;
+
+        if (payable > C(0)) {
+            LineItem item{taxable, payable, CreditDebit::DEBIT};
+            return {item};
+        }
+
+        return {};
+    };
+
+    Rule rule{AUS_REV_FY25_BRACKET4, slug, desc, fn};
+    return rule;
+}
+
+Rule get_aus_rev_fy25_bracket5() {
+    std::string slug{"Bracket 190k - inf"};
+    std::string desc{"45% on income over 190k"};
+
+    Bracket bracket{C(190000), CashAmount::max()};
 
     FnCalc fn = FN_CALC_SIGNATURE {
         CashAmount taxable = bracket.in_bracket(slice);
@@ -106,7 +128,7 @@ Rule get_aus_rev_fy25_bracket4() {
         return {};
     };
 
-    Rule rule{AUS_REV_FY25_BRACKET4, slug, desc, fn};
+    Rule rule{AUS_REV_FY25_BRACKET5, slug, desc, fn};
     return rule;
 }
 

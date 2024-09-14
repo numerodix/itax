@@ -3,3 +3,4 @@
 set -eux
 
 rm -rf build
+rm -rf bin/*

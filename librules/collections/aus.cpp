@@ -132,57 +132,6 @@ Rule get_aus_rev_fy25_bracket5() {
     return rule;
 }
 
-Rule get_aus_rev_fy25_lito() {
-    std::string slug{"Low Income Tax Offset 0 - 66.7k"};
-    std::string desc{"Low Income Tax Offset is up to 700 when "
-                     "income is up to 66.7k"};
-
-    Bracket first{C(0), C(37500)};
-    Bracket second{C(37500), C(45000)};
-    Bracket third{C(45000), C(66667)};
-    CashAmount offset = C(700);
-
-    FnCalc fn = FN_CALC_SIGNATURE {
-        // first bracket provides the whole offset
-        CashAmount taxable_fst = first.in_bracket(slice);
-        CashAmount base = std::min(first.upper(), taxret.total_income());
-        double proportion_fst = taxable_fst / base;
-        CashAmount payable_fst = offset * proportion_fst;
-        LineItem item_fst{taxable_fst, payable_fst, CreditDebit::CREDIT};
-
-        // second bracket is a partial phase out at 5 cents / dollar
-        CashAmount range_snd = second.range();
-        CashAmount taxable_snd = second.in_bracket(slice);
-        double proportion_snd = taxable_snd / range_snd;
-        CashAmount payable_snd = range_snd * 0.05 * proportion_snd;
-        LineItem item_snd{taxable_snd, payable_snd, CreditDebit::DEBIT};
-
-        // third bracket is a phase out at 1.5 cents / dollar, to zero
-        CashAmount range_thd = third.range();
-        CashAmount taxable_thd = third.in_bracket(slice);
-        double proportion_thd = taxable_thd / range_thd;
-        CashAmount payable_thd = range_thd * 0.015 * proportion_thd;
-
-        // Hack: the 0.015 multiplier above tends to create a 50 in the
-        // rounding_part which is rounded up to one cent in the overall
-        // calculation and fails to precisely cancel out the amounts from the
-        // first and second brackets. This is all because we are multiplying
-        // 0.015 by a number ending in 667, as per the bracket upper bound.
-        // Here we detect whether combining the three parts produces a quantity
-        // that is less than one cent. If it is, then we discard it.
-        if ((payable_fst.raw() - payable_snd.raw() - payable_thd.raw()) < 100L) {
-            payable_thd.zero_rounding_part();
-        }
-
-        LineItem item_thd{taxable_thd, payable_thd, CreditDebit::DEBIT};
-
-        return {item_fst, item_snd, item_thd};
-    };
-
-    Rule rule{AUS_REV_FY25_LITO, slug, desc, fn};
-    return rule;
-}
-
 /////////////////////////////////////////////////////////////////////////////
 // Financial year 2021
 /////////////////////////////////////////////////////////////////////////////

@@ -8,7 +8,7 @@
 
 int main(int argc, const char *argv[]) {
     auto rulesets_registry = rules::RulesetsRegistry::instance();
-    std::string ruleset_id{"aus-2021"};
+    std::string ruleset_id{"aus-2025"};
 
     // Temporary hack to parse --rules aus-2020 which has to be at the
     // beginning of the args, before any of the income slices.

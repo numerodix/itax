@@ -16,14 +16,14 @@ const RuleId AUS_REV_FY25_BRACKET2 = 2025001002;
 const RuleId AUS_REV_FY25_BRACKET3 = 2025001003;
 const RuleId AUS_REV_FY25_BRACKET4 = 2025001004;
 const RuleId AUS_REV_FY25_BRACKET5 = 2025001005;
+const RuleId AUS_REV_FY25_LITO = 2025003001;
 
 Rule get_aus_rev_fy25_bracket1();
 Rule get_aus_rev_fy25_bracket2();
 Rule get_aus_rev_fy25_bracket3();
 Rule get_aus_rev_fy25_bracket4();
 Rule get_aus_rev_fy25_bracket5();
-
-// TODO: add updated lito/lmito for FY25 once it's official
+Rule get_aus_rev_fy25_lito();
 
 // REV_FY21: first active in the financial year 2020/21
 
@@ -78,7 +78,7 @@ const std::vector<RuleFactoryFn> RULE_FACTORIES{
     get_aus_rev_fy25_bracket3,
     get_aus_rev_fy25_bracket4,
     get_aus_rev_fy25_bracket5,
-    // TODO add update lito/lmito
+    get_aus_rev_fy25_lito,
 
     // FY21
     get_aus_rev_fy21_bracket1,
@@ -107,11 +107,11 @@ const std::vector<RuleFactoryFn> RULE_FACTORIES{
 using RulesetTuple = std::tuple<std::string, std::string, std::vector<RuleId>>;
 
 const std::vector<RulesetTuple> RULESET_TUPLES{
-    std::make_tuple("aus-2025-prelim", "Australian Income Tax FY 2025",
+    std::make_tuple("aus-2025", "Australian Income Tax FY 2025",
                     std::vector<RuleId>{
                         AUS_REV_FY25_BRACKET1, AUS_REV_FY25_BRACKET2,
                         AUS_REV_FY25_BRACKET3, AUS_REV_FY25_BRACKET4,
-                        // TODO add missing lito/lmito
+                        AUS_REV_FY25_BRACKET5, AUS_REV_FY25_LITO,
                         AUS_REV_FY19_MEDICARE_LEVY,
                         // AUS_REV_FY19_MEDICARE_LEVY_SURCHARGE,
                     }),

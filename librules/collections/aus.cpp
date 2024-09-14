@@ -536,5 +536,28 @@ Rule get_aus_rev_fy13_lito() {
     return rule;
 }
 
+// NOTE: Takes into account only income, not super contributions.
+Rule get_aus_rev_fy13_division_293() {
+    std::string slug{"Division 293"};
+    std::string desc{"Division 293 is 15% on income above 250k"};
+
+    Bracket bracket{C(250000), CashAmount::max()};
+
+    FnCalc fn = FN_CALC_SIGNATURE {
+        CashAmount taxable = bracket.in_bracket(slice);
+        CashAmount payable = taxable * 0.15;
+
+        if (payable > C(0)) {
+            LineItem item{taxable, payable, CreditDebit::DEBIT};
+            return {item};
+        }
+
+        return {};
+    };
+
+    Rule rule{AUS_REV_FY13_DIVISION_293, slug, desc, fn};
+    return rule;
+}
+
 } // namespace collections
 } // namespace rules
